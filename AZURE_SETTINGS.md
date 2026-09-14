@@ -17,7 +17,7 @@ Copie e cole cada valor em **Portal Azure → func-gitintegracao → Configurati
 | `GITLAB_PROJECT_ID` | `doc-sis/documentacao-novosistec2` | Projeto GitLab |
 | `GITLAB_BOARD_ID` | `92` | ID do board |
 | `GITLAB_WEBHOOK_SECRET` | `5a4c83dd2fbafbf9cbcff75465e073577bbc7138d5afe699119ba2f65104780e` | Secret do webhook |
-| `TABLE_STORAGE_CONN_STRING` | `<cole-connection-string-do-storage>` | Azure Table Storage |
+| `DATAVERSE_URL` | `https://SEU-AMBIENTE.crm.dynamics.com` | URL do ambiente Dataverse (ex: https://mecbrasil.crm.dynamics.com) |
 
 ## Passos no Portal Azure:
 
@@ -29,33 +29,31 @@ Copie e cole cada valor em **Portal Azure → func-gitintegracao → Configurati
 6. Adicione cada par nome/valor da tabela acima
 7. Clique em **Save** → **Continue**
 
-## Como gerar o TABLE_STORAGE_CONN_STRING:
+## Como criar a tabela no Dataverse:
 
-Se você ainda não criou um Storage Account:
+A tabela `mec_integracao_gitlab` precisa ter as seguintes colunas:
 
-```bash
-az storage account create \
-  --name stgitintegracao \
-  --resource-group rg-pnid-app-hmg-mec \
-  --location brazilsouth \
-  --sku Standard_LRS
-```
+| Campo | Tipo |
+|-------|------|
+| `mec_gitlab_iid` | Número Inteiro |
+| `mec_planner_taskid` | Texto |
+| `mec_planner_bucketid` | Texto |
+| `mec_title` | Texto |
+| `mec_description` | Texto |
+| `mec_last_synced_at` | Data e Hora |
+| `mec_issue_labels` | Texto |
+| `mec_gitlab_url` | URL |
 
-Depois pegue a connection string:
+**No Power Apps:**
+1. Acesse https://make.powerapps.com
+2. Selecione o ambiente correto
+3. Vá em **Tabelas** → **+ Nova tabela**
+4. Nome: `mec_integracao_gitlab`
+5. Crie cada coluna acima
 
-```bash
-az storage account show-connection-string \
-  --name stgitintegracao \
-  --resource-group rg-pnid-app-hmg-mec
-```
-
-## Criar a Tabela:
-
-```bash
-az storage table create \
-  --name GitLabPlannerMapping \
-  --connection-string "<sua-connection-string>"
-```
+**Permissões necessárias no App Registration:**
+- Adicione permissão `Dynamics CRM user_impersonation` no Azure AD
+- Conceda consentimento do administrador
 
 ---
 
