@@ -19,11 +19,11 @@ function getGraphClient() {
 }
 
 function getAppCredential() {
-  const tenantId     = process.env.AZURE_TENANT_ID;
-  const clientId     = process.env.AZURE_CLIENT_ID;
-  const clientSecret = process.env.AZURE_CLIENT_SECRET;
+  const tenantId     = process.env.DATAVERSE_TENANT_ID;
+  const clientId     = process.env.DATAVERSE_CLIENT_ID;
+  const clientSecret = process.env.DATAVERSE_CLIENT_SECRET;
   if (!tenantId || !clientId || !clientSecret) {
-    throw new Error("Credenciais Azure AD app-only não configuradas (AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET).");
+    throw new Error("Credenciais Azure AD app-only não configuradas (DATAVERSE_TENANT_ID, DATAVERSE_CLIENT_ID, DATAVERSE_CLIENT_SECRET).");
   }
   return new ClientSecretCredential(tenantId, clientId, clientSecret);
 }

@@ -6,6 +6,7 @@ const axios = require("axios");
 
 const GITLAB_URL = process.env.GITLAB_URL || "https://gitlabbuilder.mec.gov.br";
 const GITLAB_TOKEN = process.env.GITLAB_TOKEN;
+const GITLAB_USER_AGENT = process.env.GITLAB_USER_AGENT || "MECGitIntegration";
 const GITLAB_PROJECT_ID = process.env.GITLAB_PROJECT_ID || "doc-sis/documentacao-novosistec2";
 const GITLAB_BOARD_ID = process.env.GITLAB_BOARD_ID || "92";
 
@@ -20,6 +21,7 @@ function getGitLabClient() {
     baseURL: `${GITLAB_URL}/api/v4`,
     headers: {
       "PRIVATE-TOKEN": GITLAB_TOKEN,
+      "User-Agent": GITLAB_USER_AGENT,
       "Content-Type": "application/json",
     },
     timeout: 15000,
@@ -51,8 +53,14 @@ async function getProjectId(projectPath) {
 async function getIssue(iid, projectPath) {
   const client = getGitLabClient();
   const projectId = await getProjectId(projectPath);
-  const response = await client.get(`/projects/${projectId}/issues/${iid}`);
-  return response.data;
+  try {
+    const response = await client.get(`/projects/${projectId}/issues/${iid}`);
+    return response.data;
+  } catch (err) {
+    const url = `${GITLAB_URL}/api/v4/projects/${projectId}/issues/${iid}`;
+    console.error(`[gitlabService] getIssue FAILED: ${err.message} | URL=${url} | status=${err.response?.status} body=${JSON.stringify(err.response?.data)}`);
+    throw err;
+  }
 }
 
 /**

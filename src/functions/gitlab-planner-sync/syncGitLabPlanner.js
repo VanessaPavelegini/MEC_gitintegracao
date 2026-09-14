@@ -14,7 +14,7 @@
 //   - TABLE_STORAGE_CONN_STRING: String de conexão do Azure Table Storage
 
 const { app } = require("@azure/functions");
-const { getGraphClient } = require("../shared/graphClient");
+const { getGraphClient } = require("../../shared/graphClient");
 const { getMapping, saveMapping, deleteMapping, getOrCreateBucket } = require("./tableStorage");
 const {
   getIssue,
