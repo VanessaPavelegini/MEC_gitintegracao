@@ -18,6 +18,7 @@ const { getGraphClient } = require("../shared/graphClient");
 const { getMapping, saveMapping, deleteMapping, getOrCreateBucket } = require("./tableStorage");
 const {
   getIssue,
+  listIssues,
   getBoardLists,
   extractStatusLabel,
   mapLabelToBucket,
@@ -488,6 +489,105 @@ async function handleSyncRequest(request, context) {
   }
 }
 
+/**
+ * Handler para sincronização em massa (todas as issues abertas do projeto)
+ * GET /api/gitlab-planner-sync?bulk=true
+ */
+async function handleBulkSync(request, context) {
+  context.log("[syncGitLabPlanner] Iniciando sincronização em massa");
+
+  const results = {
+    total: 0,
+    created: 0,
+    updated: 0,
+    errors: 0,
+    details: [],
+  };
+
+  try {
+    // Parâmetros opcionais
+    const state = request.query.get("state") || "opened";
+    const perPage = parseInt(request.query.get("per_page")) || 100;
+    let page = 1;
+    let hasMore = true;
+
+    while (hasMore) {
+      context.log(`[syncGitLabPlanner] Buscando página ${page}...`);
+
+      const issues = await listIssues({ state });
+      results.total = issues.length;
+
+      for (const issue of issues) {
+        try {
+          const result = await syncIssue(issue, context);
+
+          if (result.action === "created") results.created++;
+          else if (result.action === "updated") results.updated++;
+
+          results.details.push({
+            iid: issue.iid,
+            title: issue.title,
+            action: result.action,
+            plannerTaskId: result.plannerTaskId,
+            bucket: result.bucketName,
+          });
+        } catch (err) {
+          results.errors++;
+          const msg = err instanceof Error ? err.message : String(err);
+          results.details.push({
+            iid: issue.iid,
+            title: issue.title,
+            error: msg,
+          });
+          context.error(`[syncGitLabPlanner] Erro na issue #${issue.iid}:`, msg);
+        }
+      }
+
+      // GitLab retorna no máximo 100 por página
+      // Para buscar mais, precisamos usar paginação (X-Next-Page header)
+      if (issues.length < perPage) {
+        hasMore = false;
+      } else {
+        page++;
+        if (page > 10) {
+          // Limite de segurança: 1000 issues por execução
+          context.warn("[syncGitLabPlanner] Limite de 10 páginas atingido");
+          hasMore = false;
+        }
+      }
+    }
+
+    context.log(`[syncGitLabPlanner] Sincronização concluída: ${results.created} criadas, ${results.updated} atualizadas, ${results.errors} erros`);
+
+    return {
+      status: 200,
+      jsonBody: {
+        success: true,
+        message: `Sincronização em massa concluída`,
+        summary: {
+          total: results.total,
+          created: results.created,
+          updated: results.updated,
+          errors: results.errors,
+        },
+        details: results.details.slice(0, 50), // Retorna só os primeiros 50 detalhes
+        detailsCount: results.details.length,
+      },
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    context.error("[syncGitLabPlanner] Erro na sincronização em massa:", msg);
+
+    return {
+      status: 500,
+      jsonBody: {
+        error: `Erro na sincronização em massa: ${msg}`,
+        partialResults: results,
+      },
+    };
+  }
+}
+
 // ─── Azure Function Definition ────────────────────────────────────────────────
 
 app.http("syncGitLabPlanner", {
@@ -499,6 +599,11 @@ app.http("syncGitLabPlanner", {
       if (request.method === "POST") {
         return handleWebhook(request, context);
       } else {
+        // Verifica se é sincronização em massa
+        const isBulk = request.query.get("bulk") === "true";
+        if (isBulk) {
+          return handleBulkSync(request, context);
+        }
         return handleSyncRequest(request, context);
       }
     } catch (err) {
