@@ -1,0 +1,21 @@
+{
+  "name": "mec-gitintegracao",
+  "version": "1.0.0",
+  "description": "Azure Functions - Integração GitLab com Microsoft Planner",
+  "main": "index.js",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure/data-tables": "^13.2.0",
+    "@azure/functions": "^4.5.0",
+    "@azure/identity": "^4.4.1",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "axios": "^1.7.7"
+  }
+}

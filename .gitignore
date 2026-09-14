@@ -1,0 +1,27 @@
+# Node modules
+node_modules/
+npm-debug.log*
+
+# Azure Functions
+local.settings.json
+*.local.json
+.bin/
+FuncIgnore
+
+# Azure Storage Emulator
+AzureStorageEmulator.exe
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
