@@ -1,0 +1,225 @@
+.gitlabPlannerMonitor {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 16px;
+  color: #323130;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edebe9;
+}
+
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerIcon {
+  font-size: 24px;
+  color: #0078d4;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #323130;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lastUpdate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #605e5c;
+}
+
+.configButton {
+  background: transparent;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #605e5c;
+
+  &:hover {
+    background: #f3f2f1;
+    color: #0078d4;
+  }
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.metricCard {
+  background: #ffffff;
+  border: 1px solid #edebe9;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+.metricValue {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.metricLabel {
+  font-size: 13px;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricTotal .metricValue { color: #0078d4; }
+.metricTotal { border-top: 3px solid #0078d4; }
+
+.metricSynced .metricValue { color: #107c10; }
+.metricSynced { border-top: 3px solid #107c10; }
+
+.metricPending .metricValue { color: #ffb900; }
+.metricPending { border-top: 3px solid #ffb900; }
+
+.metricError .metricValue { color: #d83b01; }
+.metricError { border-top: 3px solid #d83b01; }
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #8a8886;
+  font-size: 14px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #edebe9;
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-color: #c8c6c4;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0078d4;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.status_Sincronizado { background: #107c10; }
+.status_Pendente { background: #ffb900; }
+.status_Erro { background: #d83b01; }
+
+.cardBody {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: #605e5c;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plannerLink {
+  margin-left: auto;
+  color: #0078d4;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+
+    > div {
+      width: 100%;
+    }
+  }
+}
