@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitLab Planner Monitor</title>
+<script src="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-js/1.13.0/fabric.min.js"></script>
+<link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-js/1.13.0/fabric.min.css"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fafafa;
+  color: #323130;
+  padding: 16px;
+  min-height: 100vh;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.title-icon {
+  font-size: 24px;
+  color: #0078d4;
+}
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.last-update {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #605e5c;
+}
+.btn {
+  background: #0078d4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn:hover { background: #106ebe; }
+.btn:disabled { background: #c8c6c4; cursor: not-allowed; }
+.btn-icon {
+  background: transparent;
+  border: 1px solid #edebe9;
+  color: #605e5c;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-icon:hover { background: #f3f2f1; color: #0078d4; }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.metric-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  border-top: 3px solid #0078d4;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+.metric-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.metric-total { border-top-color: #0078d4; }
+.metric-synced { border-top-color: #107c10; }
+.metric-pending { border-top-color: #ffb900; }
+.metric-error { border-top-color: #d83b01; }
+.metric-value { font-size: 36px; font-weight: 700; margin-bottom: 6px; }
+.metric-total .metric-value { color: #0078d4; }
+.metric-synced .metric-value { color: #107c10; }
+.metric-pending .metric-value { color: #ffb900; }
+.metric-error .metric-value { color: #d83b01; }
+.metric-label {
+  font-size: 12px;
+  color: #605e5c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.filters {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-box {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #c8c6c4;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+.search-box input:focus { border-color: #0078d4; }
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8a8886;
+}
+.dropdown {
+  position: relative;
+  min-width: 180px;
+}
+.dropdown select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #c8c6c4;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+.list { display: flex; flex-direction: column; gap: 8px; }
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 14px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #edebe9;
+  transition: all 0.2s;
+}
+.card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-color: #c8c6c4; }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0078d4;
+  text-decoration: none;
+  flex: 1;
+  min-width: 200px;
+}
+.card-title:hover { text-decoration: underline; }
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+.status-sincronizado { background: #107c10; }
+.status-pendente { background: #ffb900; }
+.status-erro { background: #d83b01; }
+.card-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: #605e5c;
+  align-items: center;
+}
+.card-meta { display: flex; align-items: center; gap: 6px; }
+.card-meta i { color: #8a8886; font-style: normal; }
+.planner-link {
+  margin-left: auto;
+  color: #0078d4;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.planner-link:hover { text-decoration: underline; }
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 60px;
+}
+.empty {
+  text-align: center;
+  padding: 60px;
+  color: #8a8886;
+  font-size: 14px;
+}
+.error-banner {
+  background: #fde7e9;
+  border-left: 4px solid #d83b01;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+  color: #a80000;
+}
+@media (max-width: 768px) {
+  body { padding: 8px; }
+  .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .controls { width: 100%; justify-content: space-between; }
+  .filters { flex-direction: column; align-items: stretch; }
+  .dropdown { width: 100%; }
+  .card-header { flex-direction: column; align-items: flex-start; }
+  .planner-link { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="title-area">
+    <span class="title-icon">&#x21BB;</span>
+    <h1 class="title">GitLab Planner Monitor</h1>
+  </div>
+  <div class="controls">
+    <span class="last-update"><span>&#x1F554;</span> <span id="lastUpdate">--:--</span></span>
+    <button class="btn" id="refreshBtn"><span>&#x21BB;</span> Atualizar</button>
+    <button class="btn-icon" id="configBtn" title="Configurar">&#x2699;</button>
+  </div>
+</div>
+
+<div id="errorContainer"></div>
+
+<div class="metrics">
+  <div class="metric-card metric-total">
+    <div class="metric-value" id="metricTotal">0</div>
+    <div class="metric-label">Total</div>
+  </div>
+  <div class="metric-card metric-synced">
+    <div class="metric-value" id="metricSynced">0</div>
+    <div class="metric-label">Sincronizados</div>
+  </div>
+  <div class="metric-card metric-pending">
+    <div class="metric-value" id="metricPending">0</div>
+    <div class="metric-label">Pendentes</div>
+  </div>
+  <div class="metric-card metric-error">
+    <div class="metric-value" id="metricError">0</div>
+    <div class="metric-label">Erros</div>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="search-box">
+    <span class="search-icon">&#x1F50D;</span>
+    <input type="text" id="searchInput" placeholder="Buscar por titulo, IID ou labels...">
+  </div>
+  <div class="dropdown">
+    <select id="statusFilter">
+      <option value="Todos">Todos os status</option>
+      <option value="Sincronizado">Sincronizados</option>
+      <option value="Pendente">Pendentes</option>
+      <option value="Erro">Erros</option>
+    </select>
+  </div>
+</div>
+
+<div id="listContainer"></div>
+
+<script>
+// =============================================================================
+// CONFIGURACAO - Altere aqui para apontar para Dataverse real ou usar mock
+// =============================================================================
+const CONFIG = {
+  useMockData: true,   // true = dados de exemplo, false = Dataverse real
+  dataverseUrl: 'https://org41ecace2.crm2.dynamics.com',
+  refreshIntervalSec: 30,
+  title: 'GitLab Planner Monitor'
+};
+// =============================================================================
+
+const MOCK_DATA = [
+  { id:'1', gitlabIid:42, plannerTaskId:'abc123def456ghi789jkl012mno', title:'Implementar autenticacao OAuth2', status:'Sincronizado', lastSyncedAt:new Date(Date.now()-5*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/42', issueLabels:'em progresso, oauth', description:'Configurar OAuth2 com provedores externos' },
+  { id:'2', gitlabIid:43, plannerTaskId:'xyz789abc123def456ghi789jkl', title:'Validar fluxo de deploy', status:'Sincronizado', lastSyncedAt:new Date(Date.now()-15*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/43', issueLabels:'done, deploy', description:'Validar pipeline de deploy automatizado' },
+  { id:'3', gitlabIid:44, plannerTaskId:'', title:'Atualizar documentacao', status:'Pendente', lastSyncedAt:new Date(Date.now()-60*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/44', issueLabels:'a fazer, docs', description:'Documentar endpoints da API' },
+  { id:'4', gitlabIid:45, plannerTaskId:'err123abc456def789ghi012jkl', title:'Refatorar modulo de sincronizacao', status:'Erro', lastSyncedAt:new Date(Date.now()-120*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/45', issueLabels:'bloqueado, bug', description:'Erro 500 ao tentar sincronizar' },
+  { id:'5', gitlabIid:46, plannerTaskId:'new123abc456def789ghi012jkl', title:'Configurar webhook GitLab', status:'Sincronizado', lastSyncedAt:new Date(Date.now()-2*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/46', issueLabels:'em revisao', description:'Configurar URL do webhook com secret' },
+  { id:'6', gitlabIid:47, plannerTaskId:'qwe456rty789uio012asd345fgh', title:'Implementar testes unitarios', status:'Sincronizado', lastSyncedAt:new Date(Date.now()-20*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/47', issueLabels:'em progresso, testes', description:'Cobertura minima de 80%' },
+  { id:'7', gitlabIid:48, plannerTaskId:'asd456fgh789jkl012zxc345vbn', title:'Migrar para SPFx 1.20', status:'Pendente', lastSyncedAt:new Date(Date.now()-90*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/48', issueLabels:'backlog', description:'Atualizar versao do SharePoint Framework' },
+  { id:'8', gitlabIid:49, plannerTaskId:'', title:'Erro de permissao Dataverse', status:'Erro', lastSyncedAt:new Date(Date.now()-180*60*1000).toISOString(), issueUrl:'https://gitlabbuilder.mec.gov.br/doc-sis/documentacao-novosistec2/-/issues/49', issueLabels:'bloqueado', description:'Acesso negado ao chamar OData' }
+];
+
+let allItems = [];
+let refreshTimer = null;
+
+const $ = id => document.getElementById(id);
+
+function formatDate(d) {
+  if (!d) return '-';
+  try {
+    const dt = new Date(d);
+    return dt.toLocaleString('pt-BR');
+  } catch { return d; }
+}
+
+function getStatusClass(status) {
+  return 'status-' + status.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+function getMetrics() {
+  return {
+    total: allItems.length,
+    synced: allItems.filter(i => i.status === 'Sincronizado').length,
+    pending: allItems.filter(i => i.status === 'Pendente').length,
+    errors: allItems.filter(i => i.status === 'Erro').length
+  };
+}
+
+function getFilteredItems() {
+  const term = $('searchInput').value.toLowerCase().trim();
+  const status = $('statusFilter').value;
+  let filtered = allItems;
+  if (status !== 'Todos') filtered = filtered.filter(i => i.status === status);
+  if (term) {
+    filtered = filtered.filter(i =>
+      (i.title && i.title.toLowerCase().includes(term)) ||
+      (i.gitlabIid && i.gitlabIid.toString().includes(term)) ||
+      (i.issueLabels && i.issueLabels.toLowerCase().includes(term))
+    );
+  }
+  return filtered.sort((a, b) => {
+    const da = a.lastSyncedAt ? new Date(a.lastSyncedAt).getTime() : 0;
+    const db = b.lastSyncedAt ? new Date(b.lastSyncedAt).getTime() : 0;
+    return db - da;
+  });
+}
+
+function renderMetrics() {
+  const m = getMetrics();
+  $('metricTotal').textContent = m.total;
+  $('metricSynced').textContent = m.synced;
+  $('metricPending').textContent = m.pending;
+  $('metricError').textContent = m.errors;
+}
+
+function renderList() {
+  const items = getFilteredItems();
+  const container = $('listContainer');
+  if (items.length === 0) {
+    container.innerHTML = '<div class="empty"><span>&#x2139;</span> Nenhum registro encontrado.</div>';
+    return;
+  }
+  const html = '<div class="list">' + items.map(item => `
+    <div class="card">
+      <div class="card-header">
+        <a href="${item.issueUrl || '#'}" target="_blank" rel="noopener" class="card-title">
+          #${item.gitlabIid} - ${escapeHtml(item.title)}
+        </a>
+        <span class="status-badge ${getStatusClass(item.status)}">${escapeHtml(item.status)}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-meta"><i>&#x1F3F7;</i> ${escapeHtml(item.issueLabels || 'Sem labels')}</div>
+        <div class="card-meta"><i>&#x1F4C5;</i> ${formatDate(item.lastSyncedAt)}</div>
+        ${item.plannerTaskId ? `<a href="https://tasks.office.com/mecbrasil.onmicrosoft.com/Home/Task/${item.plannerTaskId}" target="_blank" rel="noopener" class="planner-link"><span>&#x29C9;</span> Ver no Planner</a>` : ''}
+      </div>
+    </div>
+  `).join('') + '</div>';
+  container.innerHTML = html;
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function showError(msg) {
+  $('errorContainer').innerHTML = '<div class="error-banner"><strong>Erro:</strong> ' + escapeHtml(msg) + '</div>';
+}
+
+function clearError() {
+  $('errorContainer').innerHTML = '';
+}
+
+async function loadData() {
+  try {
+    $('refreshBtn').disabled = true;
+    clearError();
+    if (CONFIG.useMockData) {
+      await new Promise(r => setTimeout(r, 300));
+      allItems = MOCK_DATA.slice();
+    } else {
+      // Em producao, chamar Dataverse via fetch
+      // Por enquanto, usa mock se falhar
+      try {
+        const resp = await fetch(CONFIG.dataverseUrl + '/api/data/v9.2/pmo_mapeamentoplanners?$top=200', {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+        allItems = (data.value || []).map(r => ({
+          id: r.pmo_mapeamentoplannerid,
+          gitlabIid: r.pmo_gitlab_iid || 0,
+          plannerTaskId: r.pmo_plannertaskid || '',
+          title: r.pmo_title || ('#' + r.pmo_gitlab_iid),
+          status: r.pmo_statussincronizacao || 'Pendente',
+          lastSyncedAt: r.pmo_dataultimasincronizacao || '',
+          issueUrl: r.pmo_gitlab_url || '',
+          issueLabels: r.pmo_issue_labels || '',
+          description: r.pmo_description || ''
+        }));
+      } catch (err) {
+        console.warn('Falha ao buscar Dataverse, usando mock:', err);
+        showError('Nao foi possivel conectar ao Dataverse. Usando dados de exemplo.');
+        allItems = MOCK_DATA.slice();
+      }
+    }
+    $('lastUpdate').textContent = new Date().toLocaleTimeString('pt-BR');
+    renderMetrics();
+    renderList();
+  } catch (err) {
+    showError(err.message || 'Erro ao carregar dados');
+  } finally {
+    $('refreshBtn').disabled = false;
+  }
+}
+
+function startAutoRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
+  const ms = Math.max(10, CONFIG.refreshIntervalSec) * 1000;
+  refreshTimer = setInterval(loadData, ms);
+}
+
+function init() {
+  document.querySelector('.title').textContent = CONFIG.title;
+  $('searchInput').addEventListener('input', renderList);
+  $('statusFilter').addEventListener('change', renderList);
+  $('refreshBtn').addEventListener('click', loadData);
+  $('configBtn').addEventListener('click', () => {
+    alert('Para configurar, edite o arquivo HTML e altere o objeto CONFIG no script.');
+  });
+  loadData();
+  startAutoRefresh();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
