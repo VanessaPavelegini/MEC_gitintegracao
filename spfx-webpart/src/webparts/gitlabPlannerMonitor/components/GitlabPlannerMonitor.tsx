@@ -89,10 +89,10 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
         loading: false,
         lastRefresh: new Date()
       });
-    } catch (err) {
+    } catch (err: any) {
       this.setState({
         loading: false,
-        error: err.message || 'Erro ao carregar dados'
+        error: (err && err.message) ? err.message : 'Erro ao carregar dados'
       });
     }
   }
@@ -135,8 +135,8 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
     if (!dateStr) return '-';
     try {
       const d = new Date(dateStr);
-      return d.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
-    } catch {
+      return d.toLocaleString('pt-BR');
+    } catch (e) {
       return dateStr;
     }
   }
@@ -229,41 +229,45 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
           </div>
         ) : (
           <div className={styles.list}>
-            {filtered.map(item => (
-              <div key={item.id} className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <a
-                    href={item.issueUrl || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.cardTitle}
-                  >
-                    #{item.gitlabIid} - {item.title}
-                  </a>
-                  <span className={`${styles.statusBadge} ${styles[`status_${item.status}`]}`}>
-                    {item.status}
-                  </span>
-                </div>
-                <div className={styles.cardBody}>
-                  <div className={styles.cardMeta}>
-                    <Icon iconName="Tag" /> {item.issueLabels || 'Sem labels'}
-                  </div>
-                  <div className={styles.cardMeta}>
-                    <Icon iconName="Calendar" /> {this._formatDate(item.lastSyncedAt)}
-                  </div>
-                  {item.plannerTaskId && (
-                    <a
-                      href={`https://tasks.office.com/mecbrasil.onmicrosoft.com/Home/Task/${item.plannerTaskId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.plannerLink}
-                    >
-                      <Icon iconName="OpenInNewTab" /> Ver no Planner
-                    </a>
-                  )}
-                </div>
+            {filtered.map(item => {
+        const statusKey = 'status_' + item.status as 'status_Sincronizado' | 'status_Pendente' | 'status_Erro';
+        const statusClass = (styles as any)[statusKey] || '';
+        return (
+          <div key={item.id} className={styles.card}>
+            <div className={styles.cardHeader}>
+              <a
+                href={item.issueUrl || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.cardTitle}
+              >
+                #{item.gitlabIid} - {item.title}
+              </a>
+              <span className={`${styles.statusBadge} ${statusClass}`}>
+                {item.status}
+              </span>
+            </div>
+            <div className={styles.cardBody}>
+              <div className={styles.cardMeta}>
+                <Icon iconName="Tag" /> {item.issueLabels || 'Sem labels'}
               </div>
-            ))}
+              <div className={styles.cardMeta}>
+                <Icon iconName="Calendar" /> {this._formatDate(item.lastSyncedAt)}
+              </div>
+              {item.plannerTaskId && (
+                <a
+                  href={`https://tasks.office.com/mecbrasil.onmicrosoft.com/Home/Task/${item.plannerTaskId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.plannerLink}
+                >
+                  <Icon iconName="OpenInNewTab" /> Ver no Planner
+                </a>
+              )}
+            </div>
+          </div>
+        );
+      })}
           </div>
         )}
       </div>

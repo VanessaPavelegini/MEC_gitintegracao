@@ -1,5 +1,10 @@
-{
-  "PropertyPaneDescription": "Configuracoes do GitLab Planner Monitor",
-  "BasicGroupName": "Configuracoes Basicas",
-  "DescriptionFieldLabel": "Web Part de monitoramento do GitLab -> Planner"
+declare interface IGitlabPlannerMonitorWebPartStrings {
+  PropertyPaneDescription: string;
+  BasicGroupName: string;
+  DescriptionFieldLabel: string;
+}
+
+declare module 'GitlabPlannerMonitorWebPartStrings' {
+  const strings: IGitlabPlannerMonitorWebPartStrings;
+  export = strings;
 }

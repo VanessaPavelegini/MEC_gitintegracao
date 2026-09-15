@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/gitlabPlannerMonitor/GitlabPlannerMonitorWebPart.js",
+      "manifest": "./src/webparts/gitlabPlannerMonitor/GitlabPlannerMonitorWebPart.manifest.json",
+      "outputPath": "release/dist"
+    }
+  ],
+  "localizedResources": {
+    "GitlabPlannerMonitorWebPartStrings": "lib/webparts/gitlabPlannerMonitor/loc/{locale}.js"
+  }
+}

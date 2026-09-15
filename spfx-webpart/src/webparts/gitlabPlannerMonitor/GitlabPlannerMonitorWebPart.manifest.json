@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "afb51896-36a2-4b21-a39a-324ed6818148",
+  "alias": "GitLabPlannerMonitorWebPart",
+  "componentType": "WebPart",
+  "version": "1.0.0.0",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "safeWithCustomScriptDisabled": false,
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "MEC Integrations" },
+      "title": { "default": "GitLab Planner Monitor" },
+      "description": { "default": "Monitor de sincronizacao entre GitLab Issues e Microsoft Planner" },
+      "officeFabricIconFontName": "Sync",
+      "properties": {
+        "title": "GitLab Planner Monitor",
+        "refreshInterval": 30,
+        "showMockData": true,
+        "dataverseUrl": "https://org41ecace2.crm2.dynamics.com"
+      }
+    }
+  ]
+}

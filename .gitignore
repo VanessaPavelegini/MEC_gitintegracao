@@ -2,6 +2,14 @@
 node_modules/
 npm-debug.log*
 
+# SPFx
+lib/
+temp/
+release/
+*.sppkg
+sharepoint/solution/
+!sharepoint/solution/.gitkeep
+
 # Azure Functions
 local.settings.json
 *.local.json

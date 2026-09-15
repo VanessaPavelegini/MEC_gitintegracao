@@ -1,22 +1,17 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-control-package-manifest.schema.json",
-  "id": "afb51896-36a2-4b21-a39a-324ed6818148",
-  "alias": "GitLabPlannerMonitorWebPart",
-  "componentType": "WebPart",
-  "version": "1.0.0.0",
-  "manifestVersion": 2,
-  "requiresCustomScript": false,
-  "safeWithCustomScriptDisabled": false,
-  "preconfiguredEntries": [
-    {
-      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
-      "group": { "default": "MEC Integrations" },
-      "title": { "default": "GitLab Planner Monitor" },
-      "description": { "default": "Monitor de sincronizacao entre GitLab Issues e Microsoft Planner" },
-      "officeFabricIconFontName": "Sync",
-      "properties": {
-        "description": "GitLab Planner Monitor - Real-time sync status dashboard"
-      }
+  "solution": {
+    "name": "GitLab Planner Monitor",
+    "id": "afb51896-36a2-4b21-a39a-324ed6818148",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "developer": {
+      "name": "Vanessa Pavelegini",
+      "websiteUrl": "https://mec.gov.br",
+      "privacyUrl": "https://mec.gov.br/privacy",
+      "termsOfUseUrl": "https://mec.gov.br/terms",
+      "mpnId": "0000000"
     }
-  ]
+  }
 }
