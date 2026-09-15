@@ -11,7 +11,8 @@
 // Configurações necessárias em local.settings.json:
 //   - GITLAB_WEBHOOK_SECRET: Token para validar webhooks
 //   - PLANNER_PLAN_ID: ID do plano Planner destino
-//   - TABLE_STORAGE_CONN_STRING: String de conexão do Azure Table Storage
+//   - DATAVERSE_URL + AZURE_TENANT_ID/CLIENT_ID/CLIENT_SECRET: persistência na tabela pmo_mapeamentoplanner
+//   - Ver AZURE_SETTINGS.md para a lista completa
 
 const { app } = require("@azure/functions");
 const { getGraphClient } = require("../../shared/graphClient");

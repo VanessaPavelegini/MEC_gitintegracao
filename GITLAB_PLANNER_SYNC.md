@@ -31,27 +31,19 @@ MEC_gitintegracao/
 
 ---
 
-## 1. Configurar Azure Table Storage
+## 1. Configurar Dataverse (persistência do mapeamento)
 
-### 1.1 Criar Storage Account (se não existir)
+O mapeamento de issues → tasks é gravado na tabela Dataverse **`pmo_mapeamentoplanner`** (não em Azure Table Storage — a migração está consolidada nos commits recentes).
 
-1. Acesse o [Portal Azure](https://portal.azure.com)
-2. Criar novo recurso → Storage Account
-3. Anote a **Connection String** (em Access Keys)
+### 1.1 Verificar a tabela
 
-### 1.2 Criar Tabela
+1. Power Apps → selecione o ambiente apontado por `DATAVERSE_URL`
+2. **Tabelas** → procure por **Mapeamento Planner**
+3. Confirme que as colunas customizadas do GitLab existem (schema completo em [DATAVERSE.md](DATAVERSE.md))
 
-1. No Storage Account, vá em **Tables**
-2. Clique em **+ Table**
-3. Nome: `GitLabPlannerMapping`
+### 1.2 Permissões
 
-### 1.3 Atualizar local.settings.json
-
-```json
-{
-  "TABLE_STORAGE_CONN_STRING": "DefaultEndpointsProtocol=https;AccountName=SEU_STORAGE;AccountKey=SUA_CHAVE;EndpointSuffix=core.windows.net"
-}
-```
+O app registration usado em `AZURE_CLIENT_ID` precisa ter permissão **`Dynamics CRM user_impersonation`** com consentimento do administrador. Veja [AZURE_SETTINGS.md](AZURE_SETTINGS.md) para a lista completa de permissões.
 
 ---
 
@@ -114,25 +106,34 @@ Para verificar:
 
 ## 4. Atualizar local.settings.json
 
+O arquivo [`local.settings.json`](local.settings.json) é a **fonte da verdade** das variáveis de ambiente. Edite-o diretamente com os valores do seu ambiente.
+
+> Para referência completa de cada variável (o que cada uma faz, quem consome, obrigatoriedade), veja **[AZURE_SETTINGS.md](AZURE_SETTINGS.md)**. Não duplique a lista aqui — ela muda com o código e este guia ficaria desatualizado.
+
+Trecho relevante para o fluxo GitLab → Planner:
+
 ```json
 {
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "AZURE_TENANT_ID": "b8c25932-5e76-4b2b-9c53-d41745e9c92d",
-    "AZURE_CLIENT_ID": "18fb3c07-66df-40a0-86d6-5d2d84dea60f",
+    "AZURE_TENANT_ID": "<seu-tenant-id>",
+    "AZURE_CLIENT_ID": "<seu-client-id>",
     "AZURE_CLIENT_SECRET": "<cole-seu-client-secret-aqui>",
+    "DATAVERSE_URL": "<url-do-seu-ambiente-dataverse>",
     "PLANNER_PLAN_ID": "V6eQb5zdBkWHqIzlDh68o2UACro8",
     "GITLAB_URL": "https://gitlabbuilder.mec.gov.br",
     "GITLAB_TOKEN": "<cole-seu-gitlab-token-aqui>",
+    "GITLAB_USER_AGENT": "<seu-user-agent-corporativo>",
     "GITLAB_PROJECT_ID": "doc-sis/documentacao-novosistec2",
     "GITLAB_BOARD_ID": "92",
-    "GITLAB_WEBHOOK_SECRET": "cole-seu-secret-aqui",
-    "TABLE_STORAGE_CONN_STRING": "DefaultEndpointsProtocol=https;AccountName=SEU_STORAGE;AccountKey=SUA_CHAVE;EndpointSuffix=core.windows.net"
+    "GITLAB_WEBHOOK_SECRET": "<cole-seu-secret-aqui>"
   }
 }
 ```
+
+> A função grava o mapeamento de issues→tasks na tabela Dataverse **`pmo_mapeamentoplanner`** (não em Azure Table Storage — a migração para Dataverse está consolidada nos commits recentes). Veja [DATAVERSE.md](DATAVERSE.md) para o schema.
 
 ---
 
@@ -213,29 +214,33 @@ az functionapp deployment source config-zip ^
 
 No Portal Azure → Function App → Functions → syncGitLabPlanner → Monitor
 
-### 7.2 Azure Table
+### 7.2 Dataverse
 
-Verifique se os mapeamentos estão sendo salvos:
-1. Storage Explorer → Tables → GitLabPlannerMapping
-2. Deve haver entidades com `gitlabIid` e `plannerTaskId`
+Verifique se os mapeamentos estão sendo salvos na tabela `pmo_mapeamentoplanner`:
+1. Power Apps → ambiente do `DATAVERSE_URL` → Tabelas → **Mapeamento Planner**
+2. Devem haver registros com `pmo_gitlab_iid` e `pmo_plannertaskid` preenchidos
 
 ---
 
 ## 8. Estrutura dos Dados
 
-### 8.1 Azure Table: GitLabPlannerMapping
+### 8.1 Dataverse: tabela `pmo_mapeamentoplanner`
 
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| PartitionKey | string | `"gitlab-planner"` |
-| RowKey | string | `gitlabIid` da issue |
-| gitlabIid | int | ID da issue no GitLab |
-| plannerTaskId | string | ID da task no Planner |
-| plannerBucketId | string | ID do bucket atual |
-| title | string | Título da issue |
-| lastSyncedAt | datetime | Última sincronização |
-| issueLabels | string | Labels separadas por vírgula |
-| gitlabUrl | string | URL da issue |
+Mapeamento de Issue GitLab → Task Planner. Schema completo em [DATAVERSE.md](DATAVERSE.md).
+
+| Campo Dataverse | Tipo | Descrição |
+|-----------------|------|-----------|
+| `pmo_mapeamentoplannerid` | Uniqueidentifier | Chave primária |
+| `pmo_plannerplanid` | String | ID do plano Planner (= `PLANNER_PLAN_ID`) |
+| `pmo_plannertaskid` | String | ID da task criada no Planner |
+| `pmo_plannerbucketid` | String | ID do bucket atual |
+| `pmo_dataultimasincronizacao` | DateTime | Última sincronização |
+| `pmo_statussincronizacao` | String | Status (ex: `Sincronizado`) |
+| `pmo_gitlab_iid` | Integer | IID da issue no GitLab |
+| `pmo_gitlab_url` | String (URL) | URL da issue |
+| `pmo_title` | String | Título da issue |
+| `pmo_description` | String | Descrição da issue |
+| `pmo_issue_labels` | String | Labels separadas por vírgula |
 
 ### 8.2 Task Planner
 
@@ -252,9 +257,12 @@ Verifique se os mapeamentos estão sendo salvos:
 ### Erro: "GITLAB_TOKEN não configurado"
 - Verifique se `GITLAB_TOKEN` está em Application Settings
 
-### Erro: "TABLE_STORAGE_CONN_STRING não configurado"
-- Verifique se a connection string está correta
-- Para local: use `UseDevelopmentStorage=true`
+### Erro: "Credenciais Azure AD não configuradas"
+- Verifique se `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` e `AZURE_CLIENT_SECRET` estão em Application Settings
+- Detalhes em [AZURE_SETTINGS.md](AZURE_SETTINGS.md)
+
+### Erro: "DATAVERSE_URL não configurado"
+- Verifique se `DATAVERSE_URL` está em Application Settings
 
 ### Erro: "Token inválido ou ausente"
 - O header `X-Gitlab-Token` não confere com `GITLAB_WEBHOOK_SECRET`
@@ -262,7 +270,7 @@ Verifique se os mapeamentos estão sendo salvos:
 
 ### Erro: "Task não encontrada"
 - A task pode ter sido deletada no Planner
-- Remova o mapping manualmente da Table Storage
+- Remova o registro correspondente na tabela Dataverse `pmo_mapeamentoplanner`
 
 ### Planner Bucket não encontrado
 - Verifique se o Plan ID está correto
