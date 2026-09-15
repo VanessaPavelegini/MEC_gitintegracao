@@ -4,9 +4,10 @@ const axios = require("axios");
 
 // ─── Configurações ─────────────────────────────────────────────────────────────
 
-const DATAVERSE_URL = process.env.DATAVERSE_URL; // Ex: https://mecbrasil.crm.dynamics.com
-const TABLE_NAME = "mec_integracao_gitlab";
-const ENTITY_SET = "mec_integracao_gitlabs"; // Plural name para a API
+const DATAVERSE_URL = process.env.DATAVERSE_URL;
+const PLANNER_PLAN_ID = process.env.PLANNER_PLAN_ID || "";
+const TABLE_NAME = "pmo_mapeamentoplanner";
+const ENTITY_SET = "pmo_mapeamentoplanners"; // Plural name para a API Dataverse
 
 // Cache em memória dos buckets do plano
 let _bucketsCache = null;
@@ -82,20 +83,23 @@ async function getDataverseClient() {
 
 /**
  * Salva ou atualiza um mapping de Issue GitLab -> Task Planner
- * Se existir registro com mesmo mec_gitlab_iid, atualiza. Senão, cria.
+ * Se existir registro com mesmo pmo_gitlab_iid, atualiza. Senão, cria.
  */
 async function saveMapping({ gitlabIid, plannerTaskId, plannerBucketId, issueData }) {
   const client = await getDataverseClient();
 
   const data = {
-    mec_gitlab_iid: Number(gitlabIid),
-    mec_planner_taskid: plannerTaskId || null,
-    mec_planner_bucketid: plannerBucketId || null,
-    mec_title: issueData?.title || "",
-    mec_description: issueData?.description || "",
-    mec_last_synced_at: new Date().toISOString(),
-    mec_issue_labels: Array.isArray(issueData?.labels) ? issueData.labels.join(",") : (issueData?.labels || ""),
-    mec_gitlab_url: issueData?.webUrl || issueData?.web_url || "",
+    pmo_plannerplanid: PLANNER_PLAN_ID,
+    pmo_plannertaskid: plannerTaskId || null,
+    pmo_plannerbucketid: plannerBucketId || null,
+    pmo_dataultimasincronizacao: new Date().toISOString(),
+    pmo_statussincronizacao: "Sincronizado",
+    // Campos customizados (precisam existir na tabela):
+    pmo_gitlab_iid: Number(gitlabIid),
+    pmo_gitlab_url: issueData?.webUrl || issueData?.web_url || "",
+    pmo_title: issueData?.title || "",
+    pmo_description: issueData?.description || "",
+    pmo_issue_labels: Array.isArray(issueData?.labels) ? issueData.labels.join(",") : (issueData?.labels || ""),
   };
 
   // Verifica se já existe registro para este IID
@@ -103,14 +107,14 @@ async function saveMapping({ gitlabIid, plannerTaskId, plannerBucketId, issueDat
 
   if (existing) {
     // Atualiza (PATCH)
-    await client.patch(`/${ENTITY_SET}(${existing.mec_integracao_gitlabid})`, data);
+    await client.patch(`/${ENTITY_SET}(${existing.pmo_mapeamentoplannerid})`, data);
     return { ...existing, ...data };
   } else {
     // Cria (POST)
     const response = await client.post(`/${ENTITY_SET}`, data);
     return {
       ...data,
-      mec_integracao_gitlabid: response.data.mec_integracao_gitlabid,
+      pmo_mapeamentoplannerid: response.data.pmo_mapeamentoplannerid,
     };
   }
 }
@@ -122,7 +126,7 @@ async function getMapping(gitlabIid) {
   const client = await getDataverseClient();
 
   try {
-    const filter = `mec_gitlab_iid eq ${Number(gitlabIid)}`;
+    const filter = `pmo_gitlab_iid eq ${Number(gitlabIid)}`;
     const response = await client.get(`/${ENTITY_SET}`, {
       params: {
         $filter: filter,
@@ -145,8 +149,8 @@ async function deleteMapping(gitlabIid) {
   const client = await getDataverseClient();
 
   const existing = await getMapping(gitlabIid);
-  if (existing && existing.mec_integracao_gitlabid) {
-    await client.delete(`/${ENTITY_SET}(${existing.mec_integracao_gitlabid})`);
+  if (existing && existing.pmo_mapeamentoplannerid) {
+    await client.delete(`/${ENTITY_SET}(${existing.pmo_mapeamentoplannerid})`);
   }
 }
 
@@ -175,7 +179,7 @@ async function listMappings() {
  */
 async function listMappingsWithPlannerIds() {
   const mappings = await listMappings();
-  return mappings.filter(m => m.mec_planner_taskid);
+  return mappings.filter(m => m.pmo_plannertaskid);
 }
 
 // ─── Cache de Buckets ─────────────────────────────────────────────────────────
