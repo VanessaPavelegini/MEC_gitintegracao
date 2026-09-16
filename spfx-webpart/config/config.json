@@ -7,6 +7,6 @@
     }
   ],
   "localizedResources": {
-    "GitlabPlannerMonitorWebPartStrings": "lib/webparts/gitlabPlannerMonitor/loc/{locale}.js"
+    "GitlabPlannerMonitorWebPartStrings": "webparts/gitlabPlannerMonitor/loc/{locale}.js"
   }
 }

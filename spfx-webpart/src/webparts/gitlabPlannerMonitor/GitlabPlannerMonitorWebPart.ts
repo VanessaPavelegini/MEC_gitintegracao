@@ -19,6 +19,8 @@ export interface IGitlabPlannerMonitorWebPartProps {
   refreshInterval: number;
   showMockData: boolean;
   dataverseUrl: string;
+  functionUrl: string;
+  functionKey: string;
 }
 
 export default class GitlabPlannerMonitorWebPart extends BaseClientSideWebPart<IGitlabPlannerMonitorWebPartProps> {
@@ -31,6 +33,8 @@ export default class GitlabPlannerMonitorWebPart extends BaseClientSideWebPart<I
         refreshInterval: this.properties.refreshInterval,
         showMockData: this.properties.showMockData,
         dataverseUrl: this.properties.dataverseUrl,
+        functionUrl: this.properties.functionUrl,
+        functionKey: this.properties.functionKey,
         context: this.context,
         onConfigure: () => this.context.propertyPane.open()
       }
@@ -74,6 +78,19 @@ export default class GitlabPlannerMonitorWebPart extends BaseClientSideWebPart<I
                 }),
                 PropertyPaneTextField('dataverseUrl', {
                   label: 'URL do Dataverse'
+                })
+              ]
+            },
+            {
+              groupName: 'Azure Function (retry)',
+              groupFields: [
+                PropertyPaneTextField('functionUrl', {
+                  label: 'URL da Function',
+                  placeholder: 'https://func-gitintegracao-xxx.azurewebsites.net'
+                }),
+                PropertyPaneTextField('functionKey', {
+                  label: 'Function Key (x-functions-key)',
+                  description: 'Usado pelo botão "Tentar novamente" em cards com erro.'
                 })
               ]
             }

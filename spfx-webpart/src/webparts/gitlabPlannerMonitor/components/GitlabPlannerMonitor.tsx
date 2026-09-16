@@ -2,23 +2,26 @@ import * as React from 'react';
 import styles from './GitlabPlannerMonitor.module.scss';
 import {
   PrimaryButton,
+  DefaultButton,
   Spinner,
   SpinnerSize,
   MessageBar,
   MessageBarType,
   Icon,
   TextField,
-  Dropdown,
-  IDropdownOption
+  Dropdown
 } from '@fluentui/react';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { DataverseService, IMappingItem } from '../services/DataverseService';
+import { FunctionService } from '../services/FunctionService';
 
 export interface IGitlabPlannerMonitorProps {
   title: string;
   refreshInterval: number;
   showMockData: boolean;
   dataverseUrl: string;
+  functionUrl: string;
+  functionKey: string;
   context: WebPartContext;
   onConfigure: () => void;
 }
@@ -30,15 +33,24 @@ export interface IGitlabPlannerMonitorState {
   searchTerm: string;
   statusFilter: string;
   lastRefresh: Date;
+  retryingIid: number | null;
+  retryFeedback: { type: 'success' | 'error'; text: string } | null;
 }
 
 export default class GitlabPlannerMonitor extends React.Component<IGitlabPlannerMonitorProps, IGitlabPlannerMonitorState> {
   private _service: DataverseService;
+  private _functionService: FunctionService;
   private _intervalId: number | null = null;
+  private _feedbackTimeoutId: number | null = null;
 
   constructor(props: IGitlabPlannerMonitorProps) {
     super(props);
     this._service = new DataverseService(props.context, props.showMockData, props.dataverseUrl);
+    this._functionService = new FunctionService(
+      props.context.httpClient,
+      props.functionUrl,
+      props.functionKey
+    );
 
     this.state = {
       items: [],
@@ -46,7 +58,9 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
       error: null,
       searchTerm: '',
       statusFilter: 'Todos',
-      lastRefresh: new Date()
+      lastRefresh: new Date(),
+      retryingIid: null,
+      retryFeedback: null
     };
   }
 
@@ -57,12 +71,25 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
 
   public componentWillUnmount(): void {
     this._stopAutoRefresh();
+    if (this._feedbackTimeoutId !== null) {
+      window.clearTimeout(this._feedbackTimeoutId);
+    }
   }
 
   public componentDidUpdate(prevProps: IGitlabPlannerMonitorProps): void {
     if (prevProps.refreshInterval !== this.props.refreshInterval) {
       this._stopAutoRefresh();
       this._startAutoRefresh();
+    }
+    if (
+      prevProps.functionUrl !== this.props.functionUrl ||
+      prevProps.functionKey !== this.props.functionKey
+    ) {
+      this._functionService = new FunctionService(
+        this.props.context.httpClient,
+        this.props.functionUrl,
+        this.props.functionKey
+      );
     }
   }
 
@@ -95,6 +122,49 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
         error: (err && err.message) ? err.message : 'Erro ao carregar dados'
       });
     }
+  }
+
+  private async _handleRetry(item: IMappingItem): Promise<void> {
+    if (this.state.retryingIid !== null) return; // já tem um retry em andamento
+
+    this._clearRetryFeedback();
+
+    try {
+      this.setState({ retryingIid: item.gitlabIid, retryFeedback: null });
+      const result = await this._functionService.retrySync(item.gitlabIid);
+
+      if (result.success) {
+        this._setRetryFeedback('success', `Issue #${item.gitlabIid} sincronizada.`);
+      } else {
+        this._setRetryFeedback('error', `Falha: ${result.message}`);
+      }
+
+      // Recarrega a lista para refletir o novo status vindo do Dataverse
+      await this._loadData();
+    } catch (err: any) {
+      this._setRetryFeedback('error', (err && err.message) ? err.message : 'Falha ao tentar novamente');
+    } finally {
+      this.setState({ retryingIid: null });
+    }
+  }
+
+  private _setRetryFeedback(type: 'success' | 'error', text: string): void {
+    this.setState({ retryFeedback: { type, text } });
+    if (this._feedbackTimeoutId !== null) {
+      window.clearTimeout(this._feedbackTimeoutId);
+    }
+    this._feedbackTimeoutId = window.setTimeout(() => {
+      this.setState({ retryFeedback: null });
+      this._feedbackTimeoutId = null;
+    }, 6000);
+  }
+
+  private _clearRetryFeedback(): void {
+    if (this._feedbackTimeoutId !== null) {
+      window.clearTimeout(this._feedbackTimeoutId);
+      this._feedbackTimeoutId = null;
+    }
+    this.setState({ retryFeedback: null });
   }
 
   private _getFilteredItems(): IMappingItem[] {
@@ -142,7 +212,7 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
   }
 
   public render(): React.ReactElement<IGitlabPlannerMonitorProps> {
-    const { items, loading, error, searchTerm, statusFilter, lastRefresh } = this.state;
+    const { items, loading, error, searchTerm, statusFilter, lastRefresh, retryingIid, retryFeedback } = this.state;
     const filtered = this._getFilteredItems();
     const metrics = this._getMetrics();
 
@@ -176,6 +246,16 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
         {error && (
           <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
             {error}
+          </MessageBar>
+        )}
+
+        {retryFeedback && (
+          <MessageBar
+            messageBarType={retryFeedback.type === 'success' ? MessageBarType.success : MessageBarType.error}
+            isMultiline={false}
+            onDismiss={() => this._clearRetryFeedback()}
+          >
+            {retryFeedback.text}
           </MessageBar>
         )}
 
@@ -232,6 +312,8 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
             {filtered.map(item => {
         const statusKey = 'status_' + item.status as 'status_Sincronizado' | 'status_Pendente' | 'status_Erro';
         const statusClass = (styles as any)[statusKey] || '';
+        const isError = item.status === 'Erro';
+        const isRetrying = retryingIid === item.gitlabIid;
         return (
           <div key={item.id} className={styles.card}>
             <div className={styles.cardHeader}>
@@ -263,6 +345,17 @@ export default class GitlabPlannerMonitor extends React.Component<IGitlabPlanner
                 >
                   <Icon iconName="OpenInNewTab" /> Ver no Planner
                 </a>
+              )}
+              {isError && (
+                <div className={styles.retryRow}>
+                  <DefaultButton
+                    text={isRetrying ? 'Sincronizando...' : 'Tentar novamente'}
+                    iconProps={{ iconName: 'Refresh' }}
+                    onClick={() => this._handleRetry(item)}
+                    disabled={isRetrying || retryingIid !== null}
+                    className={styles.retryButton}
+                  />
+                </div>
               )}
             </div>
           </div>

@@ -30,6 +30,7 @@ const {
 
 const PLANNER_PLAN_ID = process.env.PLANNER_PLAN_ID || "V6eQb5zdBkWHqIzlDh68o2UACro8";
 const GITLAB_WEBHOOK_SECRET = process.env.GITLAB_WEBHOOK_SECRET;
+const FUNCTION_KEY = process.env.FUNCTION_KEY;
 const BUCKET_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
 
 // Cache de buckets do plano
@@ -599,14 +600,25 @@ app.http("syncGitLabPlanner", {
     try {
       if (request.method === "POST") {
         return handleWebhook(request, context);
-      } else {
-        // Verifica se é sincronização em massa
-        const isBulk = request.query.get("bulk") === "true";
-        if (isBulk) {
-          return handleBulkSync(request, context);
-        }
-        return handleSyncRequest(request, context);
       }
+
+      // GET: valida x-functions-key (para webpart/SPFx)
+      // Em dev (sem FUNCTION_KEY configurado), permite sem chave
+      if (FUNCTION_KEY) {
+        const provided = request.headers.get("x-functions-key");
+        if (provided !== FUNCTION_KEY) {
+          return {
+            status: 401,
+            jsonBody: { error: "Function key inválida ou ausente" },
+          };
+        }
+      }
+
+      const isBulk = request.query.get("bulk") === "true";
+      if (isBulk) {
+        return handleBulkSync(request, context);
+      }
+      return handleSyncRequest(request, context);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       context.error("[syncGitLabPlanner] Erro não tratado:", msg);

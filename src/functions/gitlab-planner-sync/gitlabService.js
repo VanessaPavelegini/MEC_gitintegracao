@@ -163,6 +163,7 @@ function extractStatusLabel(labels) {
     "to do", "to-do", "a fazer", "backlog",
     "in progress", "em progresso", "em andamento", "em desenvolvimento",
     "in review", "em revisao", "review", "em revição",
+    "em analise", "analise", "analise ",
     "pronto", "done", "concluido", "concluida", "completed",
     "blocked", "bloqueado", "impedido",
   ];

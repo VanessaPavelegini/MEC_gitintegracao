@@ -9,6 +9,15 @@ release/
 *.sppkg
 sharepoint/solution/
 !sharepoint/solution/.gitkeep
+# Extração local do .sppkg — não versionar
+spfx-webpart/sharepoint/
+
+# SPFx build artifacts (gerados localmente — não versionar)
+spfx-webpart/dist-test2/
+spfx-webpart/spkg-extract/
+spfx-webpart/dist/*.js
+spfx-webpart/dist/*.manifest.json
+!spfx-webpart/dist/*.html
 
 # Azure Functions
 local.settings.json

@@ -5,6 +5,8 @@ export interface IGitlabPlannerMonitorProps {
   refreshInterval: number;
   showMockData: boolean;
   dataverseUrl: string;
+  functionUrl: string;
+  functionKey: string;
   context: WebPartContext;
   onConfigure: () => void;
 }
