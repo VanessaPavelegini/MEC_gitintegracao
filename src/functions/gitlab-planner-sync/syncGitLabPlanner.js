@@ -660,12 +660,15 @@ async function handleWebhook(request, context) {
     };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack : "(no stack)";
     context.error("[syncGitLabPlanner] Erro ao sincronizar:", msg);
+    context.error("[syncGitLabPlanner] STACK:", stack);
 
     return {
       status: 500,
       jsonBody: {
         error: `Erro ao sincronizar issue #${issue.iid}: ${msg}`,
+        stack: stack,
       },
     };
   }
