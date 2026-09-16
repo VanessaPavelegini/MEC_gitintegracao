@@ -150,6 +150,13 @@ async function getBucketByLabels(planId, labels) {
  * @returns {Promise<object|null>} - { "<azureUserId>": { "@odata.type": "...", orderHint: " !" } }
  */
 async function resolveAssignments(issue) {
+  // DESABILITADO: lookup no Azure AD está pendurado sem permissão User.Read.All.
+  // Retornando null pra destravar o sync. Reativar após adicionar a permissão
+  // no app registration + deploy.
+  // TODO: reativar quando User.Read.All estiver configurado
+  return null;
+
+  /* eslint-disable no-unreachable */
   if (!issue.assignees || !Array.isArray(issue.assignees) || issue.assignees.length === 0) {
     return null;
   }
