@@ -217,7 +217,22 @@ async function createPlannerTask(issue, bucketId) {
     console.warn(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid}: ${err.message} — criando task sem assignee`);
   }
 
-  const created = await client.api("/planner/tasks").post(taskBody);
+  console.log(`[syncGitLabPlanner] POST /planner/tasks payload: ${JSON.stringify(taskBody, null, 2)}`);
+
+  let created;
+  try {
+    created = await client.api("/planner/tasks").post(taskBody);
+  } catch (err) {
+    // Log detalhado do erro do Graph pra debug
+    const graphError = err && (err.body || err.statusCode || err.message);
+    console.error(`[syncGitLabPlanner] POST /planner/tasks FALHOU (issue #${issue.iid}):`);
+    console.error(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
+    console.error(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
+    console.error(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
+    console.error(`[syncGitLabPlanner]   message: ${err.message}`);
+    throw err;
+  }
+
   console.log(`[syncGitLabPlanner] Task criada: ${created.id}`);
 
   // Adiciona descrição e detalhes
@@ -287,10 +302,23 @@ async function updatePlannerTask(taskId, issue, newBucketId, currentEtag) {
     console.warn(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid} no update: ${err.message} — mantendo assignments existentes`);
   }
 
-  const updated = await client
-    .api(`/planner/tasks/${taskId}`)
-    .header("If-Match", currentEtag || "*")
-    .patch(patchBody);
+  console.log(`[syncGitLabPlanner] PATCH /planner/tasks/${taskId} payload: ${JSON.stringify(patchBody, null, 2)}`);
+
+  let updated;
+  try {
+    updated = await client
+      .api(`/planner/tasks/${taskId}`)
+      .header("If-Match", currentEtag || "*")
+      .patch(patchBody);
+  } catch (err) {
+    const graphError = err && (err.body || err.statusCode || err.message);
+    console.error(`[syncGitLabPlanner] PATCH /planner/tasks/${taskId} FALHOU (issue #${issue.iid}):`);
+    console.error(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
+    console.error(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
+    console.error(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
+    console.error(`[syncGitLabPlanner]   message: ${err.message}`);
+    throw err;
+  }
 
   console.log(`[syncGitLabPlanner] Task atualizada: ${taskId}`);
 
