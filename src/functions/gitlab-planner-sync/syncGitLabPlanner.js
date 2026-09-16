@@ -195,10 +195,13 @@ async function resolveAssignments(issue) {
  * Cria nova task no Planner
  * @param {object} issue - Dados da issue do GitLab
  * @param {string} bucketId - ID do bucket destino
+ * @param {object} context - Contexto da Function (logging)
  * @returns {Promise<object>}
  */
-async function createPlannerTask(issue, bucketId) {
+async function createPlannerTask(issue, bucketId, context) {
   const client = getGraphClient();
+  const log = context ? context.log : console.log;
+  const logErr = context ? context.error : console.error;
 
   const taskBody = {
     planId: PLANNER_PLAN_ID,
@@ -221,10 +224,10 @@ async function createPlannerTask(issue, bucketId) {
       taskBody.assignments = assignments;
     }
   } catch (err) {
-    console.warn(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid}: ${err.message} — criando task sem assignee`);
+    logErr(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid}: ${err.message} — criando task sem assignee`);
   }
 
-  console.log(`[syncGitLabPlanner] POST /planner/tasks payload: ${JSON.stringify(taskBody, null, 2)}`);
+  log(`[syncGitLabPlanner] POST /planner/tasks payload: ${JSON.stringify(taskBody, null, 2)}`);
 
   let created;
   try {
@@ -232,15 +235,15 @@ async function createPlannerTask(issue, bucketId) {
   } catch (err) {
     // Log detalhado do erro do Graph pra debug
     const graphError = err && (err.body || err.statusCode || err.message);
-    console.error(`[syncGitLabPlanner] POST /planner/tasks FALHOU (issue #${issue.iid}):`);
-    console.error(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
-    console.error(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
-    console.error(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
-    console.error(`[syncGitLabPlanner]   message: ${err.message}`);
+    logErr(`[syncGitLabPlanner] POST /planner/tasks FALHOU (issue #${issue.iid}):`);
+    logErr(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
+    logErr(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
+    logErr(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
+    logErr(`[syncGitLabPlanner]   message: ${err.message}`);
     throw err;
   }
 
-  console.log(`[syncGitLabPlanner] Task criada: ${created.id}`);
+  log(`[syncGitLabPlanner] Task criada: ${created.id}`);
 
   // Adiciona descrição e detalhes
   if (created.id) {
@@ -277,10 +280,13 @@ async function updateTaskDetails(taskId, issue, etag) {
  * @param {object} issue - Dados atualizados da issue
  * @param {string} newBucketId - ID do novo bucket (se mudou)
  * @param {string} currentEtag - ETAG atual da task
+ * @param {object} context - Contexto da Function (logging)
  * @returns {Promise<object>}
  */
-async function updatePlannerTask(taskId, issue, newBucketId, currentEtag) {
+async function updatePlannerTask(taskId, issue, newBucketId, currentEtag, context) {
   const client = getGraphClient();
+  const log = context ? context.log : console.log;
+  const logErr = context ? context.error : console.error;
 
   const patchBody = {
     title: `[#${issue.iid}] ${issue.title}`.substring(0, 500),
@@ -300,16 +306,20 @@ async function updatePlannerTask(taskId, issue, newBucketId, currentEtag) {
   }
 
   // Assignees (sempre recalcula a partir da issue do GitLab)
-  // - Se issue não tem assignees, manda {} pra limpar assignments antigos
-  // - Se tem, resolve no Azure AD e popula
+  // - Só inclui assignments no payload se a issue tiver assignees E foram resolvidos
+  // - Quando resolveAssignments retorna null (lookup desabilitado ou vazio),
+  //   NÃO envia o campo pra preservar assignments existentes no Planner
   try {
     const assignments = await resolveAssignments(issue);
-    patchBody.assignments = assignments || {};
+    if (assignments) {
+      patchBody.assignments = assignments;
+    }
+    // Se assignments === null, não toca no campo — preserva o que tá na task
   } catch (err) {
-    console.warn(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid} no update: ${err.message} — mantendo assignments existentes`);
+    logErr(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid} no update: ${err.message} — mantendo assignments existentes`);
   }
 
-  console.log(`[syncGitLabPlanner] PATCH /planner/tasks/${taskId} payload: ${JSON.stringify(patchBody, null, 2)}`);
+  log(`[syncGitLabPlanner] PATCH /planner/tasks/${taskId} payload: ${JSON.stringify(patchBody, null, 2)}`);
 
   let updated;
   try {
@@ -319,15 +329,15 @@ async function updatePlannerTask(taskId, issue, newBucketId, currentEtag) {
       .patch(patchBody);
   } catch (err) {
     const graphError = err && (err.body || err.statusCode || err.message);
-    console.error(`[syncGitLabPlanner] PATCH /planner/tasks/${taskId} FALHOU (issue #${issue.iid}):`);
-    console.error(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
-    console.error(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
-    console.error(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
-    console.error(`[syncGitLabPlanner]   message: ${err.message}`);
+    logErr(`[syncGitLabPlanner] PATCH /planner/tasks/${taskId} FALHOU (issue #${issue.iid}):`);
+    logErr(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
+    logErr(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
+    logErr(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
+    logErr(`[syncGitLabPlanner]   message: ${err.message}`);
     throw err;
   }
 
-  console.log(`[syncGitLabPlanner] Task atualizada: ${taskId}`);
+  log(`[syncGitLabPlanner] Task atualizada: ${taskId}`);
 
   // Atualiza descrição
   await updateTaskDetails(taskId, issue, updated["@odata.etag"]);
@@ -502,7 +512,8 @@ async function syncIssue(issue, context) {
       existingMapping.plannerTaskId,
       issue,
       newBucketId,
-      etag
+      etag,
+      context
     );
 
     // Atualiza mapping
@@ -521,7 +532,7 @@ async function syncIssue(issue, context) {
     // ── CRIAR task nova ──────────────────────────────────────────────────────
     context.log(`[syncGitLabPlanner] Criando nova task no Planner`);
 
-    result = await createPlannerTask(issue, bucket.id);
+    result = await createPlannerTask(issue, bucket.id, context);
 
     // Salva mapping
     await saveMapping({
