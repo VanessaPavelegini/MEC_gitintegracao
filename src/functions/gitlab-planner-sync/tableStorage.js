@@ -235,6 +235,7 @@ module.exports = {
   getCachedBuckets,
   clearBucketsCache,
   getOrCreateBucket,
+  getAccessToken,
   TABLE_NAME,
   ENTITY_SET,
 };
