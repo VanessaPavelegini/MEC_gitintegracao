@@ -203,47 +203,44 @@ async function createPlannerTask(issue, bucketId, context) {
   const log = context ? context.log : console.log;
   const logErr = context ? context.error : console.error;
 
+  // Payload MINIMO: Planner só aceita esses campos no POST /planner/tasks.
+  // percentComplete, dueDateTime, assignments, priority só podem ser definidos via PATCH depois.
   const taskBody = {
     planId: PLANNER_PLAN_ID,
     bucketId: bucketId,
     title: `[#${issue.iid}] ${issue.title}`.substring(0, 500),
   };
 
-  // Due date
-  if (issue.due_date) {
-    taskBody.dueDateTime = `${issue.due_date}T00:00:00Z`;
-  }
-
-  // Percentual - 0% para issues abertas
-  taskBody.percentComplete = issue.state === "closed" ? 100 : 0;
-
-  // Assignees (lookup Azure AD via UPN)
-  try {
-    const assignments = await resolveAssignments(issue);
-    if (assignments) {
-      taskBody.assignments = assignments;
-    }
-  } catch (err) {
-    logErr(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid}: ${err.message} — criando task sem assignee`);
-  }
-
-  log(`[syncGitLabPlanner] POST /planner/tasks payload: ${JSON.stringify(taskBody, null, 2)}`);
+  log(`[syncGitLabPlanner] POST /planner/tasks payload: ${JSON.stringify(taskBody)}`);
 
   let created;
   try {
     created = await client.api("/planner/tasks").post(taskBody);
   } catch (err) {
-    // Log detalhado do erro do Graph pra debug
     const graphError = err && (err.body || err.statusCode || err.message);
-    logErr(`[syncGitLabPlanner] POST /planner/tasks FALHOU (issue #${issue.iid}):`);
-    logErr(`[syncGitLabPlanner]   statusCode: ${err.statusCode || "?"}`);
-    logErr(`[syncGitLabPlanner]   code: ${err.code || "?"}`);
-    logErr(`[syncGitLabPlanner]   body: ${typeof graphError === "string" ? graphError : JSON.stringify(graphError)}`);
-    logErr(`[syncGitLabPlanner]   message: ${err.message}`);
+    logErr(`[syncGitLabPlanner] POST /planner/tasks FALHOU (issue #${issue.iid}): statusCode=${err.statusCode || "?"} code=${err.code || "?"} body=${typeof graphError === "string" ? graphError : JSON.stringify(graphError)} msg=${err.message}`);
     throw err;
   }
 
   log(`[syncGitLabPlanner] Task criada: ${created.id}`);
+
+  // Atualiza campos opcionais via PATCH separado (percentComplete, dueDateTime, assignments)
+  const patchBody = {};
+  if (issue.due_date) {
+    patchBody.dueDateTime = `${issue.due_date}T00:00:00Z`;
+  }
+  patchBody.percentComplete = issue.state === "closed" ? 100 : 0;
+
+  if (Object.keys(patchBody).length > 0) {
+    try {
+      await client
+        .api(`/planner/tasks/${created.id}`)
+        .header("If-Match", created["@odata.etag"])
+        .patch(patchBody);
+    } catch (err) {
+      logErr(`[syncGitLabPlanner] PATCH campos opcionais FALHOU (issue #${issue.iid}): ${err.message} — continuando`);
+    }
+  }
 
   // Adiciona descrição e detalhes
   if (created.id) {
