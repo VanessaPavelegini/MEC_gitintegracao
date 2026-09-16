@@ -80,11 +80,14 @@ async function getPlanBuckets(planId) {
   const now = Date.now();
 
   if (_bucketsCache && _bucketsCache.planId === planId && (now - _bucketsCacheTime) < BUCKET_CACHE_TTL_MS) {
+    console.log(`[syncGitLabPlanner] getPlanBuckets: cache hit (${_bucketsCache.buckets.length} buckets)`);
     return _bucketsCache.buckets;
   }
 
+  console.log(`[syncGitLabPlanner] getPlanBuckets: chamando Graph /planner/plans/${planId}/buckets...`);
   const client = getGraphClient();
   const resp = await client.api(`/planner/plans/${planId}/buckets`).get();
+  console.log(`[syncGitLabPlanner] getPlanBuckets: retorno type=${typeof resp} value=${resp && resp.value ? resp.value.length : "?"}`);
   const buckets = resp.value || [];
 
   _bucketsCache = { planId, buckets };
@@ -199,9 +202,10 @@ async function resolveAssignments(issue) {
  * @returns {Promise<object>}
  */
 async function createPlannerTask(issue, bucketId, context) {
-  const client = getGraphClient();
   const log = context ? context.log : console.log;
   const logErr = context ? context.error : console.error;
+
+  log(`[syncGitLabPlanner] createPlannerTask: iniciando para issue #${issue.iid}`);
 
   // Payload MINIMO: Planner só aceita esses campos no POST /planner/tasks.
   // percentComplete, dueDateTime, assignments, priority só podem ser definidos via PATCH depois.
@@ -213,9 +217,13 @@ async function createPlannerTask(issue, bucketId, context) {
 
   log(`[syncGitLabPlanner] POST /planner/tasks payload: ${JSON.stringify(taskBody)}`);
 
+  const client = getGraphClient();
+  log(`[syncGitLabPlanner] createPlannerTask: client obtido, chamando POST...`);
+
   let created;
   try {
     created = await client.api("/planner/tasks").post(taskBody);
+    log(`[syncGitLabPlanner] createPlannerTask: POST retornou type=${typeof created} keys=${created ? Object.keys(created).join(",") : "?"}`);
   } catch (err) {
     const graphError = err && (err.body || err.statusCode || err.message);
     logErr(`[syncGitLabPlanner] POST /planner/tasks FALHOU (issue #${issue.iid}): statusCode=${err.statusCode || "?"} code=${err.code || "?"} body=${typeof graphError === "string" ? graphError : JSON.stringify(graphError)} msg=${err.message}`);
