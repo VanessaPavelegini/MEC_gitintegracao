@@ -52,6 +52,7 @@ Para a function operar, o app registration precisa destas permissões com consen
 | API | Permissão | Usada em |
 |-----|-----------|----------|
 | Microsoft Graph | `Application.ReadWrite.All` ou `Sites.ReadWrite.All` | [src/shared/graphClient.js](src/shared/graphClient.js) |
+| Microsoft Graph | `User.Read.All` | [src/shared/azureAdUsers.js](src/shared/azureAdUsers.js) — lookup de assignees GitLab → Azure AD UPN |
 | Dynamics CRM | `user_impersonation` | [src/functions/gitlab-planner-sync/tableStorage.js](src/functions/gitlab-planner-sync/tableStorage.js) |
 | Microsoft Planner | Tasks.ReadWrite.All | [src/functions/gitlab-planner-sync/syncGitLabPlanner.js](src/functions/gitlab-planner-sync/syncGitLabPlanner.js) |
 

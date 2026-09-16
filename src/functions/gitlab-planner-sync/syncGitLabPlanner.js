@@ -16,10 +16,13 @@
 
 const { app } = require("@azure/functions");
 const { getGraphClient } = require("../../shared/graphClient");
-const { getMapping, saveMapping, deleteMapping, getOrCreateBucket } = require("./tableStorage");
+const { lookupUsersByUsernames } = require("../../shared/azureAdUsers");
+const { getMapping, saveMapping, deleteMapping, getOrCreateBucket, listMappings } = require("./tableStorage");
 const {
   getIssue,
   listIssues,
+  listIssueNotes,
+  extractHumanComments,
   getBoardLists,
   extractStatusLabel,
   mapLabelToBucket,
@@ -136,6 +139,51 @@ async function getBucketByLabels(planId, labels) {
   return ensureBucketExists(planId, bucketName);
 }
 
+// ─── Resolução de Assignees ───────────────────────────────────────────────────
+
+/**
+ * Resolve os assignees do GitLab para o formato `assignments` do Planner.
+ * - Lookup no Azure AD via UPN (username + @mec.gov.br)
+ * - Falha de lookup é silenciosa (warning), não bloqueia sync
+ * - Retorna `assignments` object pronto pro Graph, ou `null` se nenhum assignee foi resolvido
+ * @param {object} issue - Issue do GitLab com `assignees: [{ username, ... }, ...]`
+ * @returns {Promise<object|null>} - { "<azureUserId>": { "@odata.type": "...", orderHint: " !" } }
+ */
+async function resolveAssignments(issue) {
+  if (!issue.assignees || !Array.isArray(issue.assignees) || issue.assignees.length === 0) {
+    return null;
+  }
+
+  const usernames = issue.assignees.map(a => a.username).filter(Boolean);
+  if (usernames.length === 0) return null;
+
+  const resolved = await lookupUsersByUsernames(usernames);
+
+  const found = [];
+  const notFound = [];
+  const assignments = {};
+
+  for (const username of usernames) {
+    const user = resolved.get(username);
+    if (user) {
+      found.push(user.userPrincipalName);
+      assignments[user.id] = {
+        "@odata.type": "#microsoft.graph.plannerAssignment",
+        orderHint: " !",
+      };
+    } else {
+      notFound.push(username);
+    }
+  }
+
+  if (notFound.length > 0) {
+    console.warn(`[syncGitLabPlanner] Assignees não encontrados no Azure AD: ${notFound.join(", ")} (UPN tentado: ${notFound.map(u => `${u}@mec.gov.br`).join(", ")})`);
+  }
+  console.log(`[syncGitLabPlanner] Assignees resolvidos: ${found.length}/${usernames.length} (${found.join(", ") || "nenhum"})`);
+
+  return Object.keys(assignments).length > 0 ? assignments : null;
+}
+
 /**
  * Cria nova task no Planner
  * @param {object} issue - Dados da issue do GitLab
@@ -158,6 +206,16 @@ async function createPlannerTask(issue, bucketId) {
 
   // Percentual - 0% para issues abertas
   taskBody.percentComplete = issue.state === "closed" ? 100 : 0;
+
+  // Assignees (lookup Azure AD via UPN)
+  try {
+    const assignments = await resolveAssignments(issue);
+    if (assignments) {
+      taskBody.assignments = assignments;
+    }
+  } catch (err) {
+    console.warn(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid}: ${err.message} — criando task sem assignee`);
+  }
 
   const created = await client.api("/planner/tasks").post(taskBody);
   console.log(`[syncGitLabPlanner] Task criada: ${created.id}`);
@@ -219,6 +277,16 @@ async function updatePlannerTask(taskId, issue, newBucketId, currentEtag) {
     patchBody.dueDateTime = null;
   }
 
+  // Assignees (sempre recalcula a partir da issue do GitLab)
+  // - Se issue não tem assignees, manda {} pra limpar assignments antigos
+  // - Se tem, resolve no Azure AD e popula
+  try {
+    const assignments = await resolveAssignments(issue);
+    patchBody.assignments = assignments || {};
+  } catch (err) {
+    console.warn(`[syncGitLabPlanner] Falha ao resolver assignees da issue #${issue.iid} no update: ${err.message} — mantendo assignments existentes`);
+  }
+
   const updated = await client
     .api(`/planner/tasks/${taskId}`)
     .header("If-Match", currentEtag || "*")
@@ -235,9 +303,10 @@ async function updatePlannerTask(taskId, issue, newBucketId, currentEtag) {
 /**
  * Monta descrição da task com info do GitLab
  * @param {object} issue
+ * @param {Array} [comments] - Lista de comments humanos (vindo de extractHumanComments)
  * @returns {string}
  */
-function buildDescription(issue) {
+function buildDescription(issue, comments) {
   const lines = [
     `**GitLab Issue:** [#${issue.iid}](${issue.web_url || ""})`,
     `**Estado:** ${issue.state === "closed" ? "✅ Encerrada" : "🔄 Aberta"}`,
@@ -264,10 +333,77 @@ function buildDescription(issue) {
     lines.push("");
   }
 
+  // ── Seção de Comentários ───────────────────────────────────────────────────
+  lines.push("---");
+  lines.push("## Comentários do GitLab");
+  lines.push("");
+
+  if (comments && Array.isArray(comments) && comments.length > 0) {
+    comments.forEach((c) => {
+      lines.push(`**@${c.username}** · ${c.date}`);
+      lines.push("");
+      lines.push(c.body);
+      lines.push("");
+    });
+  } else {
+    lines.push("_Nenhum comentário ainda._");
+    lines.push("");
+  }
+
   lines.push("---");
   lines.push(`*Sincronizado do GitLab em ${new Date().toISOString()}*`);
 
   return lines.join("\n");
+}
+
+// ─── Comentários ──────────────────────────────────────────────────────────────
+
+/**
+ * Busca comments humanos no GitLab e atualiza a descrição da task no Planner
+ * - Falha NÃO quebra o fluxo principal (try/catch com warning)
+ * - Idempotente: sobrescreve a descrição inteira a cada chamada
+ * @param {object} issue - Issue do GitLab (com iid)
+ * @param {string} taskId - ID da task no Planner
+ * @param {string} etag - ETag atual dos details (ou undefined para usar "*")
+ * @param {object} context - Contexto de logging
+ */
+async function syncIssueComments(issue, taskId, etag, context) {
+  try {
+    context.log(`[syncGitLabPlanner] Buscando comentários da issue #${issue.iid}...`);
+
+    const rawNotes = await listIssueNotes(issue.iid);
+    const comments = extractHumanComments(rawNotes);
+
+    context.log(`[syncGitLabPlanner] ${comments.length} comentário(s) humano(s) encontrado(s) na issue #${issue.iid}`);
+
+    // Buscar etag atualizado dos details (necessário para PATCH)
+    const client = getGraphClient();
+    let currentDetailsEtag = etag;
+
+    if (!currentDetailsEtag) {
+      try {
+        const currentDetails = await client
+          .api(`/planner/tasks/${taskId}/details`)
+          .get();
+        currentDetailsEtag = currentDetails["@odata.etag"];
+      } catch (e) {
+        // Se não conseguir pegar etag, usa "*" (último recurso)
+        currentDetailsEtag = "*";
+      }
+    }
+
+    const description = buildDescription(issue, comments);
+
+    await client
+      .api(`/planner/tasks/${taskId}/details`)
+      .header("If-Match", currentDetailsEtag || "*")
+      .patch({ description });
+
+    context.log(`[syncGitLabPlanner] Descrição da task ${taskId} atualizada com ${comments.length} comentário(s)`);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    context.warn(`[syncGitLabPlanner] Falha ao sincronizar comentários da issue #${issue.iid}: ${msg} — continuando sem seção de comentários`);
+  }
 }
 
 // ─── Sincronização ────────────────────────────────────────────────────────────
@@ -342,6 +478,10 @@ async function syncIssue(issue, context) {
       issueData: issue,
     });
 
+    // Sincroniza comentários (não-bloqueante: erro aqui não quebra o fluxo)
+    const updatedEtag = result["@odata.etag"] || etag;
+    await syncIssueComments(issue, existingMapping.plannerTaskId, updatedEtag, context);
+
   } else {
     // ── CRIAR task nova ──────────────────────────────────────────────────────
     context.log(`[syncGitLabPlanner] Criando nova task no Planner`);
@@ -357,6 +497,9 @@ async function syncIssue(issue, context) {
     });
 
     context.log(`[syncGitLabPlanner] Task criada: ${result.id}`);
+
+    // Sincroniza comentários (não-bloqueante: erro aqui não quebra o fluxo)
+    await syncIssueComments(issue, result.id, result["@odata.etag"], context);
   }
 
   return {
@@ -401,7 +544,41 @@ async function handleWebhook(request, context) {
   const eventType = request.headers.get("x-gitlab-event") || event.object_kind || "unknown";
   context.log(`[syncGitLabPlanner] Event type: ${eventType}`);
 
-  // 4. Processa apenas eventos de issues
+  // 4. Note Hook (comentário em issue) — re-busca issue e sincroniza
+  if (eventType === "Note Hook" || event.object_kind === "note") {
+    const noteableType = event.object_attributes?.noteable_type;
+    const issueIid = event.issue?.iid || event.object_attributes?.noteable_iid;
+
+    if (noteableType !== "Issue" || !issueIid) {
+      context.log(`[syncGitLabPlanner] Note ignorado: noteable_type=${noteableType}, iid=${issueIid}`);
+      return {
+        status: 200,
+        jsonBody: { message: `Note em ${noteableType || "desconhecido"} ignorado` },
+      };
+    }
+
+    try {
+      const fullIssue = await getIssue(issueIid, GITLAB_PROJECT_ID);
+      context.log(`[syncGitLabPlanner] Note em issue #${issueIid} — re-sincronizando issue completa`);
+      const result = await syncIssue(fullIssue, context);
+      return {
+        status: 200,
+        jsonBody: {
+          message: `Comentário em issue #${issueIid} sincronizado`,
+          ...result,
+        },
+      };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      context.error(`[syncGitLabPlanner] Erro ao processar Note Hook: ${msg}`);
+      return {
+        status: 500,
+        jsonBody: { error: `Falha ao sincronizar comentário: ${msg}` },
+      };
+    }
+  }
+
+  // 5. Processa apenas eventos de issues
   if (eventType !== "Issue Hook" && event.object_kind !== "issue") {
     return {
       status: 200,
@@ -409,7 +586,7 @@ async function handleWebhook(request, context) {
     };
   }
 
-  // 5. Extrai dados da issue
+  // 6. Extrai dados da issue
   const issue = event.object_attributes || event;
 
   if (!issue.iid) {
@@ -419,7 +596,7 @@ async function handleWebhook(request, context) {
     };
   }
 
-  // 6. Executa sincronização
+  // 7. Executa sincronização
   try {
     const result = await syncIssue(issue, context);
     return {
@@ -590,6 +767,161 @@ async function handleBulkSync(request, context) {
   }
 }
 
+/**
+ * Handler para backfill de assignees em tasks já migradas.
+ * Lista todos os mappings em pmo_mapeamentoplanner, busca a issue correspondente no GitLab,
+ * resolve os assignees no Azure AD e faz PATCH na task do Planner.
+ *
+ * Idempotente — pode rodar várias vezes. Apenas o campo `assignments` é atualizado;
+ * título, bucket, descrição etc. permanecem intactos.
+ *
+ * GET /api/gitlab-planner-sync?backfill=true
+ *
+ * Query params opcionais:
+ *   - dryRun=true  → não faz PATCH, só simula e retorna o que seria feito
+ *   - limit=N      → processa no máximo N mappings (útil pra teste)
+ */
+async function handleBackfillAssignees(request, context) {
+  const dryRun = request.query.get("dryRun") === "true";
+  const limitParam = request.query.get("limit");
+  const limit = limitParam ? parseInt(limitParam, 10) : null;
+
+  context.log(`[syncGitLabPlanner] Backfill de assignees iniciado (dryRun=${dryRun}, limit=${limit || "nenhum"})`);
+
+  const results = {
+    total: 0,
+    updated: 0,
+    skipped: 0,
+    errors: 0,
+    assigneesNotFound: 0,
+    details: [],
+  };
+
+  try {
+    // 1. Lista todos os mappings de pmo_mapeamentoplanner
+    const mappings = await listMappings();
+    results.total = mappings.length;
+
+    // Filtra apenas os que têm plannerTaskId (descarta mappings de issues fechadas/excluídas)
+    const mappingsToProcess = mappings
+      .filter(m => m.pmo_plannertaskid)
+      .filter(m => {
+        if (limit && results.details.length + results.errors + results.skipped >= limit) return false;
+        return true;
+      });
+
+    context.log(`[syncGitLabPlanner] ${mappingsToProcess.length} mapping(s) com plannerTaskId para processar`);
+
+    // 2. Para cada mapping, busca issue no GitLab e atualiza assignee no Planner
+    for (const mapping of mappingsToProcess) {
+      const iid = mapping.pmo_gitlab_iid;
+      const taskId = mapping.pmo_plannertaskid;
+
+      try {
+        // Busca issue completa (com assignees atualizados)
+        const issue = await getIssue(iid, GITLAB_PROJECT_ID);
+
+        const assigneesGitLab = (issue.assignees || []).map(a => a.username).filter(Boolean);
+
+        if (assigneesGitLab.length === 0) {
+          // Issue sem assignees no GitLab — pula (não vamos limpar assignments manualmente)
+          results.skipped++;
+          results.details.push({ iid, action: "skipped", reason: "Sem assignees no GitLab" });
+          continue;
+        }
+
+        // Resolve assignees no Azure AD
+        const assignments = await resolveAssignments(issue);
+
+        if (!assignments) {
+          results.assigneesNotFound++;
+          results.details.push({
+            iid,
+            action: "skipped",
+            reason: "Nenhum assignee resolvido no Azure AD",
+            gitlabUsernames: assigneesGitlab,
+          });
+          continue;
+        }
+
+        if (dryRun) {
+          results.updated++;
+          results.details.push({
+            iid,
+            action: "would_update",
+            plannerTaskId: taskId,
+            gitlabUsernames: assigneesGitlab,
+            assignmentsCount: Object.keys(assignments).length,
+          });
+          continue;
+        }
+
+        // PATCH apenas do campo assignments (preserva bucket/title/etc.)
+        const client = getGraphClient();
+        const currentTask = await client.api(`/planner/tasks/${taskId}`).get();
+        const etag = currentTask["@odata.etag"];
+
+        await client
+          .api(`/planner/tasks/${taskId}`)
+          .header("If-Match", etag || "*")
+          .patch({ assignments });
+
+        results.updated++;
+        results.details.push({
+          iid,
+          action: "updated",
+          plannerTaskId: taskId,
+          gitlabUsernames: assigneesGitlab,
+          assignmentsCount: Object.keys(assignments).length,
+        });
+
+        context.log(`[syncGitLabPlanner] Backfill issue #${iid} (task ${taskId}): ${Object.keys(assignments).length} assignee(s) aplicado(s)`);
+      } catch (err) {
+        results.errors++;
+        const msg = err instanceof Error ? err.message : String(err);
+        context.error(`[syncGitLabPlanner] Erro no backfill da issue #${iid}: ${msg}`);
+        results.details.push({
+          iid,
+          action: "error",
+          error: msg,
+        });
+      }
+    }
+
+    context.log(`[syncGitLabPlanner] Backfill concluído: ${results.updated} atualizadas, ${results.skipped} sem assignees, ${results.assigneesNotFound} sem match Azure AD, ${results.errors} erros`);
+
+    return {
+      status: 200,
+      jsonBody: {
+        success: true,
+        message: `Backfill de assignees concluído${dryRun ? " (dry-run)" : ""}`,
+        summary: {
+          totalMappings: results.total,
+          processed: mappingsToProcess.length,
+          updated: results.updated,
+          skippedNoAssignees: results.skipped,
+          skippedNoAzureAdMatch: results.assigneesNotFound,
+          errors: results.errors,
+          dryRun,
+        },
+        details: results.details.slice(0, 50),
+        detailsCount: results.details.length,
+      },
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    context.error("[syncGitLabPlanner] Erro no backfill:", msg);
+
+    return {
+      status: 500,
+      jsonBody: {
+        error: `Erro no backfill de assignees: ${msg}`,
+        partialResults: results,
+      },
+    };
+  }
+}
+
 // ─── Azure Function Definition ────────────────────────────────────────────────
 
 app.http("syncGitLabPlanner", {
@@ -612,6 +944,11 @@ app.http("syncGitLabPlanner", {
             jsonBody: { error: "Function key inválida ou ausente" },
           };
         }
+      }
+
+      const isBackfill = request.query.get("backfill") === "true";
+      if (isBackfill) {
+        return handleBackfillAssignees(request, context);
       }
 
       const isBulk = request.query.get("bulk") === "true";
