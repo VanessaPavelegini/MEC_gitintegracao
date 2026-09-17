@@ -202,8 +202,13 @@ async function resolveAssignments(issue) {
  * @returns {Promise<object>}
  */
 async function createPlannerTask(issue, bucketId, context) {
-  const log = context ? context.log : console.log;
-  const logErr = context ? context.error : console.error;
+  // IMPORTANTE: NÃO fazer `const log = context.log` e depois `log(...)`.
+  // O `context.log` do @azure/functions v4 é um método que usa private fields
+  // da classe InvocationContext — extrair pra variável desvincula o `this` e
+  // dispara "Cannot read private member from an object whose class did not
+  // declare it". Sempre chamar `context.log(...)` direto.
+  const log = context ? context.log.bind(context) : (...args) => console.log(...args);
+  const logErr = context ? context.error.bind(context) : (...args) => console.error(...args);
 
   log(`[syncGitLabPlanner] createPlannerTask: iniciando para issue #${issue.iid}`);
 
@@ -290,8 +295,9 @@ async function updateTaskDetails(taskId, issue, etag) {
  */
 async function updatePlannerTask(taskId, issue, newBucketId, currentEtag, context) {
   const client = getGraphClient();
-  const log = context ? context.log : console.log;
-  const logErr = context ? context.error : console.error;
+  // Ver createPlannerTask acima: bind em vez de destructure solto.
+  const log = context ? context.log.bind(context) : (...args) => console.log(...args);
+  const logErr = context ? context.error.bind(context) : (...args) => console.error(...args);
 
   const patchBody = {
     title: `[#${issue.iid}] ${issue.title}`.substring(0, 500),
@@ -703,7 +709,16 @@ async function handleSyncRequest(request, context) {
     };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack : "(no stack)";
+    // O nosso graphClient setta err.body, mas axios puro (ex: tableStorage/Dataverse)
+    // setta err.response.data. Pega dos dois pra cobrir todos os caminhos.
+    const errBody = err.body || (err.response && err.response.data);
     context.error("[syncGitLabPlanner] Erro ao sincronizar:", msg);
+    context.error("[syncGitLabPlanner] STACK:", stack);
+    context.error("[syncGitLabPlanner] err.statusCode:", err.statusCode);
+    context.error("[syncGitLabPlanner] err.response.status:", err.response && err.response.status);
+    context.error("[syncGitLabPlanner] err.code:", err.code);
+    context.error("[syncGitLabPlanner] err.body:", JSON.stringify(errBody));
 
     // Erro 404 = issue não encontrada
     if (err.response?.status === 404) {
@@ -717,6 +732,10 @@ async function handleSyncRequest(request, context) {
       status: 500,
       jsonBody: {
         error: `Erro ao sincronizar issue #${iid}: ${msg}`,
+        stack,
+        graphStatusCode: err.statusCode || (err.response && err.response.status),
+        graphCode: err.code,
+        graphBody: errBody,
       },
     };
   }
@@ -741,6 +760,9 @@ async function handleBulkSync(request, context) {
     // Parâmetros opcionais
     const state = request.query.get("state") || "opened";
     const perPage = parseInt(request.query.get("per_page")) || 100;
+    const limitParam = request.query.get("limit");
+    const limit = limitParam ? parseInt(limitParam, 10) : null;
+    let processed = 0;
     let page = 1;
     let hasMore = true;
 
@@ -751,6 +773,13 @@ async function handleBulkSync(request, context) {
       results.total = issues.length;
 
       for (const issue of issues) {
+        if (limit && processed >= limit) {
+          context.log(`[syncGitLabPlanner] Limite de ${limit} atingido — parando`);
+          hasMore = false;
+          break;
+        }
+        processed++;
+
         try {
           const result = await syncIssue(issue, context);
 
@@ -774,19 +803,26 @@ async function handleBulkSync(request, context) {
           });
           context.error(`[syncGitLabPlanner] Erro na issue #${issue.iid}:`, msg);
         }
+
+        // Throttle pra não estourar rate limit do Graph (~10 req/s/tenant).
+        // Cada issue dispara ~5-7 chamadas (POST/PATCH Planner, GET/PATCH details, GET/POST/PATCH Dataverse).
+        // 400ms = ~15 issues/min → seguro e ainda rápido.
+        await new Promise(r => setTimeout(r, 400));
       }
 
       // GitLab retorna no máximo 100 por página
       // Para buscar mais, precisamos usar paginação (X-Next-Page header)
       if (issues.length < perPage) {
         hasMore = false;
-      } else {
+      } else if (!limit) {
         page++;
         if (page > 10) {
           // Limite de segurança: 1000 issues por execução
           context.warn("[syncGitLabPlanner] Limite de 10 páginas atingido");
           hasMore = false;
         }
+      } else {
+        hasMore = false;
       }
     }
 
@@ -816,6 +852,121 @@ async function handleBulkSync(request, context) {
       jsonBody: {
         error: `Erro na sincronização em massa: ${msg}`,
         partialResults: results,
+      },
+    };
+  }
+}
+
+/**
+ * Dry-run: lista issues abertas do GitLab, compara com mappings existentes no
+ * Dataverse e classifica cada uma como would_create / would_update / in_sync.
+ * NÃO faz POST no Planner nem POST/PATCH no Dataverse.
+ *
+ * GET /api/gitlab-planner-sync?dryRun=true&state=opened
+ */
+async function handleDryRun(request, context) {
+  const state = request.query.get("state") || "opened";
+  context.log(`[syncGitLabPlanner] Dry-run iniciado (state=${state})`);
+
+  const summary = {
+    would_create: 0,
+    would_update: 0,
+    in_sync: 0,
+    errors: 0,
+    issues_with_long_description: 0,
+  };
+  const details = [];
+
+  try {
+    const { listMappings } = require("./tableStorage");
+    const mappings = await listMappings();
+    const byIid = new Map(mappings.map(m => [Number(m.pmo_gitlab_iid), m]));
+
+    const issues = await listIssues({ state });
+    context.log(`[syncGitLabPlanner] Dry-run: ${issues.length} issues abertas no GitLab, ${mappings.length} mappings existentes`);
+
+    for (const issue of issues) {
+      try {
+        const mapping = byIid.get(Number(issue.iid));
+
+        if (!mapping) {
+          summary.would_create++;
+          const descLen = (issue.description || "").length;
+          if (descLen > 2000) summary.issues_with_long_description++;
+          details.push({
+            iid: issue.iid,
+            title: issue.title,
+            classification: "would_create",
+            reason: "sem mapping no Dataverse",
+            descLen,
+            willTruncateDescription: descLen > 2000,
+          });
+          continue;
+        }
+
+        const reasons = [];
+        const currentTitle = `[#${issue.iid}] ${issue.title}`.substring(0, 500);
+        const issueDesc = issue.description || "";
+        const issueLabels = Array.isArray(issue.labels) ? issue.labels.join(",") : (issue.labels || "");
+        const truncatedDesc = issueDesc.substring(0, 2000);
+
+        if (mapping.pmo_title !== currentTitle) reasons.push("title divergente");
+        if ((mapping.pmo_description || "") !== truncatedDesc) {
+          if (issueDesc.length > 2000) {
+            summary.issues_with_long_description++;
+            reasons.push(`description > 2000 chars (${issueDesc.length}) → será truncada`);
+          } else {
+            reasons.push("description divergente");
+          }
+        }
+        if ((mapping.pmo_issue_labels || "") !== issueLabels) reasons.push("labels divergentes");
+        if ((mapping.pmo_plannerbucketid || null) !== null) {
+          // bucket muda se label de status mudou; deixo como "check manual"
+        }
+
+        if (reasons.length > 0) {
+          summary.would_update++;
+          details.push({
+            iid: issue.iid,
+            plannerTaskId: mapping.pmo_plannertaskid,
+            title: issue.title,
+            classification: "would_update",
+            reason: reasons.join("; "),
+            descLen: issueDesc.length,
+          });
+        } else {
+          summary.in_sync++;
+        }
+      } catch (err) {
+        summary.errors++;
+        const msg = err instanceof Error ? err.message : String(err);
+        details.push({ iid: issue.iid, classification: "error", error: msg });
+        context.error(`[syncGitLabPlanner] Dry-run erro na issue #${issue.iid}:`, msg);
+      }
+    }
+
+    return {
+      status: 200,
+      jsonBody: {
+        success: true,
+        dryRun: true,
+        message: `Dry-run concluído — nenhuma alteração foi feita`,
+        summary: {
+          issues_analisadas: issues.length,
+          mappings_existentes: mappings.length,
+          ...summary,
+        },
+        details: details.slice(0, 100),
+        detailsCount: details.length,
+      },
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    context.error("[syncGitLabPlanner] Erro no dry-run:", msg);
+    return {
+      status: 500,
+      jsonBody: {
+        error: `Erro no dry-run: ${msg}`,
       },
     };
   }
@@ -998,6 +1149,11 @@ app.http("syncGitLabPlanner", {
             jsonBody: { error: "Function key inválida ou ausente" },
           };
         }
+      }
+
+      const isDryRun = request.query.get("dryRun") === "true";
+      if (isDryRun) {
+        return handleDryRun(request, context);
       }
 
       const isBackfill = request.query.get("backfill") === "true";

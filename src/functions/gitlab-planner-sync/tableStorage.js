@@ -107,8 +107,11 @@ async function saveMapping({ gitlabIid, plannerTaskId, plannerBucketId, issueDat
     // Campos customizados (precisam existir na tabela):
     pmo_gitlab_iid: Number(gitlabIid),
     pmo_gitlab_url: issueData?.webUrl || issueData?.web_url || "",
-    pmo_title: issueData?.title || "",
-    pmo_description: issueData?.description || "",
+    // Título com prefixo [#iid] igual ao que vai pro Planner (criação/update).
+    pmo_title: `[#${gitlabIid}] ${issueData?.title || ""}`.substring(0, 500),
+    // pmo_description no Dataverse é limitado a 2000 chars (validation 0x80044331).
+    // A description completa do GitLab vai pra Planner task description sem limite.
+    pmo_description: (issueData?.description || "").substring(0, 2000),
     pmo_issue_labels: Array.isArray(issueData?.labels) ? issueData.labels.join(",") : (issueData?.labels || ""),
   };
 
