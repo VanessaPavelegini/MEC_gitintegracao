@@ -108,7 +108,12 @@ async function saveMapping({ gitlabIid, plannerTaskId, plannerBucketId, issueDat
     pmo_gitlab_iid: Number(gitlabIid),
     pmo_gitlab_url: issueData?.webUrl || issueData?.web_url || "",
     // Título com prefixo [#iid] igual ao que vai pro Planner (criação/update).
-    pmo_title: `[#${gitlabIid}] ${issueData?.title || ""}`.substring(0, 500),
+    // Se o caller já passou o prefixo (caso da importação XLSX), não duplica.
+    pmo_title: (() => {
+      const t = (issueData?.title || "").trim();
+      const prefix = `[#${gitlabIid}]`;
+      return (t.startsWith(prefix) ? t : `${prefix} ${t}`).substring(0, 500);
+    })(),
     // pmo_description no Dataverse é limitado a 2000 chars (validation 0x80044331).
     // A description completa do GitLab vai pra Planner task description sem limite.
     pmo_description: (issueData?.description || "").substring(0, 2000),
@@ -198,6 +203,55 @@ async function listMappingsWithPlannerIds() {
   return mappings.filter(m => m.pmo_plannertaskid);
 }
 
+/**
+ * Deleta todos os mappings cujo pmo_plannerplanid == planId.
+ * Usado para limpar registros órfãos após migração de plano.
+ * Retorna { total, deleted, ids, errors }.
+ */
+async function deleteMappingsByPlanId(planId) {
+  if (!planId) throw new Error("planId é obrigatório");
+
+  const client = await getDataverseClient();
+  const escaped = String(planId).replace(/'/g, "''");
+  const filter = `pmo_plannerplanid eq '${escaped}'`;
+
+  let total = 0;
+  let nextUrl = `/${ENTITY_SET}?$filter=${encodeURIComponent(filter)}&$top=5000&$count=true`;
+  const records = [];
+
+  // Paginação
+  while (nextUrl) {
+    const resp = await client.get(nextUrl);
+    if (Array.isArray(resp.data.value)) records.push(...resp.data.value);
+    nextUrl = resp.data["@odata.nextLink"]
+      ? resp.data["@odata.nextLink"].replace(client.defaults.baseURL, "")
+      : null;
+  }
+  total = records.length;
+
+  let deleted = 0;
+  const ids = [];
+  const errors = [];
+
+  for (const r of records) {
+    const id = r.pmo_mapeamentoplannerid;
+    try {
+      await client.delete(`/${ENTITY_SET}(${id})`);
+      ids.push(id);
+      deleted++;
+      if (deleted % 10 === 0 || deleted === total) {
+        console.log(`[tableStorage] deleteMappingsByPlanId: ${deleted}/${total}`);
+      }
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      errors.push({ id, message: msg });
+      console.error(`[tableStorage] deleteMappingsByPlanId: erro ao deletar ${id}: ${msg}`);
+    }
+  }
+
+  return { total, deleted, ids, errors };
+}
+
 // ─── Cache de Buckets ─────────────────────────────────────────────────────────
 
 async function getCachedBuckets(planId, fetchFn) {
@@ -248,10 +302,12 @@ module.exports = {
   deleteMapping,
   listMappings,
   listMappingsWithPlannerIds,
+  deleteMappingsByPlanId,
   getCachedBuckets,
   clearBucketsCache,
   getOrCreateBucket,
   getAccessToken,
+  getDataverseClient,
   TABLE_NAME,
   ENTITY_SET,
 };

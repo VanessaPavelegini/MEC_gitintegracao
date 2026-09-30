@@ -74,8 +74,12 @@ async function listIssues(filters = {}) {
 
   const params = {
     state: filters.state || "opened",
-    per_page: 100,
+    per_page: filters.per_page || 100,
   };
+
+  if (filters.page) {
+    params.page = filters.page;
+  }
 
   if (filters.labels) {
     params.labels = Array.isArray(filters.labels) ? filters.labels.join(",") : filters.labels;

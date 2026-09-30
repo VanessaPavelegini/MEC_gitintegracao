@@ -95,7 +95,7 @@ async function checkPlanner() {
     return {
       ok: true,
       planId,
-      planTitle: r.data.title,
+      planTitle: r.title,
     };
   } catch (err) {
     return {

@@ -31,7 +31,9 @@ const {
 
 // ─── Configurações ─────────────────────────────────────────────────────────────
 
-const PLANNER_PLAN_ID = process.env.PLANNER_PLAN_ID || "V6eQb5zdBkWHqIzlDh68o2UACro8";
+const PLANNER_PLAN_ID = process.env.PLANNER_PLAN_ID || "";
+// PLANNER_PLAN_ID é obrigatório — o handler aborta cedo se vazio (ver handler principal).
+// Não há fallback hardcoded: um planId incorreto aqui geraria tasks no plano errado.
 const GITLAB_WEBHOOK_SECRET = process.env.GITLAB_WEBHOOK_SECRET;
 const FUNCTION_KEY = process.env.FUNCTION_KEY;
 const BUCKET_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
@@ -882,8 +884,26 @@ async function handleDryRun(request, context) {
     const mappings = await listMappings();
     const byIid = new Map(mappings.map(m => [Number(m.pmo_gitlab_iid), m]));
 
-    const issues = await listIssues({ state });
-    context.log(`[syncGitLabPlanner] Dry-run: ${issues.length} issues abertas no GitLab, ${mappings.length} mappings existentes`);
+    // Paginação: o GitLab limita a 100 por página; sem paginar,
+    // as issues com iid baixo (mais antigas) ficam fora do dry-run.
+    // GitLab issues API não suporta sort por iid — só updated_at — então
+    // sem paginação o dry-run só vê o "topo" (iids mais recentes).
+    const PER_PAGE = 100;
+    const MAX_PAGES = 10;
+    const issues = [];
+    let page = 1;
+    let hasMore = true;
+    while (hasMore) {
+      context.log(`[syncGitLabPlanner] Dry-run: buscando página ${page}...`);
+      const pageIssues = await listIssues({ state, page, per_page: PER_PAGE });
+      issues.push(...pageIssues);
+      if (pageIssues.length < PER_PAGE || page >= MAX_PAGES) {
+        hasMore = false;
+      } else {
+        page++;
+      }
+    }
+    context.log(`[syncGitLabPlanner] Dry-run: ${issues.length} issues abertas (${page} página(s))`);
 
     for (const issue of issues) {
       try {
@@ -1134,6 +1154,14 @@ app.http("syncGitLabPlanner", {
   authLevel: "anonymous",
   route: "gitlab-planner-sync",
   handler: async (request, context) => {
+    if (!PLANNER_PLAN_ID) {
+      context.error("[syncGitLabPlanner] PLANNER_PLAN_ID não configurado em local.settings.json / Azure App Settings");
+      return {
+        status: 500,
+        jsonBody: { error: "PLANNER_PLAN_ID não configurado" },
+      };
+    }
+
     try {
       if (request.method === "POST") {
         return handleWebhook(request, context);
