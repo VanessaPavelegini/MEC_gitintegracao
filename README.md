@@ -28,7 +28,7 @@ Microsoft Planner (cria/atualiza tasks)
 - **Board ID:** `92`
 
 ### 4. Plano Planner
-- **Plan ID:** `V6eQb5zdBkWHqIzlDh68o2UACro8`
+- **Plan ID:** `hIjg2ZZaY0mWB5gpuJFMZmUABFNv` (AutomaçãoProcessosClassic)
 
 ## Endpoints da Function
 
@@ -46,7 +46,7 @@ Microsoft Planner (cria/atualiza tasks)
 | `AZURE_CLIENT_ID` | `18fb3c07-66df-40a0-86d6-5d2d84dea60f` |
 | `AZURE_CLIENT_SECRET` | `<seu-secret-aqui>` |
 | `DATAVERSE_URL` | `https://org41ecace2.crm2.dynamics.com` |
-| `PLANNER_PLAN_ID` | `V6eQb5zdBkWHqIzlDh68o2UACro8` |
+| `PLANNER_PLAN_ID` | `hIjg2ZZaY0mWB5gpuJFMZmUABFNv` |
 | `GITLAB_URL` | `https://gitlabbuilder.mec.gov.br` |
 | `GITLAB_TOKEN` | `<seu-token-aqui>` |
 | `GITLAB_PROJECT_ID` | `doc-sis/documentacao-novosistec2` |

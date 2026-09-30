@@ -85,10 +85,10 @@ O app registration usado em `AZURE_CLIENT_ID` precisa ter permissão **`Dynamics
 
 ### 3.1 Verificar Plan ID
 
-O Plan ID já está configurado: `V6eQb5zdBkWHqIzlDh68o2UACro8`
+O Plan ID já está configurado: `hIjg2ZZaY0mWB5gpuJFMZmUABFNv`
 
 Para verificar:
-1. Acesse: `https://planner.cloud.microsoft/webui/plan/V6eQb5zdBkWHqIzlDh68o2UACro8`
+1. Acesse: `https://planner.cloud.microsoft/webui/plan/hIjg2ZZaY0mWB5gpuJFMZmUABFNv`
 2. Confirme que é o plano correto
 
 ### 3.2 Buckets que serão criados automaticamente
@@ -122,7 +122,7 @@ Trecho relevante para o fluxo GitLab → Planner:
     "AZURE_CLIENT_ID": "<seu-client-id>",
     "AZURE_CLIENT_SECRET": "<cole-seu-client-secret-aqui>",
     "DATAVERSE_URL": "<url-do-seu-ambiente-dataverse>",
-    "PLANNER_PLAN_ID": "V6eQb5zdBkWHqIzlDh68o2UACro8",
+    "PLANNER_PLAN_ID": "hIjg2ZZaY0mWB5gpuJFMZmUABFNv",
     "GITLAB_URL": "https://gitlabbuilder.mec.gov.br",
     "GITLAB_TOKEN": "<cole-seu-gitlab-token-aqui>",
     "GITLAB_USER_AGENT": "<seu-user-agent-corporativo>",
