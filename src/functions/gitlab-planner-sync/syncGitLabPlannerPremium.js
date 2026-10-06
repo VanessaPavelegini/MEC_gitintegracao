@@ -68,6 +68,24 @@ const BUCKET_MAP_GUIDS = {
 
 const BUCKET_DEFAULT_GUID = BUCKET_MAP_GUIDS.backlog;
 
+// Labels que NÃO devem gerar/atualizar task no Planner. Quando uma issue
+// traz uma dessas labels, o handler responde 200 skipped sem chamar o PA.
+// Hoje: HUs canceladas — não vale a pena poluir o Planner com elas.
+const SKIP_LABELS = new Set([
+  "hu cancelada",
+  "hu canceladas",
+  "cancelada",
+  "cancelado",
+]);
+
+function hasSkipLabel(labels) {
+  if (!labels || !Array.isArray(labels)) return false;
+  for (const label of labels) {
+    if (SKIP_LABELS.has(normalizeLabel(labelToString(label)))) return true;
+  }
+  return false;
+}
+
 // ─── Validação do Webhook ──────────────────────────────────────────────────────
 
 function validateGitLabToken(request) {
@@ -235,6 +253,16 @@ app.http("syncGitLabPlannerPremium", {
     const iid = issue.iid;
     if (!iid) {
       return { status: 400, jsonBody: { error: "issue.iid missing" } };
+    }
+
+    // HUs canceladas não viram task no Planner. Loga e sai cedo.
+    if (hasSkipLabel(issue.labels)) {
+      const skipLabel = issue.labels.find(l => SKIP_LABELS.has(normalizeLabel(labelToString(l))));
+      context.log(`[syncGitLabPlannerPremium] ignorando issue #${iid} (label skip: ${labelToString(skipLabel)})`);
+      return {
+        status: 200,
+        jsonBody: { ok: true, skipped: true, reason: `label '${labelToString(skipLabel)}' marcada como skip` },
+      };
     }
 
     // 4. Transforma payload
