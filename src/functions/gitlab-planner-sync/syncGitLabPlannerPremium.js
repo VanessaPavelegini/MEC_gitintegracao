@@ -172,7 +172,9 @@ function gitlabIssueToPlannerTask(issue) {
     description: (issue.description || "").substring(0, 10000),
     labels,
     webUrl: issue.web_url,
-    iid: issue.iid,
+    // iid do GitLab vem como número no payload; schema do Power Automate
+    // espera string. Coerce aqui pra evitar TriggerInputSchemaMismatch.
+    iid: String(issue.iid),
     projectId: PROJECT_ID,
   };
 }
