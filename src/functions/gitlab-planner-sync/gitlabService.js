@@ -146,7 +146,12 @@ async function getProjectLabels() {
  * @returns {string}
  */
 function normalizeLabel(label) {
-  return (label || "").toLowerCase().trim()
+  // GitLab webhook manda labels como objetos { title, id, color, ... }.
+  // Aceita string ou objeto pra cobrir os dois formatos sem quebrar callers antigos.
+  const str = (typeof label === "object" && label !== null)
+    ? (label.title || label.name || "")
+    : (label || "");
+  return str.toLowerCase().trim()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9\s-]/g, "");
