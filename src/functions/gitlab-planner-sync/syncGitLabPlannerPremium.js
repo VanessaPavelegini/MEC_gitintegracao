@@ -229,7 +229,9 @@ app.http("syncGitLabPlannerPremium", {
       };
     }
 
-    const issue = body.issue || {};
+    // GitLab webhook põe a issue em object_attributes (ou em .issue no payload
+    // do Note Hook). Aceita os dois pra ser tolerante.
+    const issue = body.object_attributes || body.issue || {};
     const iid = issue.iid;
     if (!iid) {
       return { status: 400, jsonBody: { error: "issue.iid missing" } };
