@@ -52,17 +52,21 @@ Se `bucketId` não vier, a Function resolve pelo nome (`Bucket 1`).
 
 ### Por que o cursor é opaco
 
-O `nextCursor` é um base64url com o número da página. O flow só repassa o valor
-recebido — não precisa entender o formato. Quando o GitLab não devolve mais
-páginas, a Function responde `nextCursor: null` e o laço termina.
+O `nextCursor` é um base64url com a página e a **fase** (`{"page":N,"phase":"opened"}`
+ou `{"page":1,"phase":"closed"}`). O flow só repassa o valor recebido — não precisa
+entender o formato. A fase `opened` percorre as issues abertas (cria/atualiza as
+tasks); quando ela acaba, a Function devolve o cursor da fase `closed`, que só
+completa com 100% as tasks de issues que já existem (nunca cria task nova para
+issue fechada). Quando não há mais nada, a Function responde `nextCursor: null` e o
+laço termina.
 
 ### Laço infinito?
 
-A cada chamada a Function consome uma página do GitLab (100 issues). São ~8
-iterações para as ~720 issues. Se a Function falhar, o `nextCursor` não muda e o
-flow repetiria a mesma página: por isso **ative "Repetir" com tentativas = 3 e
-exceção após isso** nas configurações do Until, e trate erro com um *Terminate* /
-*Scope* de erro.
+A cada chamada a Function consome uma página do GitLab (100 issues). São **9
+iterações** para as 811 issues do projeto (722 abertas + 89 fechadas). Se a
+Function falhar, o `nextCursor` não muda e o flow repetiria a mesma página: por
+isso **ative "Repetir" com tentativas = 3 e exceção após isso** nas configurações
+do Until, e trate erro com um *Terminate* / *Scope* de erro.
 
 ---
 
