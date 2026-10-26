@@ -53,7 +53,7 @@ function fakeMapping(existing = []) {
   };
 }
 
-function fakePremium(taskIds = {}) {
+function fakePremium(taskIds = {}, existingSubjects = {}) {
   const calls = [];
   let setSeq = 0;
   return {
@@ -75,8 +75,14 @@ function fakePremium(taskIds = {}) {
     discardOperationSet: async ({ operationSetId }) => {
       calls.push({ op: "discard", operationSetId });
     },
-    findTaskIdsBySubjects: async ({ subjects }) => {
+    // onlyExisting = consulta ANTES de criar (o que já existe no plano);
+    // sem o flag = lookup depois de criar (id da task recém-criada).
+    findTaskIdsBySubjects: async ({ subjects, onlyExisting }) => {
       const map = {};
+      if (onlyExisting) {
+        for (const s of subjects) if (existingSubjects[s]) map[s] = existingSubjects[s];
+        return map;
+      }
       for (const s of subjects) map[s] = taskIds[s] || `task-for-${s}`;
       return map;
     },
@@ -371,4 +377,31 @@ test("syncPage na fase fechada não aplica o filtro de label de cancelamento", a
 
   assert.equal(result.updated, 1);
   assert.equal(result.skipped, 0);
+});
+
+test("syncPage adota task existente com o mesmo assunto em vez de criar duplicata", async () => {
+  const gitlab = fakeGitLab([issue(1), issue(2)]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium({}, { "[#1] Issue 1": "task-orfa" });
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.equal(result.created, 2);
+
+  const created = premium.calls.filter((c) => c.op === "queueCreate");
+  assert.equal(created.length, 1);
+  assert.equal(created[0].entities.length, 1);
+  assert.equal(created[0].entities[0].msdyn_subject, "[#2] Issue 2");
+
+  const updated = premium.calls.find((c) => c.op === "queueUpdate");
+  assert.ok(updated, "a task orfa deve ser atualizada com o conteudo atual");
+  assert.equal(updated.entities[0].msdyn_projecttaskid, "task-orfa");
+
+  assert.equal(mapping.saved.length, 2);
+  const orfa = mapping.saved.find((s) => s.gitlabIid === 1);
+  assert.equal(orfa.plannerTaskId, "task-orfa");
 });

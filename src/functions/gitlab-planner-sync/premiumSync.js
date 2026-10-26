@@ -170,37 +170,77 @@ async function applyBatch({
   hasUpdatedAtColumn,
   result,
 }) {
-  const description = `Sync GitLab → Planner Premium (${mode}) — ${items.length} task(s) — plano ${planId}`;
-  const setId = await premium.createOperationSet({
-    projectId: planId,
-    description,
-    token,
-    baseUrl: orgUrl,
-    fetchImpl,
-  });
+  // Roda um operation set (create ou update) e o descarta em seguida — a cota
+  // do Premium é de 10 sets vivos por usuário.
+  async function runSet(setItems, setMode) {
+    const description = `Sync GitLab → Planner Premium (${setMode}) — ${setItems.length} task(s) — plano ${planId}`;
+    const setId = await premium.createOperationSet({
+      projectId: planId,
+      description,
+      token,
+      baseUrl: orgUrl,
+      fetchImpl,
+    });
 
-  try {
-    const entities = items.map((item) => item.entity);
-    if (mode === "create") {
-      await premium.queueCreateTasks({ operationSetId: setId, entities, token, baseUrl: orgUrl, fetchImpl });
-    } else {
-      await premium.queueUpdateTasks({ operationSetId: setId, entities, token, baseUrl: orgUrl, fetchImpl });
-    }
-    await premium.executeOperationSet({ operationSetId: setId, token, baseUrl: orgUrl, fetchImpl });
-  } catch (e) {
-    // Set com pendências: descarta pra não estourar a cota de 10 sets vivos.
     try {
-      await premium.discardOperationSet({ operationSetId: setId, token, baseUrl: orgUrl, fetchImpl });
-    } catch { /* best effort */ }
-    throw e;
+      const entities = setItems.map((item) => item.entity);
+      if (setMode === "create") {
+        await premium.queueCreateTasks({ operationSetId: setId, entities, token, baseUrl: orgUrl, fetchImpl });
+      } else {
+        await premium.queueUpdateTasks({ operationSetId: setId, entities, token, baseUrl: orgUrl, fetchImpl });
+      }
+      await premium.executeOperationSet({ operationSetId: setId, token, baseUrl: orgUrl, fetchImpl });
+    } catch (e) {
+      // Set com pendências: descarta pra não estourar a cota de 10 sets vivos.
+      try {
+        await premium.discardOperationSet({ operationSetId: setId, token, baseUrl: orgUrl, fetchImpl });
+      } catch { /* best effort */ }
+      throw e;
+    }
+
+    await premium.discardOperationSet({ operationSetId: setId, token, baseUrl: orgUrl, fetchImpl });
   }
 
-  await premium.discardOperationSet({ operationSetId: setId, token, baseUrl: orgUrl, fetchImpl });
-
-  // Descobre o id das tasks criadas (por assunto) — só faz sentido para criação.
-  let taskIds = {};
+  // Na criação, primeiro pergunta o que JÁ existe no plano. Uma task órfã
+  // (criada numa rodada que morreu antes de gravar o mapping) é adotada em
+  // vez de virada duplicata — e seu conteúdo é atualizado com o da issue.
+  let toCreate = [];
+  const adopted = [];
   if (mode === "create") {
     const subjects = items.map((item) => item.entity.msdyn_subject);
+    const alreadyThere = await premium.findTaskIdsBySubjects({
+      projectId: planId, subjects, token, baseUrl: orgUrl, fetchImpl, onlyExisting: true,
+    });
+    toCreate = [];
+    for (const item of items) {
+      const found = alreadyThere?.[item.entity.msdyn_subject];
+      if (found) {
+        adopted.push({
+          issue: item.issue,
+          entity: require("./premiumDataverse").buildUpdateEntity({
+            issue: item.issue,
+            projectId: planId,
+            bucketId,
+            taskId: found,
+          }),
+          existingTaskId: found,
+        });
+      } else {
+        toCreate.push(item);
+      }
+    }
+  }
+
+  let taskIds = {};
+  if (mode !== "create") {
+    await runSet(items, "update");
+  }
+
+  if (toCreate.length > 0) {
+    await runSet(toCreate, "create");
+
+    // Descobre o id das tasks criadas (por assunto).
+    const subjects = toCreate.map((item) => item.entity.msdyn_subject);
     const pending = new Set(subjects);
     for (let attempt = 0; attempt < 3 && pending.size > 0; attempt++) {
       const found = await premium.findTaskIdsBySubjects({ projectId: planId, subjects: [...pending], token, baseUrl: orgUrl, fetchImpl });
@@ -216,8 +256,13 @@ async function applyBatch({
     }
   }
 
-  for (const { issue, entity, existingTaskId } of items) {
-    const taskId = mode === "update" ? existingTaskId : taskIds[entity.msdyn_subject];
+  if (adopted.length > 0) {
+    await runSet(adopted, "update");
+  }
+
+  const toSave = mode === "create" ? [...toCreate, ...adopted] : items;
+  for (const { issue, entity, existingTaskId } of toSave) {
+    const taskId = existingTaskId || taskIds[entity.msdyn_subject];
     if (!taskId) {
       result.errors.push({
         iid: issue.iid,
