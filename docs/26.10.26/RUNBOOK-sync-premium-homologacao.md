@@ -98,6 +98,13 @@ Repita o passo 4. O diff (`pmo_gitlab_updatedat`, ou `pmo_dataultimasincronizaca
 enquanto a coluna nova não existir) faz o sync não recriar task nenhuma: o
 resultado esperado é `created: 0`, `updated: N` (só o que mudou no GitLab).
 
+Se uma rodada anterior tiver criado as tasks e **morreu antes de gravar o
+mapping** (timeout do HTTP, rede caiu), a rodada seguinte não duplica: ela
+pergunta o que já existe no plano, adota a task com o mesmo assunto e grava o
+mapping com o id existente. Nesse caso o contador `created` ainda conta a issue
+(ela não tinha task antes), mas nenhuma task nova é criada no Planner — confira
+o plano para ter certeza.
+
 ## 7. Criar o flow do Power Automate
 
 Blueprint passo a passo em

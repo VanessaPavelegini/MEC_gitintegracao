@@ -1,0 +1,3202 @@
+[
+  {
+    "iid": 660,
+    "title": "[#660] HU0477 - [Curso] Editar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "052_TG5XB0iJOiple76IV2UALfA4",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:13.2771466Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 661,
+    "title": "[#661] HU0478 - [Curso] Exportar Especializações Técnicas do CNCT em CSV / Inclusão de CBO",
+    "taskId": "GhW1IW6vCk2Ggn31nzcvhGUALbzL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:12.0921024Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 662,
+    "title": "[#662] HU0479 - [Curso] Editar Curso Técnico do Catálogo - CNCT",
+    "taskId": "ac2G_xfo5UOj0Fplm65cTWUANaS1",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:11.0572929Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 663,
+    "title": "[#663] HU0480 - [Curso] Editar Curso Técnico Experimental",
+    "taskId": "dzOVED5syECm7w98fImuHWUAAwGt",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:10.0242041Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 664,
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "taskId": "1qbQ2HCa0UOE3lSoikAb42UAIhNt",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:08.9548303Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 666,
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso Técnico",
+    "taskId": "82jbOd_G2UeK9Itp8_gTWmUAIati",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:07.9465723Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 667,
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso Técnico",
+    "taskId": "nRxXTejrj0CHewsDf4tPpmUAOEEP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:06.919903Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 668,
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "taskId": "UkXJ1IHrYkiKKNt7uHCcSGUAIW_S",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:05.8977498Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 669,
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "taskId": "Yqs4eM-tnky6z_yvHDeAwmUAKzKn",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:04.8618717Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 670,
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso Técnico",
+    "taskId": "0KzELqnQRk2SUm8VbDkkamUAGtZB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:03.7977186Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 671,
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclusão de CBO",
+    "taskId": "Tt21O-k3IUK8vvQplxnJO2UANH-A",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:02.7635818Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 672,
+    "title": "[#672] HU0489 - [Curso] Visualizar Certificação Intermediária no CNCT / Inclusão de CBO",
+    "taskId": "FQxX9utagku2WYZaCOJIemUAEgPy",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:01.7549854Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 673,
+    "title": "[#673] HU0490 - [Curso] Visualizar Especialização Técnica no CNCT / Inclusão de CBO",
+    "taskId": "vvgqOrAvJ0Gs9_W6191HKGUAFoKC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:12:00.6904837Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 674,
+    "title": "[#674] HU0491 - [Usuários] - Melhorias no cadastro/edição de usuários",
+    "taskId": "j2fV3By_zUC3T9okV0l0aGUAPfbI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:59.6169442Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 675,
+    "title": "[#675] HU0492 - [Instituição] Melhorias na inativação/exclusão de órgãos validadores",
+    "taskId": "EeWyjL24PUSbgiaLvBEpe2UADzcN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:58.5821694Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 676,
+    "title": "[#676] HU0493 - [Usuário] - Desabilitar ações das funcionalidades de permissões inativas",
+    "taskId": "7j1v0dbs2k2xbr2OuDYuo2UACItk",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:57.5302569Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 677,
+    "title": "[#677] HU0499- [Curso] Validar alterações de data na edição do CNCT",
+    "taskId": "yuNCvEzlIU-1RWB2TknpumUAFOyS",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:56.4632224Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 678,
+    "title": "[#678] HU0505 - [Curso] Atualização Automática dos Atos Autorizativos de Cursos Técnicos",
+    "taskId": "XN_kFG5Y1EGek8aOQypePGUAObvU",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:55.4039845Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 679,
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Alteração Básica",
+    "taskId": "ljsTlAm7p0K593OuU7ZKDGUAApEW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:54.4070146Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 680,
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restrição de Rascunhos",
+    "taskId": "-NYT8mz-_USRN1DamLp_b2UAFa-I",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:53.3637652Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 681,
+    "title": "[#681] Assunto Reuniões",
+    "taskId": "6KuFXQiYMEimBgSEyDWiR2UAIdBy",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:52.3611709Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 682,
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicitação de Autorização de Curso Técnico",
+    "taskId": "weC_EwwybUW-7LhGczel32UAHQ_T",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:51.3155014Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 683,
+    "title": "[#683] HU0503 - [Curso] Baixar Curso Técnico",
+    "taskId": "Kjkw1XxOxUupE9CbciQ5a2UAMgdC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:50.2081466Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 684,
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Horária da Solicitação de Autorização",
+    "taskId": "UkOqUgdYWUucrCKOnCNQtmUAJmfo",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:49.1596426Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 685,
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certificação Intermediária na Solicitação de Autorização",
+    "taskId": "8lHxrZUTfEOXE4aZLSuFdGUAJh3Z",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:48.1450503Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 686,
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicitação de Autorização",
+    "taskId": "9H6AWpUAhU6Mv-P_nUtm82UAB0Tp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:47.084845Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 687,
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Horária",
+    "taskId": "T3Bne5nUCU6aCAojM3ErnGUAPthJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:46.0132523Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 688,
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certificações Intermediárias",
+    "taskId": "GafuDfkChUaXOv9gGmjE3mUAMHax",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:44.9656325Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 689,
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "taskId": "g8s2dpU_wE-9FznKvvOziWUAEESf",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:43.9600758Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 690,
+    "title": "[#690] HU0506 - [Curso] Rotina automática para atualização da Tabela de Submissão",
+    "taskId": "YGCr0jW4_0mnWN-xDNuOLGUAPX4t",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:42.9054283Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 691,
+    "title": "[#691] HU0507 - [Curso] Inclusão da Edição do CNCT na Tabela de Convergência",
+    "taskId": "CLaEtFZ7j0yhEmDWqUdyX2UAFgN7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:41.7640383Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 693,
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "chaGm_CY1ECQuorQeY8EVmUAKk_8",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:40.7194275Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 694,
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "17H305tB6UyxBDbE9UFo8GUAKPFH",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:39.7115863Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 695,
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em PDF",
+    "taskId": "4XIuZLw5QkCo51fIYeSI0mUANPpX",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:38.6178248Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 696,
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em CSV",
+    "taskId": "TceoAR_sIU69BcSm9MUvPWUAL5o7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:37.5767471Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 697,
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão do campo \"Educação de Jovens e Adultos\"",
+    "taskId": "KQT1Jsq7B0SJTyl2C40eqGUALCKj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:36.4721346Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 698,
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos Técnicos com Oferta Vinculada",
+    "taskId": "GJ2y2WyLlkOSBuas50NG8mUABPwi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:35.4635826Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 699,
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "taskId": "kkO_uCJhlk6HYPvgiWI5sWUAKGBS",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:34.4105467Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 700,
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "taskId": "c_Z65vSUsUKYzdeiqOYOhmUAJQCB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:33.3491634Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 701,
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "taskId": "bi978UEY9UuhRMjsL2Ea6GUABGr3",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:32.3168169Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 702,
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "taskId": "FW9rPsBeZkerQnUWEn3VVGUAL3hr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:31.3159245Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 703,
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "taskId": "kM-bSrqUKUmi2wjyIOsUJ2UAL5bK",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:30.2958034Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 704,
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "taskId": "Ht4n9FsockOwJD96SsxCkWUALSMT",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:29.1782684Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 705,
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "taskId": "-o72Qh0bV0C-vWUYEYeBpmUAF8oL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:28.120305Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 706,
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "taskId": "kGCUSbLy2UW4pAXlbr_KkGUAFZTP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:27.0966608Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 707,
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "taskId": "aaLSoGYdb0qo8nOl3BqfzGUAN4yN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:26.0740522Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 708,
+    "title": "[#708] HU0518 [Oferta] - Rotina automática para alteração da situação das ofertas",
+    "taskId": "CnDxoVDdMkymuQ545h1aFmUAIVC-",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:25.0163686Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 711,
+    "title": "[#711] HU0521 - [Usuários] - Melhorias de usuários",
+    "taskId": "AFdTKB9gH0iSSG6vCsUdtGUALwSa",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:23.9110566Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 712,
+    "title": "[#712] [Débito Técnico] Edição da Etapa 2 (Carga Horária) sempre abre como inclusão nova — não hidrata registro já salvo",
+    "taskId": "dVxLbf-WoU-4DtFlIQR2L2UAKxEE",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:22.9016589Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 713,
+    "title": "[#713] [Débito Técnico] Modelo de dados não guarda histórico dos campos técnicos da Etapa 2 por Ato Autorizativo",
+    "taskId": "a0MCH1RUbkmikH7TKQzbVGUAAoRp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:21.8543317Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 714,
+    "title": "[#714] [Débito Técnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) é mock desde a HU0463 — bloqueia HU0500",
+    "taskId": "ZhKvYT0MZ0aOVMpuEj56f2UAHCwF",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:20.7891003Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 715,
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "taskId": "xobkdqn8o0SOvfV4MqcksWUAGoeL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:19.72459Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 716,
+    "title": "[#716] HU0539 - [Melhoria] - Adequações nas mensagens",
+    "taskId": "10R-re6bo0asFQap62Fw8WUAHPng",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:18.6944678Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 717,
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão da seção \"Projeto Pedagógico de Curso\"",
+    "taskId": "OmCXMJmmGk2Ka-T85o_NXWUAOi9I",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:17.6773322Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 718,
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicitações e Cursos Técnicos",
+    "taskId": "hpM9IbeiLEeGDFu1BQioxGUAPHP1",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:16.4981117Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 719,
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "taskId": "rJrUjsDvU0GEnHDhZ_AB1mUAMqTG",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:15.4362392Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 720,
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Carga Horária",
+    "taskId": "iKxyKz1YHEybEFE06Sd8KWUAB_oI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:14.3953185Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 721,
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Certificações Intermediárias",
+    "taskId": "Ef9vj-2j70-dRroPv9CIdmUAL4lx",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:13.3296663Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 722,
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Vagas",
+    "taskId": "CncicTInU0ucrNlnxPZpvGUABzu-",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:12.2499445Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "cBiDcJ0NDUCJ8I2X4iAxmGUAH0nQ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:11.0733905Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 724,
+    "title": "[#724] HU0523 [Matrícula] - Listar Situações de Vínculo Acadêmico",
+    "taskId": "UAv6ugs9G0KPQp14-zBKAmUAKo2w",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:10.0373514Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 725,
+    "title": "[#725] HU0524 [Matrícula] - Cadastrar Situação de Vínculo Acadêmico",
+    "taskId": "B-mgHDTWAUqPrNSEtmEBCWUAAQqU",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:09.0090242Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 726,
+    "title": "[#726] HU0525 [Matrícula] - Editar Situação de Vínculo Acadêmico",
+    "taskId": "xPrSz9DeMkOGieBy52cwimUAAEh7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:07.900674Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 727,
+    "title": "[#727] HU0526 [Matrícula] - Visualizar Situação de Vínculo Acadêmico",
+    "taskId": "pa8UQt5V3k6ni2Vqa_FpQ2UAJTEI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:06.8054722Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 728,
+    "title": "[#728] HU0527 [Matrícula] - Baixar Situação de Vínculo Acadêmico",
+    "taskId": "vRTkTKoLNUu8mL4OjMHmE2UAHKiO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:05.7555454Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 729,
+    "title": "[#729] HU0528 [Matrícula] - Excluir Situação de Vínculo Acadêmico",
+    "taskId": "LcDi7T2O2E6IWj4dVuDxJGUAJFHo",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:04.7264519Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 730,
+    "title": "[#730] HU0529 [Matrícula] - Exportar em PDF as Situações de Vínculo Acadêmico",
+    "taskId": "MRjnBryT20aoFrYA4KQWTWUAGVHt",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:03.7160958Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 731,
+    "title": "[#731] HU0530 [Matrícula] - Exportar em CSV Situações de Vínculo Acadêmico",
+    "taskId": "l6889ujJ1EawBcwssV_sM2UALKZn",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:02.59051Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 732,
+    "title": "[#732] HU0558 [Matrícula] - Listar Cotas",
+    "taskId": "_R86ZOJkyESjk07xtVJcL2UAJxBS",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:01.480371Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 733,
+    "title": "[#733] HU0559 [Matrícula] - Cadastrar Cotas",
+    "taskId": "ikqNJoDWk0CjfONjTY2vm2UAEVzA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:11:00.422036Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 734,
+    "title": "[#734] HU0561 [Matrícula] - Gerenciar Abrangência do Escopo da Cota",
+    "taskId": "GVq5_p4vS0-7L2muXrukqmUALibJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:59.252287Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 735,
+    "title": "[#735] HU0560 [Matrícula] - Editar Cota",
+    "taskId": "4dLPHzDg80-36zahpTEgJWUACHls",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:58.1342985Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 736,
+    "title": "[#736] HU0563 [Matrícula] - Visualizar Cota",
+    "taskId": "MUSdX7nDDEG2rmwX4yZdfmUAGRvP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:57.0724112Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 737,
+    "title": "[#737] HU0564 [Matrícula] - Visualizar Abrangência do Escopo da Cota",
+    "taskId": "lagwvZT1yUGbxvWUce3WUmUAGnnW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:55.8550921Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 738,
+    "title": "[#738] HU0562 [Matrícula] - Associar Unidade de Ensino no escopo da Cota",
+    "taskId": "F-eSCDS6lkK3rm9RkDW9bGUAIWDq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:54.7777071Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 739,
+    "title": "[#739] HU0565 [Matrícula] - Baixar Cota",
+    "taskId": "wjMU-q6xTU2K1ikEGjl5IGUAOHSP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:53.755511Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 740,
+    "title": "[#740] HU0566 [Matrícula] - Excluir Cota",
+    "taskId": "jwnFFlT2eECcWt3GOp32y2UAOTtC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:52.6001608Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 741,
+    "title": "[#741] HU0568 [Matrícula] - Exportar em PDF as Cotas",
+    "taskId": "WN_O-TEMi0qBMsdt0KVmQ2UAAnu0",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:51.5172642Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 742,
+    "title": "[#742] HU0569 [Matrícula] - Exportar em CSV as Cotas",
+    "taskId": "T0ZGl6E3Jk2dTu_Xg92XBmUALdo-",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:50.4114984Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 743,
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibição do nome do eixo e curso técnico",
+    "taskId": "zIIAU5JmkE6Q-_ktgRb4PWUAKU51",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:49.3740219Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 744,
+    "title": "[#744] HU0531 [Matrícula] - Listar Fluxo por Situação de Matrícula",
+    "taskId": "WuZwgzCoG0O-1dAv1tA-vGUACkQZ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:48.3043141Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 745,
+    "title": "[#745] HU0532 [Matrícula] - Cadastrar Fluxo por Situação de Matrícula",
+    "taskId": "NpnQ-7PR7k6O6wS0xu427mUAG3LC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:47.2053569Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 746,
+    "title": "[#746] HU0533 [Matrícula] - Editar Fluxo por Situação de Matrícula",
+    "taskId": "Qiae3q7bN0m5zLi33chtRmUAN3_r",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:46.1797273Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 747,
+    "title": "[#747] HU0534 [Matrícula] - Visualizar Fluxo por Situação de Matrícula",
+    "taskId": "Nw2PXK4sNESEOgf8cn2CXmUAFKr7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:45.1486759Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 748,
+    "title": "[#748] HU0535 [Matrícula] - Baixar Fluxo por Situação de Matrícula",
+    "taskId": "00henK0Qd0a1eUfjnHvxIWUAC57X",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:44.0177563Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 749,
+    "title": "[#749] HU0536 [Matrícula] - Excluir Fluxo por Situação de Matrícula",
+    "taskId": "H36-YIy2ykONB_sdg8VRH2UACSeO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:42.9896748Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 750,
+    "title": "[#750] HU0537 [Matrícula] - Exportar em PDF os fluxo por Situações de Matrícula",
+    "taskId": "B5AYq3Df3EC8NCp0prROjWUAEotB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:41.8616883Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 751,
+    "title": "[#751] HU0538 [Matrícula] - Exportar em CSV os fluxo por Situações de Matrícula",
+    "taskId": "HVHMCq87rEiNclGLkTjuymUAK7EA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:40.7090648Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 752,
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Cadastro de Oferta",
+    "taskId": "Df31FKlmrU-7BqNPhpY7PWUANDSz",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:39.6817851Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 753,
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Visualizar e Baixar Oferta",
+    "taskId": "5d9rJg4UeUO63Dy8Co8fOWUAFRPc",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:38.649703Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 754,
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Exportar CSV de Oferta",
+    "taskId": "F91EtmKU3kGyJYOwZrDfOGUAAY2A",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:37.6374149Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 755,
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso Técnico",
+    "taskId": "dSK2PlFNb0O_p_1c0BLY62UAI6Ds",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:36.6211113Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 756,
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso Técnico",
+    "taskId": "2SQhK79CvkSQNsy8T06YdGUAMuHQ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:35.4780384Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 757,
+    "title": "[#757] HU0572 - [Curso] Rotina automática para alteração de status dos PPCs & Atos Autorizativos",
+    "taskId": "v4T8Cap-rki9HZLwnL9piWUABl1u",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:34.3488864Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 758,
+    "title": "[#758] HU0573 - [Autenticação] [Melhoria] Visualizar contador de Cursos",
+    "taskId": "yxFS2BxPVEWYwHDXL8kteWUAHoAJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:33.2745736Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 759,
+    "title": "[#759] HU0574 - [Autenticação] [Melhoria] Adequações nas telas de acesso e logotipos",
+    "taskId": "sXykX4d4v0iHsyvUDbNxRmUAFhW3",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:32.1504707Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 760,
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso Técnico",
+    "taskId": "SsKCokn6mEKxWSayEa3jaGUACIXP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:31.0111104Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 761,
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso Técnico",
+    "taskId": "PAgzRQAcVEm1NZvwt63MqGUAM8fq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:29.8827169Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 762,
+    "title": "[#762] HU0578 - [INSTITUIÇÃO] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "taskId": "-4718HSkjkeBYA6okgyBz2UAOTwz",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:28.6664627Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 763,
+    "title": "[#763] HU0577 - [Curso] [MELHORIA] Cadastrar PPC para Curso Experimental - Etapa: PPC e Ato Autorizativo",
+    "taskId": "FN5JvrbpT0GUM5I1EzsxQ2UAJj3l",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:10:27.5228343Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 759,
+    "title": "[#759] HU0574 - [Autenticação] [Melhoria] Adequações nas telas de acesso e logotipos",
+    "taskId": "LBjOq0X6jkaD2vQFW0COVGUAOgm0",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:07:41.5561262Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 760,
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso Técnico",
+    "taskId": "3T3eH_BhgUG7hiW7URwnY2UAILyO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:07:40.4091322Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 761,
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso Técnico",
+    "taskId": "I_MG17bQT0GlqDjFDCmqhWUABMGe",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:07:39.1392842Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 762,
+    "title": "[#762] HU0578 - [INSTITUIÇÃO] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "taskId": "_5Todz6ekEKSUvopfGR_imUAMQyN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:07:37.7595523Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 763,
+    "title": "[#763] HU0577 - [Curso] [MELHORIA] Cadastrar PPC para Curso Experimental - Etapa: PPC e Ato Autorizativo",
+    "taskId": "88T-pQmfgEiZkJUrf31nCmUABGZA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T13:07:36.3730798Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "DP-W-Yj-Q06zlDJIpHPwFmUAL5v3",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T12:52:50.1625308Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "zh0juPBBnkGNA3dGMhKJsGUAMDBI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T12:50:06.3131769Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "zrcyerwBl06XacEWIqeEY2UAKTDP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-17T12:48:03.6336292Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "uJitdplOqkywn2h4CyHBB2UAFucg",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T15:06:26.989145Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "_eveyqUIM0awmxrrF67dF2UAOCqp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T15:05:20.2043072Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "jfLeJOA4n06QZvao7wiBOmUAMMJC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T15:05:09.5759083Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "eBIF4Q7Q4UqiPmgDhHamtmUAOfLt",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T14:02:03.9485171Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "IRl7aHWZ5kSIzna8i2sc-GUABHBR",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T14:01:47.8819839Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 1,
+    "title": "[#1] HU0012 - [Usuários] Listar usuário (Tuleap 23314)",
+    "taskId": "t5AWoqwwYEmPamrenoKq-2UAHcol",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T13:36:31.0796126Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 42,
+    "title": "[#42] HU0008 - [Usuários] Exportar permissão para CSV (Tuleap 23587)",
+    "taskId": "fQ1yPDbpAE-lyk-uYT8iVmUAFBnP",
+    "bucket": "Em Desenvolvimento",
+    "createdDateTime": "2026-09-16T13:35:24.8909661Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "AA8dRy00oU6Luuh6xq91z2UABen3",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T13:22:51.623498Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "Zd-QiSbYNECOy630f_X6uWUADU53",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T13:04:06.8491763Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "pMzEj38GKUuSncyQV824pWUACyYJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T12:59:45.1732917Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "ztVr5qaDxkeVCxRYrsQJC2UAICBA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-16T12:59:33.8615527Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 659,
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "s0FuLb_EYkWdnjZ9FDaxcGUAMFXr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:57.0107653Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 660,
+    "title": "[#660] HU0477 - [Curso] Editar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "42qWwFCqG02J2UGg_LfGsWUAMIWD",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:56.5894579Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 661,
+    "title": "[#661] HU0478 - [Curso] Exportar Especializações Técnicas do CNCT em CSV / Inclusão de CBO",
+    "taskId": "USlLhO4xJ0uTHGGPLjFuDGUAI71O",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:56.167593Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 662,
+    "title": "[#662] HU0479 - [Curso] Editar Curso Técnico do Catálogo - CNCT",
+    "taskId": "XAwbqRjTa0qS7TxHSNI6KmUADFga",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:55.75056Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 663,
+    "title": "[#663] HU0480 - [Curso] Editar Curso Técnico Experimental",
+    "taskId": "nTnFOuLgakS4ZVdY3z_V-GUAMstZ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:55.321016Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 664,
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "taskId": "RqbPokeVAUi9wfy2d5NJuWUABkO5",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:54.8761854Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 666,
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso Técnico",
+    "taskId": "7P-VemzQrkSn_ZFnUswfV2UAB_zj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:54.4260321Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 667,
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso Técnico",
+    "taskId": "KNHO5GwMV0OKS0RMWGwtq2UAM4Gm",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:53.802657Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 668,
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "taskId": "qsXZo6TeGUyEfv8h5VjOAGUANGf2",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:53.3457715Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 669,
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "taskId": "YEKQEJeBiECbMEo-aDs23GUAPBH_",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:52.351824Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 670,
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso Técnico",
+    "taskId": "oVrPihDyxUK-tl6V6lVWPGUAAY6K",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:51.8983613Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 671,
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclusão de CBO",
+    "taskId": "vbnTxkinr0muv95sN5JN62UAF7DX",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:51.4329455Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 672,
+    "title": "[#672] HU0489 - [Curso] Visualizar Certificação Intermediária no CNCT / Inclusão de CBO",
+    "taskId": "yvoafuOonUui2zV69qbDhWUACkVu",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:50.9097517Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 673,
+    "title": "[#673] HU0490 - [Curso] Visualizar Especialização Técnica no CNCT / Inclusão de CBO",
+    "taskId": "GwXjA0RGlkOgG64XA3bXWmUABMDf",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:50.1726146Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 674,
+    "title": "[#674] HU0491 - [Usuários] - Melhorias no cadastro/edição de usuários",
+    "taskId": "RJCTo6ALAku_9k0eG2fF22UANulp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:49.739218Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 675,
+    "title": "[#675] HU0492 - [Instituição] Melhorias na inativação/exclusão de órgãos validadores",
+    "taskId": "K1drSPINaEO31meLoOe6ymUAEaxE",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:49.2671744Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 676,
+    "title": "[#676] HU0493 - [Usuário] - Desabilitar ações das funcionalidades de permissões inativas",
+    "taskId": "o3bzqZCp70KXfN3LF9gIYWUAPMJ2",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:48.8490797Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 677,
+    "title": "[#677] HU0499- [Curso] Validar alterações de data na edição do CNCT",
+    "taskId": "EtMPoHNjx0qAhaRMb-KKVWUANPFB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:48.4215423Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 678,
+    "title": "[#678] HU0505 - [Curso] Atualização Automática dos Atos Autorizativos de Cursos Técnicos",
+    "taskId": "dqlYIxAkVUKzNmFibR5GkmUAKf-4",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:47.9369621Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 679,
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Alteração Básica",
+    "taskId": "QRT_gEU19E-s5W11VTGO2WUAJ8aq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:47.4884229Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 680,
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restrição de Rascunhos",
+    "taskId": "Vfvm7n-Ubk6GcXQXxG60wWUAO7di",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:47.0591772Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 681,
+    "title": "[#681] Assunto Reuniões",
+    "taskId": "z6cVdmfvN0Ca5ZgY_2zIvWUALX11",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:46.2105598Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 682,
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicitação de Autorização de Curso Técnico",
+    "taskId": "cMTkAi04UEud5iotC4FWPmUAKTIR",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:45.4529905Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 683,
+    "title": "[#683] HU0503 - [Curso] Baixar Curso Técnico",
+    "taskId": "NEFIyFBshEayOJdsmN0RAmUABt89",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:45.0306957Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 684,
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Horária da Solicitação de Autorização",
+    "taskId": "DTdbRhV3KEu0wYeo4lHeu2UAMS98",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:44.5703514Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 685,
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certificação Intermediária na Solicitação de Autorização",
+    "taskId": "MUte_XPldk2-wIbgeE4f2mUAAFkO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:44.1019839Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 686,
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicitação de Autorização",
+    "taskId": "FVg8O7EQ6E6fQQcNHx8p3GUAL_J5",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:43.6500824Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 687,
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Horária",
+    "taskId": "a5Mq66uR70em8XQwrVQ8hmUADS4Q",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:43.1569948Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 688,
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certificações Intermediárias",
+    "taskId": "oslXk_BYH0yfXskVTy2jeWUADjIF",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:42.7300022Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 689,
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "taskId": "hEOYDHs0GkGkLEcIkW21QmUAIlU0",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:42.3031179Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 690,
+    "title": "[#690] HU0506 - [Curso] Rotina automática para atualização da Tabela de Submissão",
+    "taskId": "nnfCBQnhpk-E-_9O5pHPr2UANsXN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:41.862197Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 691,
+    "title": "[#691] HU0507 - [Curso] Inclusão da Edição do CNCT na Tabela de Convergência",
+    "taskId": "dhHLT6RIIkS84ROmXB3dNmUABoNm",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:41.4504598Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 693,
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "W22ZsATChkeoe8wi4X2Me2UAJYUm",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:41.0260271Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 694,
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "TR70W_-QwEm29MmESMCxQmUAOFXL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:40.5753927Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 695,
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em PDF",
+    "taskId": "mScAdQK23UGz7t3mpntpKWUAKq5U",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:40.1016953Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 696,
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em CSV",
+    "taskId": "PAb8nGpk80uIwvyV53XRXWUAFd_T",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:39.647565Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 697,
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão do campo \"Educação de Jovens e Adultos\"",
+    "taskId": "tFaKwsO9L0ajX2dqWphAaWUAPIna",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:39.2220566Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 698,
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos Técnicos com Oferta Vinculada",
+    "taskId": "UUyVrlbhq0i5UU9Eb-qQ5GUAP8pd",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:38.7488856Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 699,
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "taskId": "ocwY7rOiLUyNt8XKY7CNSWUAPKCd",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:38.301453Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 700,
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "taskId": "59Is38nx6Um3NIfL3fnv3mUAP5_s",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:37.6540327Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 701,
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "taskId": "i8tcuce1kkyLC82hoG4UaWUANlnx",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:37.2369863Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 702,
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "taskId": "rnSm_zSZzU2V5M9wp-bnT2UAH8aY",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:36.8233083Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 703,
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "taskId": "uTpWUtBGEkCReYvupQ97VWUAC_N6",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:36.3384803Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 704,
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "taskId": "oNTmScNROE6DCesKvR9q9WUAL_9x",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:35.9051813Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 705,
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "taskId": "UzKjg_yaukW0mziJAeFhT2UAKmwG",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:35.1061257Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 706,
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "taskId": "qm2WKrOGwU6CTYhoREq3gmUAIKOe",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:34.6859219Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 707,
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "taskId": "66YR3_llrEu-PrJblLvph2UAFYWI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:34.2666949Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 708,
+    "title": "[#708] HU0518 [Oferta] - Rotina automática para alteração da situação das ofertas",
+    "taskId": "gakZIwxV10-tb6wKbRaBqGUAEa6S",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:33.7322145Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 711,
+    "title": "[#711] HU0521 - [Usuários] - Melhorias de usuários",
+    "taskId": "MePSYEs2H0a79_mx7IQC9mUAGlVb",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:33.3084115Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 712,
+    "title": "[#712] [Débito Técnico] Edição da Etapa 2 (Carga Horária) sempre abre como inclusão nova — não hidrata registro já salvo",
+    "taskId": "hhdtOBhhIEaNdKtW6aIP-GUANJQL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:32.8707653Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 713,
+    "title": "[#713] [Débito Técnico] Modelo de dados não guarda histórico dos campos técnicos da Etapa 2 por Ato Autorizativo",
+    "taskId": "eyfRw-J6z02xIn8qIjTzCmUAF6QG",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:32.4542956Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 714,
+    "title": "[#714] [Débito Técnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) é mock desde a HU0463 — bloqueia HU0500",
+    "taskId": "lKgd72fcNkWhnSLlSO6WN2UAN8zJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:31.9861918Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 715,
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "taskId": "0aBUJQfA60C4AJPHw34VF2UAC0C8",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:31.5283792Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 716,
+    "title": "[#716] HU0539 - [Melhoria] - Adequações nas mensagens",
+    "taskId": "nw2kelML90eYwIpmU3SEYWUAAENZ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:31.0180102Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 717,
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão da seção \"Projeto Pedagógico de Curso\"",
+    "taskId": "dD-X0eZ_Pkqdd8XClAhpvGUAFSC5",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:30.5635495Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 718,
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicitações e Cursos Técnicos",
+    "taskId": "VnQouQUB1Eix20zGODY0vWUABVnY",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:30.1038739Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 719,
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "taskId": "LchESjaCK0yA5AOFpsfOF2UALONl",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:29.6684045Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 720,
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Carga Horária",
+    "taskId": "8tPt3beqTU2sMGBehkkULGUALB2g",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:29.1877721Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 721,
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Certificações Intermediárias",
+    "taskId": "6Yh-nbJF-EGxC8dK1RL_5GUAFS7U",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:28.741154Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 722,
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Vagas",
+    "taskId": "BBF4wni3akKaSl9TVkv9JGUAMN93",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:28.3255633Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "3MhIfI5ZI0Wb4hPGF_GGiGUAJgY9",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:27.8723875Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 724,
+    "title": "[#724] HU0523 [Matrícula] - Listar Situações de Vínculo Acadêmico",
+    "taskId": "JTuWlduLeEan0SSOS-DYC2UADKm6",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:27.4394405Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 725,
+    "title": "[#725] HU0524 [Matrícula] - Cadastrar Situação de Vínculo Acadêmico",
+    "taskId": "rSxA6IwRb0WxxJQLK17t7mUAKsUl",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:26.6489398Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 726,
+    "title": "[#726] HU0525 [Matrícula] - Editar Situação de Vínculo Acadêmico",
+    "taskId": "ta2gLu5VukSxMU6-l_8h7mUAFFqC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:26.1766385Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 727,
+    "title": "[#727] HU0526 [Matrícula] - Visualizar Situação de Vínculo Acadêmico",
+    "taskId": "Lg3TaXJbTk27WKcoubyJqmUAMUxM",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:25.7544852Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 728,
+    "title": "[#728] HU0527 [Matrícula] - Baixar Situação de Vínculo Acadêmico",
+    "taskId": "TntYdE24OU2ezRK43l01nWUAIstr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:25.3109267Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 729,
+    "title": "[#729] HU0528 [Matrícula] - Excluir Situação de Vínculo Acadêmico",
+    "taskId": "zeDHLmLlPkmwKwX_QWc_c2UAIG26",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:24.8183834Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 730,
+    "title": "[#730] HU0529 [Matrícula] - Exportar em PDF as Situações de Vínculo Acadêmico",
+    "taskId": "JC_Mvg60rkWDCFpmcTqThWUAFEZY",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:24.3540629Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 731,
+    "title": "[#731] HU0530 [Matrícula] - Exportar em CSV Situações de Vínculo Acadêmico",
+    "taskId": "nNTQSP4xIkuIENpyahBNz2UAPg1F",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:23.9295318Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 732,
+    "title": "[#732] HU0558 [Matrícula] - Listar Cotas",
+    "taskId": "kufwVMkaMkG_Ew_YPNboL2UAEhfq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:23.2887209Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 733,
+    "title": "[#733] HU0559 [Matrícula] - Cadastrar Cotas",
+    "taskId": "tzr2DqQxME-uWtoV3OmlTGUAC8N4",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:22.8056261Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 734,
+    "title": "[#734] HU0561 [Matrícula] - Gerenciar Abrangência do Escopo da Cota",
+    "taskId": "wGKpGfZyFUiNFEois3C8NmUAA0T8",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:22.1252323Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 735,
+    "title": "[#735] HU0560 [Matrícula] - Editar Cota",
+    "taskId": "hQvdX6U_RE6eZLTl7O67-mUAPEvL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:21.5498075Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 736,
+    "title": "[#736] HU0563 [Matrícula] - Visualizar Cota",
+    "taskId": "PLlfueBJWkyv0mkK561WBGUAEKGj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:21.1060091Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 737,
+    "title": "[#737] HU0564 [Matrícula] - Visualizar Abrangência do Escopo da Cota",
+    "taskId": "6us_a6bwXUiEZxgnw-6BnmUAK-71",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:20.6177311Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 738,
+    "title": "[#738] HU0562 [Matrícula] - Associar Unidade de Ensino no escopo da Cota",
+    "taskId": "f153tVyvHkSnJovikGoaE2UAMtV-",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:20.1480733Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 739,
+    "title": "[#739] HU0565 [Matrícula] - Baixar Cota",
+    "taskId": "4qr-sFS6SU6_uJIteAKXh2UAPLV8",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:19.7121363Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 740,
+    "title": "[#740] HU0566 [Matrícula] - Excluir Cota",
+    "taskId": "is1BoDYcXkKYdr46A0aVmmUAEQJr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:19.2697991Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 741,
+    "title": "[#741] HU0568 [Matrícula] - Exportar em PDF as Cotas",
+    "taskId": "6Q0_xoWOh06XkSR6tGfOhmUANBX1",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:18.8307464Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 742,
+    "title": "[#742] HU0569 [Matrícula] - Exportar em CSV as Cotas",
+    "taskId": "cVjOPPF22EWKk5i7iWhrt2UAALO9",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:18.3665621Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 743,
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibição do nome do eixo e curso técnico",
+    "taskId": "EllZ205NB0-VUcqZsDtYFGUAKl1t",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:17.9112583Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 744,
+    "title": "[#744] HU0531 [Matrícula] - Listar Fluxo por Situação de Matrícula",
+    "taskId": "NmvyZmrB7UGfS1TQ650E4WUAI554",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:17.4215499Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 745,
+    "title": "[#745] HU0532 [Matrícula] - Cadastrar Fluxo por Situação de Matrícula",
+    "taskId": "0y7fTG3Z5ECllGMqZ8S2eWUAACKA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:16.976663Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 746,
+    "title": "[#746] HU0533 [Matrícula] - Editar Fluxo por Situação de Matrícula",
+    "taskId": "Fduz78Ae8ESCQtn-xAYEt2UALl3V",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:16.5145043Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 747,
+    "title": "[#747] HU0534 [Matrícula] - Visualizar Fluxo por Situação de Matrícula",
+    "taskId": "F6lkoGGAQUa6Py7OqUvBzGUAIx3g",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:16.0570923Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 748,
+    "title": "[#748] HU0535 [Matrícula] - Baixar Fluxo por Situação de Matrícula",
+    "taskId": "xoCyzHzq7067uwg_0KH5M2UAE3sj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:15.4246326Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 749,
+    "title": "[#749] HU0536 [Matrícula] - Excluir Fluxo por Situação de Matrícula",
+    "taskId": "Hxrn97MOaUKJzh5vFPSfS2UAHZnN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:14.7903642Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 750,
+    "title": "[#750] HU0537 [Matrícula] - Exportar em PDF os fluxo por Situações de Matrícula",
+    "taskId": "gZlDRO7vA0ytCUDEyA6S-WUAOKmF",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:14.3374246Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 751,
+    "title": "[#751] HU0538 [Matrícula] - Exportar em CSV os fluxo por Situações de Matrícula",
+    "taskId": "p40PozQNXk6hThVUR_gLBWUAD_iP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:13.8948027Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 752,
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Cadastro de Oferta",
+    "taskId": "RedvpYVpAUaRpItFFthlo2UAFTnU",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:13.1729718Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 753,
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Visualizar e Baixar Oferta",
+    "taskId": "1faxvNSrPEuAqNTG_CjJ72UAA8Xg",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:12.549852Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 754,
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Exportar CSV de Oferta",
+    "taskId": "X5_yAANh_UuBXUElrBjDa2UAII0n",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:11.1281311Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 755,
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso Técnico",
+    "taskId": "CwN2fQRayk2wRMfuNNzl9GUABv7O",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:10.7034637Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 756,
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso Técnico",
+    "taskId": "6p5n0R7FYUOdjp-TGON00WUAIvJi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:10.2740795Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 757,
+    "title": "[#757] HU0572 - [Curso] Rotina automática para alteração de status dos PPCs & Atos Autorizativos",
+    "taskId": "vVLMfa7SgEWXO_iHy2D3AWUADfJe",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:09.5288451Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 758,
+    "title": "[#758] HU0573 - [Autenticação] [Melhoria] Visualizar contador de Cursos",
+    "taskId": "6BBGTij6v0CebMdilsPVK2UAMtMI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:09.0191316Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 759,
+    "title": "[#759] HU0574 - [Autenticação] [Melhoria] Adequações nas telas de acesso e logotipos",
+    "taskId": "k7g80Ngp40eYU_ERh2KBzWUALleh",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:08.4921584Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 760,
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso Técnico",
+    "taskId": "M99ZSryMO0eNCG8yyZELPGUAEUyR",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:07.8679963Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 761,
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso Técnico",
+    "taskId": "C25SZv-z1USnYWwcjr5pFmUACUn9",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:07.2324044Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 762,
+    "title": "[#762] HU0xxx - [INSTITUIÇÃO] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "taskId": "NrmyZ8J7IkCg75XvcG1qd2UAHFMz",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:06.7464476Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 659,
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "wSkzSi_VEUWnj6ofrLFpmmUALm7E",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:05.2496117Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 660,
+    "title": "[#660] HU0477 - [Curso] Editar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "5hyMzWpC0EelMjhmRnqvHmUAL3HW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:04.8332725Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 661,
+    "title": "[#661] HU0478 - [Curso] Exportar Especializações Técnicas do CNCT em CSV / Inclusão de CBO",
+    "taskId": "r-tjbDkx9kigwQ6AZcGsqmUAPPi8",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:04.167431Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 662,
+    "title": "[#662] HU0479 - [Curso] Editar Curso Técnico do Catálogo - CNCT",
+    "taskId": "U4JvxF7Q30KoyGfCB45_eWUAP8MX",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:03.7519677Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 663,
+    "title": "[#663] HU0480 - [Curso] Editar Curso Técnico Experimental",
+    "taskId": "DsLSoxmkkUqNGf3bmL06KWUANVPx",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:03.3286119Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 664,
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "taskId": "hRw33SXMsUa8FMmDebUWvmUAE9Xl",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:02.8995453Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 666,
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso Técnico",
+    "taskId": "_K1xjsaOzk6-iSH9f6Q4H2UAPmzr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:07:02.3516057Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 667,
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso Técnico",
+    "taskId": "XllNTJnG7U6XTELcIesQrmUAFUpc",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:59.9012108Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 668,
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "taskId": "BiHWP78SLEuaqnx_c5-1zGUAI8mA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:59.4685969Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 669,
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "taskId": "Xeli1kv3AUGVvF2ulAZgnmUALzuW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:58.912139Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 670,
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso Técnico",
+    "taskId": "QEwqwzc-gkKYTci2RCxNImUAISZP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:58.4782762Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 671,
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclusão de CBO",
+    "taskId": "2pVASA7pj0-hZNEgfA3FsWUAAx-F",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:58.0203476Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 672,
+    "title": "[#672] HU0489 - [Curso] Visualizar Certificação Intermediária no CNCT / Inclusão de CBO",
+    "taskId": "EDQf4dYTKEaTF_J-SKQjy2UAAOBV",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:57.5851465Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 673,
+    "title": "[#673] HU0490 - [Curso] Visualizar Especialização Técnica no CNCT / Inclusão de CBO",
+    "taskId": "J53XaFt_TkeJW5GYvgVVOmUANfEr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:56.8530832Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 674,
+    "title": "[#674] HU0491 - [Usuários] - Melhorias no cadastro/edição de usuários",
+    "taskId": "3NKtIgyTA0W2z4Hx6_PP92UAEwqg",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:56.4276547Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 675,
+    "title": "[#675] HU0492 - [Instituição] Melhorias na inativação/exclusão de órgãos validadores",
+    "taskId": "SDX8koe6NEue5wkPkQf66mUAIihq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:55.9954298Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 676,
+    "title": "[#676] HU0493 - [Usuário] - Desabilitar ações das funcionalidades de permissões inativas",
+    "taskId": "JDglHM96aEm5jhciMy6KuWUAA1AG",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:55.5231731Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 677,
+    "title": "[#677] HU0499- [Curso] Validar alterações de data na edição do CNCT",
+    "taskId": "I09s20a93E6MvXg9WkIXO2UAP3J3",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:55.0053733Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 678,
+    "title": "[#678] HU0505 - [Curso] Atualização Automática dos Atos Autorizativos de Cursos Técnicos",
+    "taskId": "_1JXUvNnd0mDt-N8zKeTWWUAL-cI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:54.4926516Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 679,
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Alteração Básica",
+    "taskId": "jPNOl0RRRU6cmZaVbWFtPmUAH4i-",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:54.038852Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 680,
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restrição de Rascunhos",
+    "taskId": "58oj7wVrT02SO5r9UlWapWUAKbwm",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:53.5985647Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 681,
+    "title": "[#681] Assunto Reuniões",
+    "taskId": "WlE9s-b5EEaQiV74Jp7TTmUAFNtR",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:52.8600188Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 682,
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicitação de Autorização de Curso Técnico",
+    "taskId": "CSd5a-BKBEyjOaPCnynxKGUABXbx",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:52.0870365Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 683,
+    "title": "[#683] HU0503 - [Curso] Baixar Curso Técnico",
+    "taskId": "kMfqYTsAC0W8rc5jvqGqbmUAPnBI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:51.6466204Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 684,
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Horária da Solicitação de Autorização",
+    "taskId": "8D8ASXLKa0iNR8unSxiFu2UADfTn",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:51.1970773Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 685,
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certificação Intermediária na Solicitação de Autorização",
+    "taskId": "cvyx4as650uCWM7ognjAx2UAKAkL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:50.7545032Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 686,
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicitação de Autorização",
+    "taskId": "l19YYhdq90KeSszju_iu_GUAIb2E",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:50.2079286Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 687,
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Horária",
+    "taskId": "QVHKcgBC5kmX7NvEXo90bGUAIeLj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:49.5042357Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 688,
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certificações Intermediárias",
+    "taskId": "IxgPpWOWfEiMyzio33V95WUAI5PN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:49.083832Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 689,
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "taskId": "Qa7fYA4Sj0WC0_ubIZ7_dWUALBRy",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:48.6372178Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 690,
+    "title": "[#690] HU0506 - [Curso] Rotina automática para atualização da Tabela de Submissão",
+    "taskId": "grCCxqfGyk2GIjmgplC2PmUAAQ8V",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:48.1407143Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 691,
+    "title": "[#691] HU0507 - [Curso] Inclusão da Edição do CNCT na Tabela de Convergência",
+    "taskId": "5B_ktHgGREaiSipAlcTfuWUAIeRv",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:47.5599919Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 693,
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "BUqHjxWh7k6AJ45Q_lvZl2UAGoqZ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:47.0802737Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 694,
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "5ISqlvj370qvB4npHoxSwmUAKUuW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:46.5792795Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 695,
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em PDF",
+    "taskId": "ocMlocTAa024FZxuICpFdWUAHtWi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:46.1274779Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 696,
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em CSV",
+    "taskId": "aKe9-F0Mg0yKCPJB4bzukGUAMgn1",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:45.6723565Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 697,
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão do campo \"Educação de Jovens e Adultos\"",
+    "taskId": "lpCsMfQQPkWNCAmQWuQnOmUAC2Mb",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:45.2093104Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 698,
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos Técnicos com Oferta Vinculada",
+    "taskId": "SSrgp67WjUCVqqcCUtZG8GUAM-Yk",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:44.7405546Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 699,
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "taskId": "Xg82MdbcJ0iiPP_bfAVaiWUAO1CA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:44.2919495Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 700,
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "taskId": "HktpDnm-3ki9_eC0L7Bgx2UAJ1r6",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:43.8214717Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 701,
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "taskId": "QLUyXAKhyk63N-NnqK8VwmUABp07",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:43.399674Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 702,
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "taskId": "f93MW3nzD0qQbjljEwj3AmUAM3Q_",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:42.985725Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 703,
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "taskId": "7T2_HfI7BECPELvUdm_uwmUAJWy7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:42.5455587Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 704,
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "taskId": "D9gBXdKSk0y0nrX7osF-9WUABi95",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:41.8025082Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 705,
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "taskId": "W34WstrQ5kSNRZnSzNQFK2UAFKLi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:41.3740332Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 706,
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "taskId": "5tOnlKdYREye9eJ8SbRPQ2UAOvXy",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:40.937431Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 707,
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "taskId": "xX9mEMaoxUGGj7RovyaL_2UAFlqa",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:40.5069202Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 708,
+    "title": "[#708] HU0518 [Oferta] - Rotina automática para alteração da situação das ofertas",
+    "taskId": "NpnrdcF_90-29EtBZGb4BWUAOjpI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:40.0410686Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 711,
+    "title": "[#711] HU0521 - [Usuários] - Melhorias de usuários",
+    "taskId": "eqVrHXa01UqDJdmdT4zvRmUACIk1",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:39.6273806Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 712,
+    "title": "[#712] [Débito Técnico] Edição da Etapa 2 (Carga Horária) sempre abre como inclusão nova — não hidrata registro já salvo",
+    "taskId": "y44SHZ4_MEqy4HMLEShfwmUAGwLO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:39.1384756Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 713,
+    "title": "[#713] [Débito Técnico] Modelo de dados não guarda histórico dos campos técnicos da Etapa 2 por Ato Autorizativo",
+    "taskId": "tgRcxUGA8kKJQcRCwmO8K2UAA0mg",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:38.7163246Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 714,
+    "title": "[#714] [Débito Técnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) é mock desde a HU0463 — bloqueia HU0500",
+    "taskId": "BqBYe4500kOOjDvJ7c_78mUABYZ-",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:38.2813359Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 715,
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "taskId": "lcYypZsBrE2MZLZxNSa3FGUADvQS",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:37.8385642Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 716,
+    "title": "[#716] HU0539 - [Melhoria] - Adequações nas mensagens",
+    "taskId": "quZsNZNlyk674YPgKbDjbGUABvl_",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:37.3312551Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 717,
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão da seção \"Projeto Pedagógico de Curso\"",
+    "taskId": "iDZN_ESxeki4MTnDoh4QPWUAM1qL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:36.8942956Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 718,
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicitações e Cursos Técnicos",
+    "taskId": "TGRIwxuwhU-MWmCl0YmTDGUAEJRa",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:36.4292442Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 719,
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "taskId": "21COHg6xXUOY3OHITdXbgWUAMm2C",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:36.0075064Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 720,
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Carga Horária",
+    "taskId": "FhGqyGTN2EC_lQdqGqxeP2UAD6qp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:35.5790621Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 721,
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Certificações Intermediárias",
+    "taskId": "czVrERyJk0-GAuU4ebSsD2UABstH",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:35.1585072Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 722,
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Vagas",
+    "taskId": "BjGDQwdLe0C3zZSU4Vv--mUANXfO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:34.7163919Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "SSkf9xPC7kSVYWIGxSS82GUAN_Pq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:34.0569062Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 724,
+    "title": "[#724] HU0523 [Matrícula] - Listar Situações de Vínculo Acadêmico",
+    "taskId": "0g_k6HaVF0OL6PuepKGT3mUAO5dM",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:33.6302339Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 725,
+    "title": "[#725] HU0524 [Matrícula] - Cadastrar Situação de Vínculo Acadêmico",
+    "taskId": "jacrnyrNFkiY_Te6zb5Fi2UAAFvh",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:33.1649221Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 726,
+    "title": "[#726] HU0525 [Matrícula] - Editar Situação de Vínculo Acadêmico",
+    "taskId": "ITiToeE7XUiYZCSj-b8QlGUAI9ps",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:32.4369275Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 727,
+    "title": "[#727] HU0526 [Matrícula] - Visualizar Situação de Vínculo Acadêmico",
+    "taskId": "iAyTIOyTEEmHrBBp4J7V6WUAEGK7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:31.9955067Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 728,
+    "title": "[#728] HU0527 [Matrícula] - Baixar Situação de Vínculo Acadêmico",
+    "taskId": "ZeZp2qyT5k-baDSTZWs7-mUAOTb6",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:31.5792727Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 729,
+    "title": "[#729] HU0528 [Matrícula] - Excluir Situação de Vínculo Acadêmico",
+    "taskId": "PcJA1HnPaUGjP1GX4L_9K2UAIdoV",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:31.0134145Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 730,
+    "title": "[#730] HU0529 [Matrícula] - Exportar em PDF as Situações de Vínculo Acadêmico",
+    "taskId": "oqhhDCdtLE6V3SFi4Uwhy2UAIcAq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:30.5882317Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 731,
+    "title": "[#731] HU0530 [Matrícula] - Exportar em CSV Situações de Vínculo Acadêmico",
+    "taskId": "l1z4d_Dlz06sYCRa0cb8qmUAI-oi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:30.1340917Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 732,
+    "title": "[#732] HU0558 [Matrícula] - Listar Cotas",
+    "taskId": "AkxxH54gGESMxIAN3QiK82UAEtOi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:29.670502Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 733,
+    "title": "[#733] HU0559 [Matrícula] - Cadastrar Cotas",
+    "taskId": "FGXUMl2fY0mlcsIJbmKxemUAM9mG",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:29.1828179Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 734,
+    "title": "[#734] HU0561 [Matrícula] - Gerenciar Abrangência do Escopo da Cota",
+    "taskId": "O6SxxkFVXkaPPOnrFexComUAO9Bv",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:28.7263822Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 735,
+    "title": "[#735] HU0560 [Matrícula] - Editar Cota",
+    "taskId": "XXqWpSmZJEqH87h6yeY7ZGUALYNq",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:28.2829841Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 736,
+    "title": "[#736] HU0563 [Matrícula] - Visualizar Cota",
+    "taskId": "WZJucfBQSk6K1dahBE71KmUAI3xa",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:27.5304887Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 737,
+    "title": "[#737] HU0564 [Matrícula] - Visualizar Abrangência do Escopo da Cota",
+    "taskId": "ux38EYooXk2K1xPMHrM4KGUAEcba",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:27.0545485Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 738,
+    "title": "[#738] HU0562 [Matrícula] - Associar Unidade de Ensino no escopo da Cota",
+    "taskId": "k79agEr7HEa18f5YaApBFWUAJbmd",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:26.608781Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 739,
+    "title": "[#739] HU0565 [Matrícula] - Baixar Cota",
+    "taskId": "CYEsDQ_BokajWC9WOYi6ymUAL05p",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:26.1334176Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 740,
+    "title": "[#740] HU0566 [Matrícula] - Excluir Cota",
+    "taskId": "YV8t6f5O9UKmVfwgzqzxR2UAG7Vg",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:25.656813Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 741,
+    "title": "[#741] HU0568 [Matrícula] - Exportar em PDF as Cotas",
+    "taskId": "XL6oTD7BiUWr_Z6pCijwJGUAPnEl",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:24.898877Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 742,
+    "title": "[#742] HU0569 [Matrícula] - Exportar em CSV as Cotas",
+    "taskId": "MZhRIGQzY0C3ymaIBjW0jWUAGzLU",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:24.3672653Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 743,
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibição do nome do eixo e curso técnico",
+    "taskId": "48Lj_Uhvl0-RFt0QreHyCWUAMdAU",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:23.6000129Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 744,
+    "title": "[#744] HU0531 [Matrícula] - Listar Fluxo por Situação de Matrícula",
+    "taskId": "8tFMz7FrNkiErm8LXQlOuWUAP31j",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:23.168091Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 745,
+    "title": "[#745] HU0532 [Matrícula] - Cadastrar Fluxo por Situação de Matrícula",
+    "taskId": "4niuNNB6ZkC--rKrkPuZrGUAIA1q",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:22.4253563Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 746,
+    "title": "[#746] HU0533 [Matrícula] - Editar Fluxo por Situação de Matrícula",
+    "taskId": "YFEZrTUYZkKT9yCQzGG7OGUAChGl",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:21.9145395Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 747,
+    "title": "[#747] HU0534 [Matrícula] - Visualizar Fluxo por Situação de Matrícula",
+    "taskId": "2WJunxAXc0iPAsc1Rg3OamUACMrs",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:21.0797526Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 748,
+    "title": "[#748] HU0535 [Matrícula] - Baixar Fluxo por Situação de Matrícula",
+    "taskId": "GjCox9LFB0Ks2xKefuVrmGUAE5fI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:20.3715579Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 749,
+    "title": "[#749] HU0536 [Matrícula] - Excluir Fluxo por Situação de Matrícula",
+    "taskId": "CXTQrMIeG0uuFf-x3WOprWUABBMd",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:19.9075943Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 750,
+    "title": "[#750] HU0537 [Matrícula] - Exportar em PDF os fluxo por Situações de Matrícula",
+    "taskId": "583p0c1zjkuDX3I636vBZGUAHOUd",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:18.903233Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 751,
+    "title": "[#751] HU0538 [Matrícula] - Exportar em CSV os fluxo por Situações de Matrícula",
+    "taskId": "xahc10j39Ey4-lMggP6LNWUAOm2P",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:18.4504617Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 752,
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Cadastro de Oferta",
+    "taskId": "eAHxNsFDykmRI7uiQUYyX2UAMwSB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:17.9919587Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 753,
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Visualizar e Baixar Oferta",
+    "taskId": "akWwRdPs3kazqMIL7Ithn2UAGgbi",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:17.4613092Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 754,
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclusão do campo \"Projeto Pedagógico de Curso\" em Exportar CSV de Oferta",
+    "taskId": "x36OIJ6OBUS9Jhzo7Q_eKmUAGk2g",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:17.0137591Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 755,
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso Técnico",
+    "taskId": "Obh67qtWRkahqpI3oYHFmmUAONMa",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:16.5832298Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 756,
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso Técnico",
+    "taskId": "4eVpb0smUkSE6vZoOkmv2GUAAQVB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:15.8746656Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 757,
+    "title": "[#757] HU0572 - [Curso] Rotina automática para alteração de status dos PPCs & Atos Autorizativos",
+    "taskId": "CwL3C528ZUmOxIE58L5YlGUADsuF",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:14.1817606Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 758,
+    "title": "[#758] HU0573 - [Autenticação] [Melhoria] Visualizar contador de Cursos",
+    "taskId": "XS7m4SF4akmY6aqiZyJCtGUAF_Po",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:13.7301347Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 759,
+    "title": "[#759] HU0574 - [Autenticação] [Melhoria] Adequações nas telas de acesso e logotipos",
+    "taskId": "3VGY_r-M406tEmxR_CqrqmUAKyro",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:12.9798889Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 760,
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso Técnico",
+    "taskId": "wyq8OfZMnE2k9fImrDKkVWUAPdrC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:11.4215412Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 761,
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso Técnico",
+    "taskId": "MMEO_zhlDkqANEnQSZeSVWUAItcQ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:11.0019039Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 762,
+    "title": "[#762] HU0xxx - [INSTITUIÇÃO] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "taskId": "XLx25mJVx0ObPapRGaUdVGUAKd5U",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:10.3597397Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 659,
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "KHjy_iSzo0CWkDU-PQefYGUADiEH",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:09.0755719Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 660,
+    "title": "[#660] HU0477 - [Curso] Editar Especialização Técnica do CNCT / Inclusão de CBO",
+    "taskId": "8MJw1dc3hE-373WvBvKpdGUAKZdh",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:08.6361357Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 661,
+    "title": "[#661] HU0478 - [Curso] Exportar Especializações Técnicas do CNCT em CSV / Inclusão de CBO",
+    "taskId": "TwXisS7jLUakXkTBBJLrnWUADrBW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:08.2066976Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 662,
+    "title": "[#662] HU0479 - [Curso] Editar Curso Técnico do Catálogo - CNCT",
+    "taskId": "trEWEu1iB0GmywCtQcQMYGUACioL",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:07.7803325Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 663,
+    "title": "[#663] HU0480 - [Curso] Editar Curso Técnico Experimental",
+    "taskId": "irwXL24Dk0KXTelvTlCBR2UALZNA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:07.3693046Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 664,
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "taskId": "5icazXWDJk2MUCaoGs-AJGUAGGcf",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:06.6882464Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 666,
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso Técnico",
+    "taskId": "5Nq3QdM2R0KFURPP77h2vWUACLbK",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:06.2093106Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 667,
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso Técnico",
+    "taskId": "yT7Sy4_qik-Hh66xyspY0GUAPnxT",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:05.7684683Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 668,
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "taskId": "SxbAuhL170-4xZJp2wqNGWUAE4jw",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:05.3387687Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 669,
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "taskId": "Qay11FYmyk2eqOGk-tEkYWUAGPBG",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:04.9019199Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 670,
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso Técnico",
+    "taskId": "QUAwml_7GUmdhMkB0x-LRGUABEgJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:04.4792233Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 671,
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclusão de CBO",
+    "taskId": "-ShZY3VeDkiXOXqLiGEL_GUAIKCP",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:04.0161221Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 672,
+    "title": "[#672] HU0489 - [Curso] Visualizar Certificação Intermediária no CNCT / Inclusão de CBO",
+    "taskId": "9RTbdcWiZkCAkyzBv2A0RGUAAVHH",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:03.5537698Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 673,
+    "title": "[#673] HU0490 - [Curso] Visualizar Especialização Técnica no CNCT / Inclusão de CBO",
+    "taskId": "0v5c4KsYOEKhFsREVy77CmUAE0t2",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:03.122658Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 674,
+    "title": "[#674] HU0491 - [Usuários] - Melhorias no cadastro/edição de usuários",
+    "taskId": "2yvHSymwUk-YjRN8ath6DWUAPoY3",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:02.6854868Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 675,
+    "title": "[#675] HU0492 - [Instituição] Melhorias na inativação/exclusão de órgãos validadores",
+    "taskId": "S6MHLp-CQU-EcyWaSOr0fmUAJFMN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:02.2608694Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 676,
+    "title": "[#676] HU0493 - [Usuário] - Desabilitar ações das funcionalidades de permissões inativas",
+    "taskId": "uknM0pFiO0iB_7ZUYC--o2UAPO65",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:01.8379263Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 677,
+    "title": "[#677] HU0499- [Curso] Validar alterações de data na edição do CNCT",
+    "taskId": "17n8I9BQMUyIonDcyzKzqmUAL2Kv",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:01.2002178Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 678,
+    "title": "[#678] HU0505 - [Curso] Atualização Automática dos Atos Autorizativos de Cursos Técnicos",
+    "taskId": "xoJDsc2AWU6rK4rBpDesUmUANpwo",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:06:00.5449336Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 679,
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Alteração Básica",
+    "taskId": "uvgZZXbrVUmTAq6Q_hTeZmUALMhu",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:59.2312575Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 680,
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restrição de Rascunhos",
+    "taskId": "UvEeanRydEaPVki1c7mwl2UAALdV",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:58.7882189Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 681,
+    "title": "[#681] Assunto Reuniões",
+    "taskId": "NVuGWTTRcEi0ryFVo9K6W2UACIDT",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:58.3668422Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 682,
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicitação de Autorização de Curso Técnico",
+    "taskId": "IVoQno3XTkWzslwAWOu672UAGyTo",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:57.7076282Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 683,
+    "title": "[#683] HU0503 - [Curso] Baixar Curso Técnico",
+    "taskId": "0uly0uzp30GQuLXtAfV1j2UANUvI",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:57.2817397Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 684,
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Horária da Solicitação de Autorização",
+    "taskId": "JwCFr2A9TEq5IZC9kGXZdWUABXoN",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:56.8299605Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 685,
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certificação Intermediária na Solicitação de Autorização",
+    "taskId": "evPH94LYaEGt06Yu_DgMqGUAJp8t",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:56.3999203Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 686,
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicitação de Autorização",
+    "taskId": "OCtvfGHIJECUrMT4xwCD72UAGrEB",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:55.9492377Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 687,
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Horária",
+    "taskId": "N2Y8BCMKs0Wj-i-Lwj6fp2UAP862",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:55.4867807Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 688,
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certificações Intermediárias",
+    "taskId": "gwWMLWmO5keMw9Ly4LYKvGUAAyUA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:55.0740649Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 689,
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "taskId": "3v01hzFc4EaJciWRflepbWUAPnR6",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:54.5820675Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 690,
+    "title": "[#690] HU0506 - [Curso] Rotina automática para atualização da Tabela de Submissão",
+    "taskId": "ojCCKFoHfE23Ylo4KUqMTGUANOBc",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:54.1595355Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 691,
+    "title": "[#691] HU0507 - [Curso] Inclusão da Edição do CNCT na Tabela de Convergência",
+    "taskId": "g447jf9DQUmPiAMNuAaVfmUAAtxF",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:53.5948057Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 693,
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "sMnGk34jMU-5PERqLhXORWUAJniC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:53.1488324Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 694,
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos Técnicos",
+    "taskId": "JTCxoe8BDkWGZDvZ8K6zZ2UAHu0R",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:52.1610284Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 695,
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em PDF",
+    "taskId": "Mm8L1UkHRUGJkoVrVUMvoGUAEBhl",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:51.5891712Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 696,
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em CSV",
+    "taskId": "BUSjt7rJwkOJ6-Z1QeZYPmUAEuKv",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:51.11185Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 697,
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão do campo \"Educação de Jovens e Adultos\"",
+    "taskId": "1cATF1v8SUWRtZOgqZYezGUAJXTZ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:50.6684251Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 698,
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos Técnicos com Oferta Vinculada",
+    "taskId": "uqKv777Upkqh_-MJRrzZfGUANc0F",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:50.1241341Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 699,
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "taskId": "Ps3wSSmfj0qJ4-QeVZgMNmUAGEnH",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:49.6936528Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 700,
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "taskId": "wqIP1W2o0EqsGV3rVkkDpGUAA44b",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:49.1836654Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 701,
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "taskId": "EF-_jlxDTket7GM7KTJTsWUAHhBO",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:48.7494736Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 702,
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "taskId": "cw8hm4b83UuouK-tObdVLmUAKDYb",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:48.2695613Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 703,
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "taskId": "x3yWhsw9aEiE3vmr2l2yhWUAH76r",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:47.8359279Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 704,
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "taskId": "1vaQ8Tky1UaXAEv7nk-eVGUAPr6t",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:47.3956281Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 705,
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "taskId": "gD8Oc4W2oESauR3B-Hifz2UAOr11",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:46.9698802Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 706,
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "taskId": "FsnXPhVSs0esyPPAv5SlRmUAGaBr",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:46.4578638Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 707,
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "taskId": "IaiiXH5PQ0y30T98CvT79WUAA2M0",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:46.03516Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 708,
+    "title": "[#708] HU0518 [Oferta] - Rotina automática para alteração da situação das ofertas",
+    "taskId": "i1AoXKuqwkucSdX9p2Ay7WUAFfzj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:45.5903612Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 711,
+    "title": "[#711] HU0521 - [Usuários] - Melhorias de usuários",
+    "taskId": "HGa4WOTsjEShY4e23WaYZmUAEWlc",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:45.1541113Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 712,
+    "title": "[#712] [Débito Técnico] Edição da Etapa 2 (Carga Horária) sempre abre como inclusão nova — não hidrata registro já salvo",
+    "taskId": "mmrA5sUzp0K8k_ysRgCdGGUAPtlW",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:44.7120487Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 713,
+    "title": "[#713] [Débito Técnico] Modelo de dados não guarda histórico dos campos técnicos da Etapa 2 por Ato Autorizativo",
+    "taskId": "ygVTio3qJESoOnzLywMl9WUAKkeJ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:44.2948894Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 714,
+    "title": "[#714] [Débito Técnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) é mock desde a HU0463 — bloqueia HU0500",
+    "taskId": "8WSEDBCfRkOcQ9i7RctVo2UAKjuK",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:43.8481055Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 715,
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "taskId": "iTNICPAPXkS-0PtrpwoFxmUAFlQF",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:43.3946809Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 716,
+    "title": "[#716] HU0539 - [Melhoria] - Adequações nas mensagens",
+    "taskId": "rSbdL8l2HkOt8iP353xzR2UAIMeQ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:42.9384341Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 717,
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão da seção \"Projeto Pedagógico de Curso\"",
+    "taskId": "5xnnwmXFSUm39Xe3Tup3CGUAOzjp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:42.4816703Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 718,
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicitações e Cursos Técnicos",
+    "taskId": "UDlYj5GbN02A_5TMf7CRv2UAKIhg",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:41.7135966Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 719,
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "taskId": "w2PoZEIrnkKKFn6baCPKuGUALIC9",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:41.2083514Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 720,
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Carga Horária",
+    "taskId": "-sFUehLCs0yiCecXbBmKOGUAFFsh",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:40.781479Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 721,
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Certificações Intermediárias",
+    "taskId": "YHaCywv9Xkm1k356z1_gSWUALBFQ",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:40.3417058Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 722,
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Vagas",
+    "taskId": "sRY7IsNHak6B5MN3962ry2UAKOr_",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:39.8913692Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 723,
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental",
+    "taskId": "-gnyWV-aO06iAXcVs4Oor2UAJTfE",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:39.4221074Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 724,
+    "title": "[#724] HU0523 [Matrícula] - Listar Situações de Vínculo Acadêmico",
+    "taskId": "9U4LqhRYwkuBxGvaDN5M62UAHlff",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:38.9391312Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 725,
+    "title": "[#725] HU0524 [Matrícula] - Cadastrar Situação de Vínculo Acadêmico",
+    "taskId": "GLnV2F4nRUi2cmMPq5OC52UAI7Ry",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:38.4886722Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 726,
+    "title": "[#726] HU0525 [Matrícula] - Editar Situação de Vínculo Acadêmico",
+    "taskId": "qo87-e6ZE0yFkfzts_xsSGUAP1UD",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:37.8840649Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 727,
+    "title": "[#727] HU0526 [Matrícula] - Visualizar Situação de Vínculo Acadêmico",
+    "taskId": "8fisOBAHMki4KUmiCiQFIGUAP-ya",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:36.9656527Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 728,
+    "title": "[#728] HU0527 [Matrícula] - Baixar Situação de Vínculo Acadêmico",
+    "taskId": "_ATMoQF4n0OhOBeY0xojy2UADijp",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:35.9547617Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 729,
+    "title": "[#729] HU0528 [Matrícula] - Excluir Situação de Vínculo Acadêmico",
+    "taskId": "x0I8ijBzZU6odjeWnO8982UAEwBC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:35.5105156Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 730,
+    "title": "[#730] HU0529 [Matrícula] - Exportar em PDF as Situações de Vínculo Acadêmico",
+    "taskId": "sGA7VPGOH0au_0SSeZblBGUAPG2J",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:34.6932629Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 731,
+    "title": "[#731] HU0530 [Matrícula] - Exportar em CSV Situações de Vínculo Acadêmico",
+    "taskId": "oxeY5TKEA0-zBm-0Jvg6-mUAGie2",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:33.995506Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 732,
+    "title": "[#732] HU0558 [Matrícula] - Listar Cotas",
+    "taskId": "5ZiNctUk90aKmDfyGtzTJ2UAK9wY",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:32.1998008Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 733,
+    "title": "[#733] HU0559 [Matrícula] - Cadastrar Cotas",
+    "taskId": "rAx34Scu6EqClOl09r0Z-GUAMAhM",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:30.7729647Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 734,
+    "title": "[#734] HU0561 [Matrícula] - Gerenciar Abrangência do Escopo da Cota",
+    "taskId": "7AXxYF6Twk-mrvSvoEmwW2UAGII7",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:30.3041099Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 735,
+    "title": "[#735] HU0560 [Matrícula] - Editar Cota",
+    "taskId": "3KDSJktmgkumIkey7W0wI2UAHdeM",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:29.8314814Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 736,
+    "title": "[#736] HU0563 [Matrícula] - Visualizar Cota",
+    "taskId": "7BfknvINe0aEIxR7Ix5Y9GUAGL50",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:29.3917585Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 737,
+    "title": "[#737] HU0564 [Matrícula] - Visualizar Abrangência do Escopo da Cota",
+    "taskId": "B81qoLsHTkS0CXSgemIcQ2UAC18E",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:28.7859878Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 738,
+    "title": "[#738] HU0562 [Matrícula] - Associar Unidade de Ensino no escopo da Cota",
+    "taskId": "S7lQSHgwMEqR5NjhsZwVV2UAOGds",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:28.0764575Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 739,
+    "title": "[#739] HU0565 [Matrícula] - Baixar Cota",
+    "taskId": "PfU3dy46K0--66jc4XpCOWUABP4L",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:27.6114008Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 740,
+    "title": "[#740] HU0566 [Matrícula] - Excluir Cota",
+    "taskId": "Y-DCsPE1UEutN39yO4GWaWUAOHZ6",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:26.7147051Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 741,
+    "title": "[#741] HU0568 [Matrícula] - Exportar em PDF as Cotas",
+    "taskId": "Wyfd76QZA02WgmN0Ap5NT2UAA-sA",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:26.1836703Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 742,
+    "title": "[#742] HU0569 [Matrícula] - Exportar em CSV as Cotas",
+    "taskId": "9AflyThmYkOJvnkgZREwi2UAA8gC",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:25.7247943Z",
+    "completedDateTime": ""
+  },
+  {
+    "iid": 743,
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibição do nome do eixo e curso técnico",
+    "taskId": "9VHMFCG3x0-L8L2DIkO1SmUAO2kj",
+    "bucket": "Backlog",
+    "createdDateTime": "2026-09-15T03:05:25.2597257Z",
+    "completedDateTime": ""
+  }
+]

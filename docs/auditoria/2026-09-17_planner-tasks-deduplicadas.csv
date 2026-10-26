@@ -1,0 +1,104 @@
+iid;title;taskId;copies_in_planner;has_dataverse_mapping;createdDateTime
+1;[#1] HU0012 - [Usuários] Listar usuário (Tuleap 23314);t5AWoqwwYEmPamrenoKq-2UAHcol;1;nao;2026-09-16T13:36:31.0796126Z
+42;[#42] HU0008 - [Usuários] Exportar permissão para CSV (Tuleap 23587);fQ1yPDbpAE-lyk-uYT8iVmUAFBnP;1;nao;2026-09-16T13:35:24.8909661Z
+659;[#659] HU0476 - [Curso] Cadastrar Especialização Técnica do CNCT / Inclusão de CBO;s0FuLb_EYkWdnjZ9FDaxcGUAMFXr;3;nao;2026-09-15T03:07:57.0107653Z
+660;[#660] HU0477 - [Curso] Editar Especialização Técnica do CNCT / Inclusão de CBO;052_TG5XB0iJOiple76IV2UALfA4;4;sim;2026-09-17T13:12:13.2771466Z
+661;[#661] HU0478 - [Curso] Exportar Especializações Técnicas do CNCT em CSV / Inclusão de CBO;GhW1IW6vCk2Ggn31nzcvhGUALbzL;4;sim;2026-09-17T13:12:12.0921024Z
+662;[#662] HU0479 - [Curso] Editar Curso Técnico do Catálogo - CNCT;ac2G_xfo5UOj0Fplm65cTWUANaS1;4;sim;2026-09-17T13:12:11.0572929Z
+663;[#663] HU0480 - [Curso] Editar Curso Técnico Experimental;dzOVED5syECm7w98fImuHWUAAwGt;4;sim;2026-09-17T13:12:10.0242041Z
+664;[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo;1qbQ2HCa0UOE3lSoikAb42UAIhNt;4;sim;2026-09-17T13:12:08.9548303Z
+666;[#666] HU0484 - [Curso] Visualizar Curso Técnico;82jbOd_G2UeK9Itp8_gTWmUAIati;4;sim;2026-09-17T13:12:07.9465723Z
+667;[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso Técnico;nRxXTejrj0CHewsDf4tPpmUAOEEP;4;sim;2026-09-17T13:12:06.919903Z
+668;[#668] HU0486 - [Curso] Exportar Cursos em PDF;UkXJ1IHrYkiKKNt7uHCcSGUAIW_S;4;sim;2026-09-17T13:12:05.8977498Z
+669;[#669] HU0487 - [Curso] Exportar Cursos em CSV;Yqs4eM-tnky6z_yvHDeAwmUAKzKn;4;sim;2026-09-17T13:12:04.8618717Z
+670;[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso Técnico;0KzELqnQRk2SUm8VbDkkamUAGtZB;4;sim;2026-09-17T13:12:03.7977186Z
+671;[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclusão de CBO;Tt21O-k3IUK8vvQplxnJO2UANH-A;4;sim;2026-09-17T13:12:02.7635818Z
+672;[#672] HU0489 - [Curso] Visualizar Certificação Intermediária no CNCT / Inclusão de CBO;FQxX9utagku2WYZaCOJIemUAEgPy;4;sim;2026-09-17T13:12:01.7549854Z
+673;[#673] HU0490 - [Curso] Visualizar Especialização Técnica no CNCT / Inclusão de CBO;vvgqOrAvJ0Gs9_W6191HKGUAFoKC;4;sim;2026-09-17T13:12:00.6904837Z
+674;[#674] HU0491 - [Usuários] - Melhorias no cadastro/edição de usuários;j2fV3By_zUC3T9okV0l0aGUAPfbI;4;sim;2026-09-17T13:11:59.6169442Z
+675;[#675] HU0492 - [Instituição] Melhorias na inativação/exclusão de órgãos validadores;EeWyjL24PUSbgiaLvBEpe2UADzcN;4;sim;2026-09-17T13:11:58.5821694Z
+676;[#676] HU0493 - [Usuário] - Desabilitar ações das funcionalidades de permissões inativas;7j1v0dbs2k2xbr2OuDYuo2UACItk;4;sim;2026-09-17T13:11:57.5302569Z
+677;[#677] HU0499- [Curso] Validar alterações de data na edição do CNCT;yuNCvEzlIU-1RWB2TknpumUAFOyS;4;sim;2026-09-17T13:11:56.4632224Z
+678;[#678] HU0505 - [Curso] Atualização Automática dos Atos Autorizativos de Cursos Técnicos;XN_kFG5Y1EGek8aOQypePGUAObvU;4;sim;2026-09-17T13:11:55.4039845Z
+679;[#679] HU0495 - [MELHORIA] Atualizar Roles: Alteração Básica;ljsTlAm7p0K593OuU7ZKDGUAApEW;4;sim;2026-09-17T13:11:54.4070146Z
+680;[#680] HU0494 - [Curso] Cadastrar CNCT - Restrição de Rascunhos;-NYT8mz-_USRN1DamLp_b2UAFa-I;4;sim;2026-09-17T13:11:53.3637652Z
+681;[#681] Assunto Reuniões;6KuFXQiYMEimBgSEyDWiR2UAIdBy;4;sim;2026-09-17T13:11:52.3611709Z
+682;[#682] HU0504 - [Curso] - Baixar Solicitação de Autorização de Curso Técnico;weC_EwwybUW-7LhGczel32UAHQ_T;4;sim;2026-09-17T13:11:51.3155014Z
+683;[#683] HU0503 - [Curso] Baixar Curso Técnico;Kjkw1XxOxUupE9CbciQ5a2UAMgdC;4;sim;2026-09-17T13:11:50.2081466Z
+684;[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Horária da Solicitação de Autorização;UkOqUgdYWUucrCKOnCNQtmUAJmfo;4;sim;2026-09-17T13:11:49.1596426Z
+685;[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certificação Intermediária na Solicitação de Autorização;8lHxrZUTfEOXE4aZLSuFdGUAJh3Z;4;sim;2026-09-17T13:11:48.1450503Z
+686;[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicitação de Autorização;9H6AWpUAhU6Mv-P_nUtm82UAB0Tp;4;sim;2026-09-17T13:11:47.084845Z
+687;[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Horária;T3Bne5nUCU6aCAojM3ErnGUAPthJ;4;sim;2026-09-17T13:11:46.0132523Z
+688;[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certificações Intermediárias;GafuDfkChUaXOv9gGmjE3mUAMHax;4;sim;2026-09-17T13:11:44.9656325Z
+689;[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas;g8s2dpU_wE-9FznKvvOziWUAEESf;4;sim;2026-09-17T13:11:43.9600758Z
+690;[#690] HU0506 - [Curso] Rotina automática para atualização da Tabela de Submissão;YGCr0jW4_0mnWN-xDNuOLGUAPX4t;4;sim;2026-09-17T13:11:42.9054283Z
+691;[#691] HU0507 - [Curso] Inclusão da Edição do CNCT na Tabela de Convergência;CLaEtFZ7j0yhEmDWqUdyX2UAFgN7;4;sim;2026-09-17T13:11:41.7640383Z
+693;[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos Técnicos;chaGm_CY1ECQuorQeY8EVmUAKk_8;4;sim;2026-09-17T13:11:40.7194275Z
+694;[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos Técnicos;17H305tB6UyxBDbE9UFo8GUAKPFH;4;sim;2026-09-17T13:11:39.7115863Z
+695;[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em PDF;4XIuZLw5QkCo51fIYeSI0mUANPpX;4;sim;2026-09-17T13:11:38.6178248Z
+696;[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos Técnicos em CSV;TceoAR_sIU69BcSm9MUvPWUAL5o7;4;sim;2026-09-17T13:11:37.5767471Z
+697;"[#697] HU0508 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão do campo ""Educação de Jovens e Adultos""";KQT1Jsq7B0SJTyl2C40eqGUALCKj;4;sim;2026-09-17T13:11:36.4721346Z
+698;[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos Técnicos com Oferta Vinculada;GJ2y2WyLlkOSBuas50NG8mUABPwi;4;sim;2026-09-17T13:11:35.4635826Z
+699;[#699] HU0509 [Oferta] - Listar Ofertas;kkO_uCJhlk6HYPvgiWI5sWUAKGBS;4;sim;2026-09-17T13:11:34.4105467Z
+700;[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta;c_Z65vSUsUKYzdeiqOYOhmUAJQCB;4;sim;2026-09-17T13:11:33.3491634Z
+701;[#701] HU0511 [Oferta] - Cadastrar Oferta;bi978UEY9UuhRMjsL2Ea6GUABGr3;4;sim;2026-09-17T13:11:32.3168169Z
+702;[#702] HU0512 [Oferta] - Editar Oferta;FW9rPsBeZkerQnUWEn3VVGUAL3hr;4;sim;2026-09-17T13:11:31.3159245Z
+703;[#703] HU0513 [Oferta] - Visualizar Oferta;kM-bSrqUKUmi2wjyIOsUJ2UAL5bK;4;sim;2026-09-17T13:11:30.2958034Z
+704;[#704] HU0514 [Oferta] - Baixar Oferta;Ht4n9FsockOwJD96SsxCkWUALSMT;4;sim;2026-09-17T13:11:29.1782684Z
+705;[#705] HU0516 [Oferta] - Exportar Ofertas em PDF;-o72Qh0bV0C-vWUYEYeBpmUAF8oL;4;sim;2026-09-17T13:11:28.120305Z
+706;[#706] HU0517 [Oferta] - Exportar Ofertas em CSV;kGCUSbLy2UW4pAXlbr_KkGUAFZTP;4;sim;2026-09-17T13:11:27.0966608Z
+707;[#707] HU0515 [Oferta] - Excluir Oferta;aaLSoGYdb0qo8nOl3BqfzGUAN4yN;4;sim;2026-09-17T13:11:26.0740522Z
+708;[#708] HU0518 [Oferta] - Rotina automática para alteração da situação das ofertas;CnDxoVDdMkymuQ545h1aFmUAIVC-;4;sim;2026-09-17T13:11:25.0163686Z
+711;[#711] HU0521 - [Usuários] - Melhorias de usuários;AFdTKB9gH0iSSG6vCsUdtGUALwSa;4;sim;2026-09-17T13:11:23.9110566Z
+712;[#712] [Débito Técnico] Edição da Etapa 2 (Carga Horária) sempre abre como inclusão nova — não hidrata registro já salvo;dVxLbf-WoU-4DtFlIQR2L2UAKxEE;4;sim;2026-09-17T13:11:22.9016589Z
+713;[#713] [Débito Técnico] Modelo de dados não guarda histórico dos campos técnicos da Etapa 2 por Ato Autorizativo;a0MCH1RUbkmikH7TKQzbVGUAAoRp;4;sim;2026-09-17T13:11:21.8543317Z
+714;[#714] [Débito Técnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) é mock desde a HU0463 — bloqueia HU0500;ZhKvYT0MZ0aOVMpuEj56f2UAHCwF;4;sim;2026-09-17T13:11:20.7891003Z
+715;[#715] HU0xxx [Oferta] - Cancelar Oferta;xobkdqn8o0SOvfV4MqcksWUAGoeL;4;sim;2026-09-17T13:11:19.72459Z
+716;[#716] HU0539 - [Melhoria] - Adequações nas mensagens;10R-re6bo0asFQap62Fw8WUAHPng;4;sim;2026-09-17T13:11:18.6944678Z
+717;"[#717] HU0522 - [Curso] - Melhorias na Solicitação de Autorização - Inclusão da seção ""Projeto Pedagógico de Curso""";OmCXMJmmGk2Ka-T85o_NXWUAOi9I;4;sim;2026-09-17T13:11:17.6773322Z
+718;[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicitações e Cursos Técnicos;hpM9IbeiLEeGDFu1BQioxGUAPHP1;4;sim;2026-09-17T13:11:16.4981117Z
+719;[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo;rJrUjsDvU0GEnHDhZ_AB1mUAMqTG;4;sim;2026-09-17T13:11:15.4362392Z
+720;[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Carga Horária;iKxyKz1YHEybEFE06Sd8KWUAB_oI;4;sim;2026-09-17T13:11:14.3953185Z
+721;[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Certificações Intermediárias;Ef9vj-2j70-dRroPv9CIdmUAL4lx;4;sim;2026-09-17T13:11:13.3296663Z
+722;[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicitação/PPC - Etapa: Vagas;CncicTInU0ucrNlnxPZpvGUABzu-;4;sim;2026-09-17T13:11:12.2499445Z
+723;[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Catálogo - CNCT/Experimental;cBiDcJ0NDUCJ8I2X4iAxmGUAH0nQ;16;sim;2026-09-17T13:11:11.0733905Z
+724;[#724] HU0523 [Matrícula] - Listar Situações de Vínculo Acadêmico;UAv6ugs9G0KPQp14-zBKAmUAKo2w;4;sim;2026-09-17T13:11:10.0373514Z
+725;[#725] HU0524 [Matrícula] - Cadastrar Situação de Vínculo Acadêmico;B-mgHDTWAUqPrNSEtmEBCWUAAQqU;4;sim;2026-09-17T13:11:09.0090242Z
+726;[#726] HU0525 [Matrícula] - Editar Situação de Vínculo Acadêmico;xPrSz9DeMkOGieBy52cwimUAAEh7;4;sim;2026-09-17T13:11:07.900674Z
+727;[#727] HU0526 [Matrícula] - Visualizar Situação de Vínculo Acadêmico;pa8UQt5V3k6ni2Vqa_FpQ2UAJTEI;4;sim;2026-09-17T13:11:06.8054722Z
+728;[#728] HU0527 [Matrícula] - Baixar Situação de Vínculo Acadêmico;vRTkTKoLNUu8mL4OjMHmE2UAHKiO;4;sim;2026-09-17T13:11:05.7555454Z
+729;[#729] HU0528 [Matrícula] - Excluir Situação de Vínculo Acadêmico;LcDi7T2O2E6IWj4dVuDxJGUAJFHo;4;sim;2026-09-17T13:11:04.7264519Z
+730;[#730] HU0529 [Matrícula] - Exportar em PDF as Situações de Vínculo Acadêmico;MRjnBryT20aoFrYA4KQWTWUAGVHt;4;sim;2026-09-17T13:11:03.7160958Z
+731;[#731] HU0530 [Matrícula] - Exportar em CSV Situações de Vínculo Acadêmico;l6889ujJ1EawBcwssV_sM2UALKZn;4;sim;2026-09-17T13:11:02.59051Z
+732;[#732] HU0558 [Matrícula] - Listar Cotas;_R86ZOJkyESjk07xtVJcL2UAJxBS;4;sim;2026-09-17T13:11:01.480371Z
+733;[#733] HU0559 [Matrícula] - Cadastrar Cotas;ikqNJoDWk0CjfONjTY2vm2UAEVzA;4;sim;2026-09-17T13:11:00.422036Z
+734;[#734] HU0561 [Matrícula] - Gerenciar Abrangência do Escopo da Cota;GVq5_p4vS0-7L2muXrukqmUALibJ;4;sim;2026-09-17T13:10:59.252287Z
+735;[#735] HU0560 [Matrícula] - Editar Cota;4dLPHzDg80-36zahpTEgJWUACHls;4;sim;2026-09-17T13:10:58.1342985Z
+736;[#736] HU0563 [Matrícula] - Visualizar Cota;MUSdX7nDDEG2rmwX4yZdfmUAGRvP;4;sim;2026-09-17T13:10:57.0724112Z
+737;[#737] HU0564 [Matrícula] - Visualizar Abrangência do Escopo da Cota;lagwvZT1yUGbxvWUce3WUmUAGnnW;4;sim;2026-09-17T13:10:55.8550921Z
+738;[#738] HU0562 [Matrícula] - Associar Unidade de Ensino no escopo da Cota;F-eSCDS6lkK3rm9RkDW9bGUAIWDq;4;sim;2026-09-17T13:10:54.7777071Z
+739;[#739] HU0565 [Matrícula] - Baixar Cota;wjMU-q6xTU2K1ikEGjl5IGUAOHSP;4;sim;2026-09-17T13:10:53.755511Z
+740;[#740] HU0566 [Matrícula] - Excluir Cota;jwnFFlT2eECcWt3GOp32y2UAOTtC;4;sim;2026-09-17T13:10:52.6001608Z
+741;[#741] HU0568 [Matrícula] - Exportar em PDF as Cotas;WN_O-TEMi0qBMsdt0KVmQ2UAAnu0;4;sim;2026-09-17T13:10:51.5172642Z
+742;[#742] HU0569 [Matrícula] - Exportar em CSV as Cotas;T0ZGl6E3Jk2dTu_Xg92XBmUALdo-;4;sim;2026-09-17T13:10:50.4114984Z
+743;[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibição do nome do eixo e curso técnico;zIIAU5JmkE6Q-_ktgRb4PWUAKU51;4;sim;2026-09-17T13:10:49.3740219Z
+744;[#744] HU0531 [Matrícula] - Listar Fluxo por Situação de Matrícula;WuZwgzCoG0O-1dAv1tA-vGUACkQZ;3;sim;2026-09-17T13:10:48.3043141Z
+745;[#745] HU0532 [Matrícula] - Cadastrar Fluxo por Situação de Matrícula;NpnQ-7PR7k6O6wS0xu427mUAG3LC;3;sim;2026-09-17T13:10:47.2053569Z
+746;[#746] HU0533 [Matrícula] - Editar Fluxo por Situação de Matrícula;Qiae3q7bN0m5zLi33chtRmUAN3_r;3;sim;2026-09-17T13:10:46.1797273Z
+747;[#747] HU0534 [Matrícula] - Visualizar Fluxo por Situação de Matrícula;Nw2PXK4sNESEOgf8cn2CXmUAFKr7;3;sim;2026-09-17T13:10:45.1486759Z
+748;[#748] HU0535 [Matrícula] - Baixar Fluxo por Situação de Matrícula;00henK0Qd0a1eUfjnHvxIWUAC57X;3;sim;2026-09-17T13:10:44.0177563Z
+749;[#749] HU0536 [Matrícula] - Excluir Fluxo por Situação de Matrícula;H36-YIy2ykONB_sdg8VRH2UACSeO;3;sim;2026-09-17T13:10:42.9896748Z
+750;[#750] HU0537 [Matrícula] - Exportar em PDF os fluxo por Situações de Matrícula;B5AYq3Df3EC8NCp0prROjWUAEotB;3;sim;2026-09-17T13:10:41.8616883Z
+751;[#751] HU0538 [Matrícula] - Exportar em CSV os fluxo por Situações de Matrícula;HVHMCq87rEiNclGLkTjuymUAK7EA;3;sim;2026-09-17T13:10:40.7090648Z
+752;"[#752] HU0555 - [Oferta] [MELHORIA] Inclusão do campo ""Projeto Pedagógico de Curso"" em Cadastro de Oferta";Df31FKlmrU-7BqNPhpY7PWUANDSz;3;sim;2026-09-17T13:10:39.6817851Z
+753;"[#753] HU0556 - [Oferta] [MELHORIA] Inclusão do campo ""Projeto Pedagógico de Curso"" em Visualizar e Baixar Oferta";5d9rJg4UeUO63Dy8Co8fOWUAFRPc;3;sim;2026-09-17T13:10:38.649703Z
+754;"[#754] HU0557 - [Oferta] [MELHORIA] Inclusão do campo ""Projeto Pedagógico de Curso"" em Exportar CSV de Oferta";F91EtmKU3kGyJYOwZrDfOGUAAY2A;3;sim;2026-09-17T13:10:37.6374149Z
+755;[#755] HU0570 - [Curso] Visualizar PPC de Curso Técnico;dSK2PlFNb0O_p_1c0BLY62UAI6Ds;3;sim;2026-09-17T13:10:36.6211113Z
+756;[#756] HU0571 - [Curso] Baixar PPC de Curso Técnico;2SQhK79CvkSQNsy8T06YdGUAMuHQ;3;sim;2026-09-17T13:10:35.4780384Z
+757;[#757] HU0572 - [Curso] Rotina automática para alteração de status dos PPCs & Atos Autorizativos;v4T8Cap-rki9HZLwnL9piWUABl1u;3;sim;2026-09-17T13:10:34.3488864Z
+758;[#758] HU0573 - [Autenticação] [Melhoria] Visualizar contador de Cursos;yxFS2BxPVEWYwHDXL8kteWUAHoAJ;3;sim;2026-09-17T13:10:33.2745736Z
+759;[#759] HU0574 - [Autenticação] [Melhoria] Adequações nas telas de acesso e logotipos;sXykX4d4v0iHsyvUDbNxRmUAFhW3;4;sim;2026-09-17T13:10:32.1504707Z
+760;[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso Técnico;SsKCokn6mEKxWSayEa3jaGUACIXP;4;sim;2026-09-17T13:10:31.0111104Z
+761;[#761] HU0576 - [Curso] [Melhoria] Baixar Curso Técnico;PAgzRQAcVEm1NZvwt63MqGUAM8fq;4;sim;2026-09-17T13:10:29.8827169Z
+762;[#762] HU0578 - [INSTITUIÇÃO] [Melhoria] Melhorias de Unidades de Ensino Vinculadas;-4718HSkjkeBYA6okgyBz2UAOTwz;4;sim;2026-09-17T13:10:28.6664627Z
+763;[#763] HU0577 - [Curso] [MELHORIA] Cadastrar PPC para Curso Experimental - Etapa: PPC e Ato Autorizativo;FN5JvrbpT0GUM5I1EzsxQ2UAJj3l;2;sim;2026-09-17T13:10:27.5228343Z

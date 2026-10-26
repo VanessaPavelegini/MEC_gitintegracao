@@ -1,0 +1,2846 @@
+[
+  {
+    "id": "EfgimOGJHkmWCXAftfqcGGUAFFjT",
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "zHokHM9JlEen3c8q5Oecg2UABSu-",
+    "title": "[#690] HU0506 - [Curso] Rotina autom\u00e1tica para atualiza\u00e7\u00e3o da Tabela de Submiss\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "8OuDp7PjKUmjAmiu0FLjymUAKLeU",
+    "title": "[#691] HU0507 - [Curso] Inclus\u00e3o da Edi\u00e7\u00e3o do CNCT na Tabela de Converg\u00eancia",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "eyu1W64P1EOeWjXYhB-zg2UAPZ1i",
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_W4RuYaNNk2VyqVD9AzzQWUACv-F",
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "NqbZLVgjAEejODM9iANaF2UAMViq",
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "h6ur_VsvukiXLhQ8xfh0E2UAJf4k",
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7s59nPLFWEySzXugfZrgGWUAJbgt",
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o do campo \"Educa\u00e7\u00e3o de Jovens e Adultos\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "W9gbr2X7UUyrni1WFMTL_2UALOQe",
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos T\u00e9cnicos com Oferta Vinculada",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JQsJ0JSCV0qSCgCTQeWlr2UAFrs8",
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "iBIRmq-TIE-hoDXhGbiFMmUAHhNE",
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "mGFn8585CUakFjyKTUkKFmUANR96",
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "i8vQ909Thk-X9A8mE_1q8mUAOQB_",
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "YbODbIutw0udAZ-BJSsk8GUAL3xQ",
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "gKzmVwD15UqUnNHaaF1D2GUAP40Q",
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "qSjTMHXX20eHKcOKUG2wEmUAJXO6",
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "qDM5mYqgr0itXPZaD3F112UAO-hs",
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jrAi1E2bHUGLu4_QEvvqwWUAOdLM",
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Wp8dKTiTKkCouVEJv-C65WUAJmfw",
+    "title": "[#708] HU0518 [Oferta] - Rotina autom\u00e1tica para altera\u00e7\u00e3o da situa\u00e7\u00e3o das ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "NTt_pZqnpUigU0sqaeSBsGUACsIq",
+    "title": "[#711] HU0521 - [Usu\u00e1rios] - Melhorias de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "KOPdsDRPBk-hJ94G0r__wGUALaDd",
+    "title": "[#712] [D\u00e9bito T\u00e9cnico] Edi\u00e7\u00e3o da Etapa 2 (Carga Hor\u00e1ria) sempre abre como inclus\u00e3o nova \u2014 n\u00e3o hidrata registro j\u00e1 salvo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "28dyg6PAfkSCqY72Ae5RWWUADtoc",
+    "title": "[#713] [D\u00e9bito T\u00e9cnico] Modelo de dados n\u00e3o guarda hist\u00f3rico dos campos t\u00e9cnicos da Etapa 2 por Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "mmrbedbFTEighQSC3yF1dmUAHXu1",
+    "title": "[#714] [D\u00e9bito T\u00e9cnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) \u00e9 mock desde a HU0463 \u2014 bloqueia HU0500",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0rcq8qbRu0awdwULEyfO-GUAFElp",
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aWa7jx7zp0yAgxjqoHq7mGUAOjbx",
+    "title": "[#716] HU0539 - [Melhoria] - Adequa\u00e7\u00f5es nas mensagens",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "dyPj-SRwAkKoRlTlP5m2hGUAMT1V",
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o da se\u00e7\u00e3o \"Projeto Pedag\u00f3gico de Curso\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "uTT8VSvYz0GorwiyXwWBXmUAPiax",
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicita\u00e7\u00f5es e Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2-qfwCZOfkqgThjGeAV6aGUAMOt-",
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ej3gyIT-EkyEXFVfO6alQmUAEXcl",
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_SAPKzVvlUi6owCPrhAWsGUAKl9N",
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EEs5wgq8UkKBpjhyiOrf22UAKOQJ",
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tL1cCAjAWkuVBWt5rWq-aGUAL2KS",
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Cat\u00e1logo - CNCT/Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "UHv9024FpEm_IfcQDjoL72UAKuYu",
+    "title": "[#724] HU0523 [Matr\u00edcula] - Listar Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SGnIXnrHp0-qKIqKPhc6dWUAJqBI",
+    "title": "[#725] HU0524 [Matr\u00edcula] - Cadastrar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "LHu7vnX_QEmXs4XNrGy8ImUANLOs",
+    "title": "[#726] HU0525 [Matr\u00edcula] - Editar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jT9W0E0QYkmE4lfh-wG2V2UAEaj4",
+    "title": "[#727] HU0526 [Matr\u00edcula] - Visualizar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "IJElx6AVFEW3qa6_4a4NMWUAFTst",
+    "title": "[#728] HU0527 [Matr\u00edcula] - Baixar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Z722UEsV3EmpFEuZqa2ahWUAPNCn",
+    "title": "[#729] HU0528 [Matr\u00edcula] - Excluir Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "T__pn7XobEaPGyfCgKOAjGUAMIif",
+    "title": "[#730] HU0529 [Matr\u00edcula] - Exportar em PDF as Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jTmsPWIZmEC0zyqa0PElxmUAG_6i",
+    "title": "[#731] HU0530 [Matr\u00edcula] - Exportar em CSV Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "N1rA7Thenky3XTRq8OryX2UAAriF",
+    "title": "[#732] HU0558 [Matr\u00edcula] - Listar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "MDCZNPewKkaebHn5I32GbWUAEEDZ",
+    "title": "[#733] HU0559 [Matr\u00edcula] - Cadastrar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "RIYMC0t4IEed5wBn2EO3xmUAICqk",
+    "title": "[#734] HU0561 [Matr\u00edcula] - Gerenciar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bbcpU_veO0i6JtpvUuF662UADo61",
+    "title": "[#735] HU0560 [Matr\u00edcula] - Editar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Q5b-3gHqkkq3SNgml2LpE2UAPyAf",
+    "title": "[#736] HU0563 [Matr\u00edcula] - Visualizar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "r9PsVdkknUyPHfoYelCDq2UAFobD",
+    "title": "[#737] HU0564 [Matr\u00edcula] - Visualizar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7-HW3jnOG0Ks4p_ALBjtBmUAPnjo",
+    "title": "[#738] HU0562 [Matr\u00edcula] - Associar Unidade de Ensino no escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "1fqpiGiR2UaDNcInrjAG72UAN4Q3",
+    "title": "[#739] HU0565 [Matr\u00edcula] - Baixar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-mN-GcQMBEWRwYu7nEkbQmUAKrvC",
+    "title": "[#740] HU0566 [Matr\u00edcula] - Excluir Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "w8wx5lNU8UC6Np1sX7ZAXWUAOn5r",
+    "title": "[#741] HU0568 [Matr\u00edcula] - Exportar em PDF as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aR9vRSPvxEifWT3pDVPHCWUADIXf",
+    "title": "[#742] HU0569 [Matr\u00edcula] - Exportar em CSV as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FBaAXE-TgEWNGvBjVJET0mUAE8rW",
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibi\u00e7\u00e3o do nome do eixo e curso t\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2UeRp7IcQUKwbj-9ojd33WUAGpgs",
+    "title": "[#744] HU0531 [Matr\u00edcula] - Listar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "N1TbGRW4akeBp76MnmczAmUABa2d",
+    "title": "[#745] HU0532 [Matr\u00edcula] - Cadastrar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "rpml28PR20S2v07b1cnngGUAG45-",
+    "title": "[#746] HU0533 [Matr\u00edcula] - Editar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Z_qtyHZdn0Ow7gZEMFzOpmUACxTA",
+    "title": "[#747] HU0534 [Matr\u00edcula] - Visualizar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "N1qKIjW0XEyWJziGd7mq8mUAO5Gv",
+    "title": "[#748] HU0535 [Matr\u00edcula] - Baixar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GzCHpvJXMUW78f5weSS6z2UAKiTx",
+    "title": "[#749] HU0536 [Matr\u00edcula] - Excluir Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ZaDhOMugTEuDttMcAWUPSWUAPQxR",
+    "title": "[#750] HU0537 [Matr\u00edcula] - Exportar em PDF os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4mjo_93lmk2eBv-_3NBC-2UACCj3",
+    "title": "[#751] HU0538 [Matr\u00edcula] - Exportar em CSV os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bJFgxb6ZuEaNu9pPBHni8GUAFJcG",
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Cadastro de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "dVkfP6AKH0OLDSm1VG8sr2UAJ_hP",
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Visualizar e Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "n99Mk_iQw06lfVrMQ6UhRWUAPGAi",
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Exportar CSV de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JDUL1dmSiEOp8xbyVyyGX2UAPtRx",
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "78XtO-6yBEWpdWpZ-QXkWmUAB1DT",
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "hET5zWsiEkiyjQ7psDbTzWUAO8eT",
+    "title": "[#757] HU0572 - [Curso] Rotina autom\u00e1tica para altera\u00e7\u00e3o de status dos PPCs & Atos Autorizativos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Iygh85nnDk2uAQcxIHzkRWUAJ86h",
+    "title": "[#758] HU0573 - [Autentica\u00e7\u00e3o] [Melhoria] Visualizar contador de Cursos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "UUTBLIk4o0OsMiieDLkcRWUAL-Jo",
+    "title": "[#759] HU0574 - [Autentica\u00e7\u00e3o] [Melhoria] Adequa\u00e7\u00f5es nas telas de acesso e logotipos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "89ADV7nkyk2lxfgWhTdxeWUAC8Se",
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FBVvZU7uL0mnhgnRnNwbSWUAIhHd",
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "BqMY23ucT0OZlI0cYq0spGUAAs9T",
+    "title": "[#762] HU0xxx - [INSTITUI\u00c7\u00c3O] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "BaMf7ENMr0eSV_xaGoyt1mUAHfgR",
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3gYayz4CfE-DYUr0bZ_xeGUAKu4t",
+    "title": "[#660] HU0477 - [Curso] Editar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "51gkD9kGAUqBh6ht9JV1TmUAANWE",
+    "title": "[#661] HU0478 - [Curso] Exportar Especializa\u00e7\u00f5es T\u00e9cnicas do CNCT em CSV / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aIX_tTpurE-n6DwjIFdWbWUACxTb",
+    "title": "[#662] HU0479 - [Curso] Editar Curso T\u00e9cnico do Cat\u00e1logo - CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aDowCXbw20WxbMbmIdJ5gWUADQ9P",
+    "title": "[#663] HU0480 - [Curso] Editar Curso T\u00e9cnico Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lRrcW8XlhEmEI72WiEEeO2UAHc6e",
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ui6wTfHOiU-7aMMrc8dWaWUAHNzA",
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "YfSP4u8XgkC1nLuZEhTMfWUAEORC",
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "eg_HwxI6aE2iwZQGE8Y7QWUANqR4",
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lPLhlzPPn0OWXI5Sy-zZ9GUANxzP",
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "zoVtESs6pEeC0kPciMzCsGUABSTV",
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4fbFWBG1hUuWWcJ6mEVEhWUAOdmj",
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ln7MMuLq9U24jPXkNadLWGUAF_At",
+    "title": "[#672] HU0489 - [Curso] Visualizar Certifica\u00e7\u00e3o Intermedi\u00e1ria no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ODUmRhVzKkaGbOYd7wg54WUADM9C",
+    "title": "[#673] HU0490 - [Curso] Visualizar Especializa\u00e7\u00e3o T\u00e9cnica no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nmgAWURWWUK7lab3hYdkW2UAGn9J",
+    "title": "[#674] HU0491 - [Usu\u00e1rios] - Melhorias no cadastro/edi\u00e7\u00e3o de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "WSh-MJeiOE6UlD2_hVpXDWUANdtd",
+    "title": "[#675] HU0492 - [Institui\u00e7\u00e3o] Melhorias na inativa\u00e7\u00e3o/exclus\u00e3o de \u00f3rg\u00e3os validadores",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "zAUl-H0GvU6Zw5DjOuTqKGUAHjRL",
+    "title": "[#676] HU0493 - [Usu\u00e1rio] - Desabilitar a\u00e7\u00f5es das funcionalidades de permiss\u00f5es inativas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "cnCFhzczSU2N7IwAcATUaGUAN12H",
+    "title": "[#677] HU0499- [Curso] Validar altera\u00e7\u00f5es de data na edi\u00e7\u00e3o do CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fZF9OxjNiUiExuQ69alX4mUAJImu",
+    "title": "[#678] HU0505 - [Curso] Atualiza\u00e7\u00e3o Autom\u00e1tica dos Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xB9d3_u7t0GykyZz7ZKZemUAMYB-",
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Altera\u00e7\u00e3o B\u00e1sica",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_5v-frHJfky4dN8pT70R5mUAGHc2",
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restri\u00e7\u00e3o de Rascunhos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "9zgzsaUOx0OwJGEeVMKKcmUALsjJ",
+    "title": "[#681] Assunto Reuni\u00f5es",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "kqBf-v1aVk23h5Ym7j9SjWUAKIfC",
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GrehT7PnOEq58FkpN-gMTGUAGv_u",
+    "title": "[#683] HU0503 - [Curso] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "okqZwL8PokejxsWJcYevgWUAA1WL",
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Hor\u00e1ria da Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "H3wzuyfoJkem7cRAP1lShmUAEPcX",
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certifica\u00e7\u00e3o Intermedi\u00e1ria na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "irkbUv-87EG90OXHTpBOB2UAPi6U",
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ix5r5FXJ9ku_K5V1Zw7FwGUAN-E9",
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bHlStxIjzkSE_S-et0ukSGUAINWu",
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "sZ6HhJobjEmKox64OpUud2UAHtMU",
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ja8UrglGu0eZtCeHDuju_2UABX9L",
+    "title": "[#690] HU0506 - [Curso] Rotina autom\u00e1tica para atualiza\u00e7\u00e3o da Tabela de Submiss\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "qOzoPnyLtUmaFnlo6DOz72UAE7jg",
+    "title": "[#691] HU0507 - [Curso] Inclus\u00e3o da Edi\u00e7\u00e3o do CNCT na Tabela de Converg\u00eancia",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "wm8D5yHLb02gS2_K9ZsAm2UANP85",
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "yvIUmq4Sf0OeWq067cNYMWUADSTD",
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Qo3SLwWtkEelBOLC4Sts72UAFoDb",
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0Qbk8s6rRUm8CvDMkXppcGUAFWlk",
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FImGN_z-vU2gnwGczO8-oWUALikP",
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o do campo \"Educa\u00e7\u00e3o de Jovens e Adultos\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "eHKo1epJPUCEYXnESJ07GmUAPDjJ",
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos T\u00e9cnicos com Oferta Vinculada",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-aDI6eZXGUacWJDzz2E2YmUAGD8k",
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "C2dwGfF0Ike_sNvSZjUlt2UAN-A9",
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fRvWR_Sp80Sgg9JXAsnjqmUAEd4-",
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "N0AguWt2OUy266xNe0xlcWUAOx70",
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3t0165jCpEi0kRwc3zBt2GUAC_4p",
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nCXRvlMlGE6dE6Zs12yr_WUABTOh",
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "wV6xAfoar0S1ng66yWhR32UAKHYC",
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "uunWP82WP0WpxttJpKqfVGUANuW4",
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4arlvTTSJ0CtJRVuhVx8K2UAM1FF",
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "QBDUqIJfRUipnUKgc9vkEGUANRSf",
+    "title": "[#708] HU0518 [Oferta] - Rotina autom\u00e1tica para altera\u00e7\u00e3o da situa\u00e7\u00e3o das ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "pfw-Xpn1rECiSxAExdtKSWUAI1Lg",
+    "title": "[#711] HU0521 - [Usu\u00e1rios] - Melhorias de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fEs7Kdq46Em53Fu0BGmJwmUALfFe",
+    "title": "[#712] [D\u00e9bito T\u00e9cnico] Edi\u00e7\u00e3o da Etapa 2 (Carga Hor\u00e1ria) sempre abre como inclus\u00e3o nova \u2014 n\u00e3o hidrata registro j\u00e1 salvo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "KzpPyalbnES1SFnUmPqirGUAHRJm",
+    "title": "[#713] [D\u00e9bito T\u00e9cnico] Modelo de dados n\u00e3o guarda hist\u00f3rico dos campos t\u00e9cnicos da Etapa 2 por Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "yH9qU7bTwEiiWfSp1H1cH2UAJOMg",
+    "title": "[#714] [D\u00e9bito T\u00e9cnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) \u00e9 mock desde a HU0463 \u2014 bloqueia HU0500",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4P467HrA5EWh2yxugMsWgGUAIFGP",
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2NztecryEkWnJ8ZYKF8mNGUAErfp",
+    "title": "[#716] HU0539 - [Melhoria] - Adequa\u00e7\u00f5es nas mensagens",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Lj2Bd6cn6UeC_n0TD_sDEGUAGkyg",
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o da se\u00e7\u00e3o \"Projeto Pedag\u00f3gico de Curso\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GmEN_R4aiUi2Cwjuyjvy1GUAG4-e",
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicita\u00e7\u00f5es e Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2HjAofuYAkidtahBeGF84WUAIiNk",
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Q-zLyn1zFkOvXLl_iIiH_WUAGcSv",
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ck37j496ikyHPyEj2aXcbGUAOs0x",
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Z8sSZlX3N0OTa3WvxanbXmUAKO_K",
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xfIqS_A2qEi4YpRtexOw72UAP_Bj",
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Cat\u00e1logo - CNCT/Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "AoUPTmLWXE2SFmnTUJPgcWUAEWq8",
+    "title": "[#724] HU0523 [Matr\u00edcula] - Listar Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_CoO0GfZPkuR4DC9F3ZxQmUAOrco",
+    "title": "[#725] HU0524 [Matr\u00edcula] - Cadastrar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "q2vEfN__FUais8GborVZyWUAC8DE",
+    "title": "[#726] HU0525 [Matr\u00edcula] - Editar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "WTItNUdd2U2EvvUOKiUPwWUALKS9",
+    "title": "[#727] HU0526 [Matr\u00edcula] - Visualizar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aeXnnFjl80uyoK2thNTaXWUAEhX4",
+    "title": "[#728] HU0527 [Matr\u00edcula] - Baixar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "iHDiS_M9GEeUohipL7noNWUAM71K",
+    "title": "[#729] HU0528 [Matr\u00edcula] - Excluir Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "wqP64kdihUyBl-cCPdBcwmUAMz3T",
+    "title": "[#730] HU0529 [Matr\u00edcula] - Exportar em PDF as Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "8wW22dUQ40ChGT4sOmI1UGUAABq6",
+    "title": "[#731] HU0530 [Matr\u00edcula] - Exportar em CSV Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "b5fKu7tf8k-uymuumn3y8GUALVUk",
+    "title": "[#732] HU0558 [Matr\u00edcula] - Listar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Jo_5GcOMHEev6liBpzqyPGUALmdT",
+    "title": "[#733] HU0559 [Matr\u00edcula] - Cadastrar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "t1B7idEFvU2eAB1nh4vFD2UAJnSJ",
+    "title": "[#734] HU0561 [Matr\u00edcula] - Gerenciar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "50ul1vtga0WQ1CLMF3gmc2UAFH5Y",
+    "title": "[#735] HU0560 [Matr\u00edcula] - Editar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "9ZrPivWwFUm-rxHof5TK2mUAEbpD",
+    "title": "[#736] HU0563 [Matr\u00edcula] - Visualizar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4dBAnkKTQ0i-JCQe0mo-7GUAPBgT",
+    "title": "[#737] HU0564 [Matr\u00edcula] - Visualizar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "6gr11GvHB0WYoBCcPi_7TWUAP_w3",
+    "title": "[#738] HU0562 [Matr\u00edcula] - Associar Unidade de Ensino no escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tdZpG_cf1UqwdHVzoKIZmWUANYxX",
+    "title": "[#739] HU0565 [Matr\u00edcula] - Baixar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "6nvdzfBwJEKiR95YrZgzomUAMvOp",
+    "title": "[#740] HU0566 [Matr\u00edcula] - Excluir Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "paB58fPZHkiMFctndyIRwGUAGYob",
+    "title": "[#741] HU0568 [Matr\u00edcula] - Exportar em PDF as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "KscmG6jVJkKOrzqXycT4H2UAJciK",
+    "title": "[#742] HU0569 [Matr\u00edcula] - Exportar em CSV as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "X-KwK-r45EuROYjbSOtPDmUACrPz",
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibi\u00e7\u00e3o do nome do eixo e curso t\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "eapjBjFcuU2yzX6ksr1DvmUALtVL",
+    "title": "[#744] HU0531 [Matr\u00edcula] - Listar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_bmlaC18V0GxWjo0_ckleGUABgOP",
+    "title": "[#745] HU0532 [Matr\u00edcula] - Cadastrar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "TGFI7eK3VEi3AoI_zBMRgmUAOncA",
+    "title": "[#746] HU0533 [Matr\u00edcula] - Editar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JXMM7UmgWEu6yMcgyJCFx2UALpi8",
+    "title": "[#747] HU0534 [Matr\u00edcula] - Visualizar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "f9Ua_I-VVEWlXGzCFdI4sGUABASX",
+    "title": "[#748] HU0535 [Matr\u00edcula] - Baixar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "RyEc_kvv5Ue-bwmwp4CSl2UABpGX",
+    "title": "[#749] HU0536 [Matr\u00edcula] - Excluir Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "AexE5bjCG0m8Z7Lca3BCdmUAE4Kn",
+    "title": "[#750] HU0537 [Matr\u00edcula] - Exportar em PDF os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "C16Di07F2kmYfSF94BiPJWUAL4LL",
+    "title": "[#751] HU0538 [Matr\u00edcula] - Exportar em CSV os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7z2mS3ql3kutQIEw7qc8GGUAP488",
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Cadastro de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FfBbaalPxE-WPrI3frJt9GUAMcD7",
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Visualizar e Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "YVLsELp91EajVQGGBbGXrWUAIOVo",
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Exportar CSV de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ob2Tc4EyLUysgMP5c7KS6GUANvIX",
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7eOf5MkCHkWSN-AMLAKPimUAIH4R",
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "uMR0yXWGgU2q_1T3cQAvg2UANq2G",
+    "title": "[#757] HU0572 - [Curso] Rotina autom\u00e1tica para altera\u00e7\u00e3o de status dos PPCs & Atos Autorizativos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JkYNFuI7tE2objMqNVBMx2UAB8Fk",
+    "title": "[#758] HU0573 - [Autentica\u00e7\u00e3o] [Melhoria] Visualizar contador de Cursos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "j7CktNUZH0q_st7ttYsr52UAObI5",
+    "title": "[#759] HU0574 - [Autentica\u00e7\u00e3o] [Melhoria] Adequa\u00e7\u00f5es nas telas de acesso e logotipos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bHlxws9pREO_eWQ8eChZO2UAIh5f",
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jyw3XJOdmkSQRLDHp98FSWUABHAz",
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "a7qM31rYSEqugtKoQY3-smUADEhY",
+    "title": "[#762] HU0xxx - [INSTITUI\u00c7\u00c3O] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xsg5QWcn00G8OcTKuyOnEWUAI-EL",
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3wHfgn6JdES8Um6G14qSVmUAPaqE",
+    "title": "[#660] HU0477 - [Curso] Editar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "oZLBHAWObEGaoighiUirrmUAInku",
+    "title": "[#661] HU0478 - [Curso] Exportar Especializa\u00e7\u00f5es T\u00e9cnicas do CNCT em CSV / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "LmqRALzSfUmlTWMwqSF50mUAFybu",
+    "title": "[#662] HU0479 - [Curso] Editar Curso T\u00e9cnico do Cat\u00e1logo - CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aVnoOq4sRkWBj2uOvcaeVGUAPP0w",
+    "title": "[#663] HU0480 - [Curso] Editar Curso T\u00e9cnico Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "mQF9tTzLs02YyyqwbCHRcmUAE2jN",
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fNfazGuW_0i2nMRsdQkhzGUAKJmd",
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "L70PtAksHUOZzNAB_dFZCGUAB-GF",
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "AVbIYWvEQ0e86gbDyoj7DGUADDGG",
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fRMJENAq5EqFEzlU3TuY2WUAHm3E",
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "C9cEfcvJPk-ms7F8gv_Eb2UAGVde",
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "HKlFOCW6mUSrufCWxl1N7WUAIdX5",
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JppEo_5WbEWWP6mQQMosImUACvj0",
+    "title": "[#672] HU0489 - [Curso] Visualizar Certifica\u00e7\u00e3o Intermedi\u00e1ria no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2W09wpNrqUG-xVSShaY8cmUAJovu",
+    "title": "[#673] HU0490 - [Curso] Visualizar Especializa\u00e7\u00e3o T\u00e9cnica no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "dYIR0wD7N0CIvdqi7AgPl2UALzlW",
+    "title": "[#674] HU0491 - [Usu\u00e1rios] - Melhorias no cadastro/edi\u00e7\u00e3o de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "QhBvuqXV_02EGyS4nJiygmUAE7EY",
+    "title": "[#675] HU0492 - [Institui\u00e7\u00e3o] Melhorias na inativa\u00e7\u00e3o/exclus\u00e3o de \u00f3rg\u00e3os validadores",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "vPjr21Dw7USSNnWMFHgSaWUAGc8p",
+    "title": "[#676] HU0493 - [Usu\u00e1rio] - Desabilitar a\u00e7\u00f5es das funcionalidades de permiss\u00f5es inativas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "zK-vSip3kEqzyed8bIT9U2UAP04f",
+    "title": "[#677] HU0499- [Curso] Validar altera\u00e7\u00f5es de data na edi\u00e7\u00e3o do CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "wyDcoezb4EqwTX95npSkFWUAIuhB",
+    "title": "[#678] HU0505 - [Curso] Atualiza\u00e7\u00e3o Autom\u00e1tica dos Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Z7U2JzsX2EKIqYbvBtb7yGUAJW5d",
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Altera\u00e7\u00e3o B\u00e1sica",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "u59UpDC1OUCGejKjDJKggGUAMszN",
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restri\u00e7\u00e3o de Rascunhos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ph2JeHwq8UmZ2ZcffUk4omUAEKEj",
+    "title": "[#681] Assunto Reuni\u00f5es",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "U4J6V6pf70m_ja4L3lAxQmUAD4mL",
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2Hp-a1LPmkOiUNvf2VvErWUALuzk",
+    "title": "[#683] HU0503 - [Curso] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3fy3LIZwNkSassqXnD5dJWUAMQxk",
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Hor\u00e1ria da Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "zJzVZ9iuKUWenZJsf9mqdGUACHvG",
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certifica\u00e7\u00e3o Intermedi\u00e1ria na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fRdbfwaJ5UOMRRPrGrZF1WUANh-L",
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-EdFSNGDWUiFAN_KIAktRGUAJsMM",
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "E9Npq7Pm8Uq_LBmT526lYmUAOJTf",
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ol6JsroCP0ixUlTql8EwcmUAD4mX",
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JSRVlFoPyUeJKl-pCHX5z2UAJ1iy",
+    "title": "[#690] HU0506 - [Curso] Rotina autom\u00e1tica para atualiza\u00e7\u00e3o da Tabela de Submiss\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Dki9lIiG7kayJff__wr0L2UAKWD5",
+    "title": "[#691] HU0507 - [Curso] Inclus\u00e3o da Edi\u00e7\u00e3o do CNCT na Tabela de Converg\u00eancia",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "WBJcn8FHbUa6PzvvEAO6zmUAFOUr",
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "wQQWPZ5cmkarP4Zp9g6wwWUAEu01",
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tN8zfezOJkietOlR4ptDZ2UAJ--m",
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "p1nQD8p8UUeXZuFDJiKqv2UAO8Pz",
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "hsj42ghGmUel34fxsVeUfmUAEPre",
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o do campo \"Educa\u00e7\u00e3o de Jovens e Adultos\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "IkeKohIO5kKx3iV9vAEhlWUAGDwn",
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos T\u00e9cnicos com Oferta Vinculada",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-CSqhWxta06hqHRGKp5TA2UAD0KN",
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "47jCmoiu_0qF1u9kVr8w9GUAMNZL",
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SlarL489KEKV468aI4oMHmUAOeoj",
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SgrzmdrZC0GZ3Gk8KeuTb2UAAwWD",
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "VzhX3fOTUkawBn9dQaFrvmUAC3WG",
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "oXWaYx8QGEWs9ZLcJgPmvWUAJG-V",
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "a6NqW0DJfkuThkO6sUMz62UAFEMc",
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "gCc-wlhBGUWBl5oqtGmuNWUAJ0FQ",
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "E8MPCHqESEStVQNxdfCrEWUADIvf",
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_GmKjnQKN0255Y9PvEnwkWUAEmYh",
+    "title": "[#708] HU0518 [Oferta] - Rotina autom\u00e1tica para altera\u00e7\u00e3o da situa\u00e7\u00e3o das ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "n-JCOEN-Z0mOrvg7nEyVVGUAJsvD",
+    "title": "[#711] HU0521 - [Usu\u00e1rios] - Melhorias de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ep_-ZjRcOUevqiiUAKoBdWUACrAW",
+    "title": "[#712] [D\u00e9bito T\u00e9cnico] Edi\u00e7\u00e3o da Etapa 2 (Carga Hor\u00e1ria) sempre abre como inclus\u00e3o nova \u2014 n\u00e3o hidrata registro j\u00e1 salvo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EP_f5BEFVESTBuNz-4IDnGUABt0g",
+    "title": "[#713] [D\u00e9bito T\u00e9cnico] Modelo de dados n\u00e3o guarda hist\u00f3rico dos campos t\u00e9cnicos da Etapa 2 por Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "5hY6DoKbukORadw8be0vzWUAExaT",
+    "title": "[#714] [D\u00e9bito T\u00e9cnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) \u00e9 mock desde a HU0463 \u2014 bloqueia HU0500",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "RD-nRBrW_0-l-VBLKyVOVGUAMUIM",
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "cpr94k4tZEK0Al_a8mfOhWUAF5AQ",
+    "title": "[#716] HU0539 - [Melhoria] - Adequa\u00e7\u00f5es nas mensagens",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Pvi-9_41DkixC3NFn9BmZ2UALrqc",
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o da se\u00e7\u00e3o \"Projeto Pedag\u00f3gico de Curso\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EcutGes1T0u0BoPxauKQs2UALpeu",
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicita\u00e7\u00f5es e Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "w2E7DO80Y0GBWVBuy5MUd2UAFbzQ",
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "M3Y8og3Z7kKhMovP0rZUoWUAMYGd",
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "imlLJG1RQ0KeD9Pi8L6xk2UAADSB",
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "6U52KMvvZ0KHKaA3RQXJAGUAMwKx",
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GIh_KGfwFkW9uy6euD-PimUAPj_-",
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Cat\u00e1logo - CNCT/Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7fdVJGfEf028zUPoUj5TxGUAIWJQ",
+    "title": "[#724] HU0523 [Matr\u00edcula] - Listar Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lpeFpeXsmUaju4im2m6qI2UAJC8_",
+    "title": "[#725] HU0524 [Matr\u00edcula] - Cadastrar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "dHhUMCmomEGiTkuhaK9b_GUAKxuu",
+    "title": "[#726] HU0525 [Matr\u00edcula] - Editar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FMdg-RGsLk2a07sNqhjSuWUAMrry",
+    "title": "[#727] HU0526 [Matr\u00edcula] - Visualizar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ldnHmsPzFUyjKBC76MwyJmUAInDy",
+    "title": "[#728] HU0527 [Matr\u00edcula] - Baixar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SNvzjgtVfkK5W_59ldREOWUAPdD0",
+    "title": "[#729] HU0528 [Matr\u00edcula] - Excluir Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "I9UiqfrwbUyuVL7HyIsrcmUABY2P",
+    "title": "[#730] HU0529 [Matr\u00edcula] - Exportar em PDF as Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "B2TSLyVIrUmFyeYdKDUc7GUANtJh",
+    "title": "[#731] HU0530 [Matr\u00edcula] - Exportar em CSV Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "TfKSeBE21kK5QFv_V4xFQGUAGgi_",
+    "title": "[#732] HU0558 [Matr\u00edcula] - Listar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "6_T11UnZSk-fb6XZBc_bYWUAINtl",
+    "title": "[#733] HU0559 [Matr\u00edcula] - Cadastrar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Q2UnJlAqOkuk-STVlIZcGWUALr-O",
+    "title": "[#734] HU0561 [Matr\u00edcula] - Gerenciar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jjf-oNtNO0ewFK4N9oboh2UAKfcD",
+    "title": "[#1] HU0012 - [Usu\u00e1rios] Listar usu\u00e1rio (Tuleap 23314)",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "v7Y3VbjKJEC5kr7TTYJyVmUAJbWI",
+    "title": "[#735] HU0560 [Matr\u00edcula] - Editar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3mEpKGEVPkSrIRSlw5g6AmUAKy4l",
+    "title": "[#736] HU0563 [Matr\u00edcula] - Visualizar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "8pUcC1utm0KbeQVwIthyZWUALJ5f",
+    "title": "[#737] HU0564 [Matr\u00edcula] - Visualizar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nxroJkMT_EGbV3lgOWRhTWUAGST3",
+    "title": "[#738] HU0562 [Matr\u00edcula] - Associar Unidade de Ensino no escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "B6D7ffTVckmKAR4kkNTICmUAICLG",
+    "title": "[#739] HU0565 [Matr\u00edcula] - Baixar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4fSjpVJqb0Sv178e7Rw5E2UALb1a",
+    "title": "[#740] HU0566 [Matr\u00edcula] - Excluir Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "AxMN8RENokyAY_7HjzqVJWUAJoyj",
+    "title": "[#741] HU0568 [Matr\u00edcula] - Exportar em PDF as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Pg8bQFx2xEKRn-uCSm1962UAOXaX",
+    "title": "[#742] HU0569 [Matr\u00edcula] - Exportar em CSV as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GcOKCmvin0iaO_HQ571ewGUAN3nG",
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibi\u00e7\u00e3o do nome do eixo e curso t\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "l-z-nxkl50Ksywtrdj3ST2UACvpq",
+    "title": "[#744] HU0531 [Matr\u00edcula] - Listar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "snuImhAALUW_Sf2vshFNuWUAJKIe",
+    "title": "[#745] HU0532 [Matr\u00edcula] - Cadastrar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "yMxhkv6GwkqaAXiS-detEmUAE46y",
+    "title": "[#746] HU0533 [Matr\u00edcula] - Editar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0DGX9Tt63UmaOnK2SqVF8mUADXDf",
+    "title": "[#747] HU0534 [Matr\u00edcula] - Visualizar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lOhhJgn4w0qI0aakw7erBmUABfP_",
+    "title": "[#748] HU0535 [Matr\u00edcula] - Baixar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ik0XdzZWNUOsrCQS-3aBUWUAHuVB",
+    "title": "[#749] HU0536 [Matr\u00edcula] - Excluir Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "pbAIC3-a1kuwh7FPUHcgpmUAOGmf",
+    "title": "[#750] HU0537 [Matr\u00edcula] - Exportar em PDF os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "KR6JnVhuEE6a3zu7IR5H5WUABa1z",
+    "title": "[#751] HU0538 [Matr\u00edcula] - Exportar em CSV os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-ZECkBAFDUKJ3w0E7ZkOemUAOkNO",
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Cadastro de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3GACDRwEZke82rIHi8IQbGUAHOBY",
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Visualizar e Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "DdUhImbfc0WCqX6lVBUqcWUAHOKI",
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Exportar CSV de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xKM3DbhSykugFKMaZf6CxmUAJTsy",
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "kNdjVio8GEmafWXANyR6SGUAHM5M",
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ZpoeKMLnfkqlI4p7HI_EXGUAKcWD",
+    "title": "[#757] HU0572 - [Curso] Rotina autom\u00e1tica para altera\u00e7\u00e3o de status dos PPCs & Atos Autorizativos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SLcM5jXzrkSMXnYwNYaG-WUAImzn",
+    "title": "[#758] HU0573 - [Autentica\u00e7\u00e3o] [Melhoria] Visualizar contador de Cursos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-qES4GC9Kkq6gqQ-2cYe-GUAHpIL",
+    "title": "[#759] HU0574 - [Autentica\u00e7\u00e3o] [Melhoria] Adequa\u00e7\u00f5es nas telas de acesso e logotipos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "pSxaf6oOuEGZhw3XsEX8j2UACn0M",
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3XzOieK3lUi4l3TH6AfYwGUAL-cF",
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Clp6D2vk_UOZgRH0Qn9-YmUAF__o",
+    "title": "[#762] HU0xxx - [INSTITUI\u00c7\u00c3O] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SqNyA7EzckOBFECe43O7sWUAKef8",
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xQBcjHPzy0yGNzwOidUckmUAO_ND",
+    "title": "[#660] HU0477 - [Curso] Editar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "b9K7VBOkk0igdKQnvtLvN2UAKYu3",
+    "title": "[#661] HU0478 - [Curso] Exportar Especializa\u00e7\u00f5es T\u00e9cnicas do CNCT em CSV / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EqaxDLayGUSolx5lKhI-rmUAFzpZ",
+    "title": "[#662] HU0479 - [Curso] Editar Curso T\u00e9cnico do Cat\u00e1logo - CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "W-QOaSZmHUK71rJCENXru2UANx0t",
+    "title": "[#663] HU0480 - [Curso] Editar Curso T\u00e9cnico Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3_wndsZu5kGjgpUScuiNYGUAAUgt",
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "uzuqMNbKUU6eeIScD_I-z2UAAR48",
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "XckUMHiPlkap9f_Zk-Tna2UAK2WQ",
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lRId0K7wkkeSoKUajNCYBmUABcqJ",
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fxIMVH6Of0O9bn_cbjxlomUAJF6u",
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3lG0leBhTU6_yPcKYtGMvGUAC3SS",
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "NhudJ_yap0KbuN8d2mkDAmUAF8BY",
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-kP8Ty8B8kG6MC3G8-CWhGUABfDK",
+    "title": "[#672] HU0489 - [Curso] Visualizar Certifica\u00e7\u00e3o Intermedi\u00e1ria no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "NgvhOWzVwEmnjguix5NISmUALpJ3",
+    "title": "[#673] HU0490 - [Curso] Visualizar Especializa\u00e7\u00e3o T\u00e9cnica no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "qp9HvBLyh0KKmaZnqLyJC2UAB109",
+    "title": "[#674] HU0491 - [Usu\u00e1rios] - Melhorias no cadastro/edi\u00e7\u00e3o de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "PBvS-xyROk6mgfPwc8JfdmUANZ0r",
+    "title": "[#675] HU0492 - [Institui\u00e7\u00e3o] Melhorias na inativa\u00e7\u00e3o/exclus\u00e3o de \u00f3rg\u00e3os validadores",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tNS6f9r8F0-pZUJaDnvNFGUACcmr",
+    "title": "[#676] HU0493 - [Usu\u00e1rio] - Desabilitar a\u00e7\u00f5es das funcionalidades de permiss\u00f5es inativas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FJUQJja9pEugDNfX-kbcumUAFoX-",
+    "title": "[#677] HU0499- [Curso] Validar altera\u00e7\u00f5es de data na edi\u00e7\u00e3o do CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "TbUMkZbEvE6HvgzX6v1ikWUAHzou",
+    "title": "[#678] HU0505 - [Curso] Atualiza\u00e7\u00e3o Autom\u00e1tica dos Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "z4DmFb4RV02C5rgdaPERK2UAIMtI",
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Altera\u00e7\u00e3o B\u00e1sica",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "mDZiwK2EkE6bi7-xFL05LGUAOf5W",
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restri\u00e7\u00e3o de Rascunhos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "RsfqNCBn3USbkzZKfZ0vCmUABvgG",
+    "title": "[#681] Assunto Reuni\u00f5es",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2TsxQZ77J0aYBITBLScsnWUAF4-k",
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "VTmvhv_LaUiURx6NtVJnO2UABcKk",
+    "title": "[#683] HU0503 - [Curso] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "UDYln9cjq0OFbFbJCa4TNWUAAuoX",
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Hor\u00e1ria da Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FWQQLkKej0GEVeATUoNY52UAENgR",
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certifica\u00e7\u00e3o Intermedi\u00e1ria na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "f5iPnknci0GH7Bmxh8wv42UANRUF",
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bc8qzRbqZ0Gl42lIdyj5RmUAOGqC",
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "o4rmTRETs0-fgB3kAz9wk2UAPQi4",
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0WDuCIzA_UuRcyohbtiuPGUANE_T",
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Gwj8P13plEKl6fAn18ASdmUAPAul",
+    "title": "[#690] HU0506 - [Curso] Rotina autom\u00e1tica para atualiza\u00e7\u00e3o da Tabela de Submiss\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "d-Rjs9anck2lwsZzed_Z4GUALtt9",
+    "title": "[#691] HU0507 - [Curso] Inclus\u00e3o da Edi\u00e7\u00e3o do CNCT na Tabela de Converg\u00eancia",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "LFuG7EKoWUe1Ch1NiMTiWmUABO_R",
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EPafjOYW_0SHSZ9lZ-thB2UAKKEh",
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bMowT_-sJ0mv9jdrecommGUAAZaz",
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "1tDxDV6OvU6P_vZ0gTkbxmUAN6sb",
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3O2e0jJas06CRRD-aTuwGGUAOSji",
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o do campo \"Educa\u00e7\u00e3o de Jovens e Adultos\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4A4gfZVekE6VsyMJbvBkv2UAANL1",
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos T\u00e9cnicos com Oferta Vinculada",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Rs4xGExpOUq7xclG9Fe9CGUAG0eE",
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "r5GN3pN9k0q4RIf7kJKtP2UAEFjK",
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "yORXTOpJYUOInxA1D8t03GUACpe9",
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JOWhzP1EFEWWxiZ6iJxg2WUACpu8",
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "XOUYeaDW0E-PAfeH9EBvO2UAJ88P",
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "guxtA0x_lEyAaM3r0gf_u2UAIv6g",
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "huVlP6Z6bUakg2a8LNqp9mUADl0B",
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "yRQbAw2IJEeWj9bBKBgKFGUALsIn",
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Rv-ckFDGPkKtv59m-GjFdmUAK_WB",
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Sx6I033-AUK-oUKcq3xtCGUAB4_9",
+    "title": "[#708] HU0518 [Oferta] - Rotina autom\u00e1tica para altera\u00e7\u00e3o da situa\u00e7\u00e3o das ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-z_og5aZhUy2jjNIaOg9B2UAKl0v",
+    "title": "[#711] HU0521 - [Usu\u00e1rios] - Melhorias de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_kYwiH869kSRIzyRxUI__mUAKidr",
+    "title": "[#712] [D\u00e9bito T\u00e9cnico] Edi\u00e7\u00e3o da Etapa 2 (Carga Hor\u00e1ria) sempre abre como inclus\u00e3o nova \u2014 n\u00e3o hidrata registro j\u00e1 salvo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "y_DD3_90aEiEZt3t5MxRUGUALaw-",
+    "title": "[#713] [D\u00e9bito T\u00e9cnico] Modelo de dados n\u00e3o guarda hist\u00f3rico dos campos t\u00e9cnicos da Etapa 2 por Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nPdIGDl1H0ObWF0k9n5oy2UADci3",
+    "title": "[#714] [D\u00e9bito T\u00e9cnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) \u00e9 mock desde a HU0463 \u2014 bloqueia HU0500",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-CQktQ1qEkGU7RsDyRb9IGUAChjA",
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "KVMNRYC6v0eIOT_fiOOEpmUAG7yH",
+    "title": "[#716] HU0539 - [Melhoria] - Adequa\u00e7\u00f5es nas mensagens",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "NER7rB80lU-Q7rSQP2lFO2UAMUKf",
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o da se\u00e7\u00e3o \"Projeto Pedag\u00f3gico de Curso\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "1zCfKTPiokuCIaU_NWAUVWUABqsh",
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicita\u00e7\u00f5es e Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_keVoPzj50iPcwVRZI9GDGUAN1OZ",
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "qfkmf18CyUqgHQEq5m2f3WUAEkkb",
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "hMafkmBYeEeSLwKRdltThWUAEqDn",
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "v8zRAc4Eg0emDBI5Wd6SQGUAKgyX",
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "A8lzZHc5AUKcETYM8qyeZmUACcDA",
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Cat\u00e1logo - CNCT/Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JeRm62DX0EizCuLZkUmFSWUALYmZ",
+    "title": "[#724] HU0523 [Matr\u00edcula] - Listar Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "zU3Jjhms0kSbhtyKEeOcV2UAIMm3",
+    "title": "[#725] HU0524 [Matr\u00edcula] - Cadastrar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GrfsCZUrUkWvETTZ1K9HhGUAJz_a",
+    "title": "[#726] HU0525 [Matr\u00edcula] - Editar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bAtUNC9B4kak5ahds2jH3mUAGDdc",
+    "title": "[#727] HU0526 [Matr\u00edcula] - Visualizar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tVqOjeZF3kqnRSdk2BcVL2UAPYP5",
+    "title": "[#728] HU0527 [Matr\u00edcula] - Baixar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bHBSyertJEGuYdau0EyaNmUADoMn",
+    "title": "[#729] HU0528 [Matr\u00edcula] - Excluir Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jfiWpUBPiUGOVpJiIYVeOGUAJDu8",
+    "title": "[#730] HU0529 [Matr\u00edcula] - Exportar em PDF as Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "w-Ps3YwwCkehi22Pi_I2T2UAJ6dg",
+    "title": "[#731] HU0530 [Matr\u00edcula] - Exportar em CSV Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "OsiBpsvsqESF0syqaEueGGUAOGgS",
+    "title": "[#732] HU0558 [Matr\u00edcula] - Listar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "f_JrPbcvqEu2VeJ83rA5CWUALlYz",
+    "title": "[#733] HU0559 [Matr\u00edcula] - Cadastrar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FG23iY0Aq0KcFkp1rTHDBWUADF5W",
+    "title": "[#734] HU0561 [Matr\u00edcula] - Gerenciar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "1pO-8SOYR0yhwO6L-rgob2UADTlH",
+    "title": "[#735] HU0560 [Matr\u00edcula] - Editar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EEVN7BJ8M0qBKL4NP60cV2UAKMwM",
+    "title": "[#736] HU0563 [Matr\u00edcula] - Visualizar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "CbNyedlfTkCNS4J9CkINW2UAI9Yj",
+    "title": "[#737] HU0564 [Matr\u00edcula] - Visualizar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "i7zKz31ajk6vrHDG8aws4GUACxYk",
+    "title": "[#738] HU0562 [Matr\u00edcula] - Associar Unidade de Ensino no escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "FneWRylMSECVTEo7ahkeSmUACkzc",
+    "title": "[#739] HU0565 [Matr\u00edcula] - Baixar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xAYvnIf6XE6pOmQJf6LugWUAKfxP",
+    "title": "[#740] HU0566 [Matr\u00edcula] - Excluir Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "RMXhgKmvt0KbCO8bq40R0WUALuOX",
+    "title": "[#741] HU0568 [Matr\u00edcula] - Exportar em PDF as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_rki4_j74EC22mg47IbvmmUAAGWr",
+    "title": "[#742] HU0569 [Matr\u00edcula] - Exportar em CSV as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "oudpcH0vE0KR9jwrTPlhAWUAJ6m8",
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibi\u00e7\u00e3o do nome do eixo e curso t\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "X_pEhz9zm02AeYk7xXvq9WUAGbdw",
+    "title": "[#744] HU0531 [Matr\u00edcula] - Listar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2KBQ3slrdUC1ensvOSzjemUAFSKJ",
+    "title": "[#745] HU0532 [Matr\u00edcula] - Cadastrar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Ir74ha1lQk-3TQ2merEvAmUANIbp",
+    "title": "[#746] HU0533 [Matr\u00edcula] - Editar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "gkq26Tgc_U6GHQ8vl9kvTGUADCFz",
+    "title": "[#747] HU0534 [Matr\u00edcula] - Visualizar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3a9MR7RTQECyz0QC0cVCzWUAFwvq",
+    "title": "[#748] HU0535 [Matr\u00edcula] - Baixar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-xyJmKWdcE-7001x8e5__mUAGxvz",
+    "title": "[#749] HU0536 [Matr\u00edcula] - Excluir Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "-i40mfu4xkaYvh8xu75tqmUALd5L",
+    "title": "[#750] HU0537 [Matr\u00edcula] - Exportar em PDF os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "h7s07XbVE0K2R6_m9tyKiWUALHMR",
+    "title": "[#751] HU0538 [Matr\u00edcula] - Exportar em CSV os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "8ED0utWPkUKYZRcyDtehC2UAIAw4",
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Cadastro de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "UQ_J9-ZRDk6fJQ6hPuafM2UANCkj",
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Visualizar e Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Rd1PBR8GiECbqe9V4W_wLmUAHbu1",
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Exportar CSV de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "SiZlhxlzz0iEWtHEkZoFNGUADXEm",
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fifOFHuOHku0G01-XeiEB2UABGYj",
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "02SwbzSfLUa2HC3Tii6hIGUANCsO",
+    "title": "[#757] HU0572 - [Curso] Rotina autom\u00e1tica para altera\u00e7\u00e3o de status dos PPCs & Atos Autorizativos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "aNnSsUYAMkyKjik0UB7nl2UAHIKb",
+    "title": "[#758] HU0573 - [Autentica\u00e7\u00e3o] [Melhoria] Visualizar contador de Cursos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "vGQiLSbzmECYe9kO3q9svGUAKY4g",
+    "title": "[#759] HU0574 - [Autentica\u00e7\u00e3o] [Melhoria] Adequa\u00e7\u00f5es nas telas de acesso e logotipos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "AQx5U8XBVk281fmQAxuLmWUAPEiO",
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "YapXm-oH1EOMtTLhK386cWUAA8aF",
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "f_SDwVhPWEGcQlE_ogtFSWUAKkp6",
+    "title": "[#762] HU0xxx - [INSTITUI\u00c7\u00c3O] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "UMaEHyOuV0G24H1bFulNd2UAErNK",
+    "title": "[#659] HU0476 - [Curso] Cadastrar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "8ASpzRcNbUCl7LKqpBM4iWUAF_Xa",
+    "title": "[#660] HU0477 - [Curso] Editar Especializa\u00e7\u00e3o T\u00e9cnica do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jigYC_esgke54XJy6y2RRWUAIHD5",
+    "title": "[#661] HU0478 - [Curso] Exportar Especializa\u00e7\u00f5es T\u00e9cnicas do CNCT em CSV / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "HI3_gFAQYkiKTNMFFGhwV2UABfz-",
+    "title": "[#662] HU0479 - [Curso] Editar Curso T\u00e9cnico do Cat\u00e1logo - CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_5ikWk1iEUC_lQw-yMrqGGUAHF-E",
+    "title": "[#663] HU0480 - [Curso] Editar Curso T\u00e9cnico Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "PNlyFL6jq02wqrxmeuTbLWUAEmFr",
+    "title": "[#664] HU0481 - [Curso] Cadastrar Ato Autorizativo - Etapa 1: Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "eaKTKwPXP0aqfRkq2ifli2UAEJn4",
+    "title": "[#666] HU0484 - [Curso] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2LJNBAIw0U6l1xbuZpjVNWUAKNYs",
+    "title": "[#667] HU0485 - [Curso] Baixar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "pYgeZGa6L0uxL8kRciixhWUAOqmc",
+    "title": "[#668] HU0486 - [Curso] Exportar Cursos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "etCoe-oi7EmzjcHJCcMdaWUAMDVR",
+    "title": "[#669] HU0487 - [Curso] Exportar Cursos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Nxdh36q5K0eaiUYHScSd1mUADVnp",
+    "title": "[#670] HU0483 - [Curso] Visualizar Ato Autorizativo de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jFHSm5XiAkOKVbJ38OV_9mUAJBPb",
+    "title": "[#671] HU0488 - [Curso] Visualizar Curso do CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "L59-Y4bKDkylQlER-KEayWUAFE8d",
+    "title": "[#672] HU0489 - [Curso] Visualizar Certifica\u00e7\u00e3o Intermedi\u00e1ria no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GC7zHHZ4RkmGm0p9Q_qMR2UAG7Xm",
+    "title": "[#673] HU0490 - [Curso] Visualizar Especializa\u00e7\u00e3o T\u00e9cnica no CNCT / Inclus\u00e3o de CBO",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ZoN1wjZJCUW-7Ig40Z49HWUADLCY",
+    "title": "[#674] HU0491 - [Usu\u00e1rios] - Melhorias no cadastro/edi\u00e7\u00e3o de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "E7e0srUgNU2wrF15-QcoiWUAGEiw",
+    "title": "[#675] HU0492 - [Institui\u00e7\u00e3o] Melhorias na inativa\u00e7\u00e3o/exclus\u00e3o de \u00f3rg\u00e3os validadores",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fm9u9XO-F0isSlKDG7QG1GUAA_Rt",
+    "title": "[#676] HU0493 - [Usu\u00e1rio] - Desabilitar a\u00e7\u00f5es das funcionalidades de permiss\u00f5es inativas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "EZCAYCoyvUOUA2Wox-d6xWUAIc9k",
+    "title": "[#677] HU0499- [Curso] Validar altera\u00e7\u00f5es de data na edi\u00e7\u00e3o do CNCT",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "KbCtrzmheUqUxnX-SRyi_2UAHJei",
+    "title": "[#678] HU0505 - [Curso] Atualiza\u00e7\u00e3o Autom\u00e1tica dos Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "gpRAkEBkW0Svt57xTX_tXWUAPLlF",
+    "title": "[#679] HU0495 - [MELHORIA] Atualizar Roles: Altera\u00e7\u00e3o B\u00e1sica",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ccJfGJgowUGt_hzkj5GXxWUAIugh",
+    "title": "[#680] HU0494 - [Curso] Cadastrar CNCT - Restri\u00e7\u00e3o de Rascunhos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "J7_T0jCvm0CtaJKPejdy_mUADwoJ",
+    "title": "[#681] Assunto Reuni\u00f5es",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "PLoWLLZ-6kav5xJ3X4aXxWUAN-Zn",
+    "title": "[#682] HU0504 - [Curso] - Baixar Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "f1MzTsDHeEG0dmL0Yi3JymUAPH79",
+    "title": "[#683] HU0503 - [Curso] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ljpZzqrEYEe_PvVXR93bjWUAOpP8",
+    "title": "[#684] HU0496 - [Curso] - Etapa 3 - Dados da Carga Hor\u00e1ria da Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "5owiEk-wKUeYmr0ewfwV5GUAKpbS",
+    "title": "[#685] HU0497 - [Curso] - Etapa 4 - Dados da Certifica\u00e7\u00e3o Intermedi\u00e1ria na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "6y4qMmdYUkCnmRgOcFfIUGUAEp8i",
+    "title": "[#686] HU0498 - [Curso] - Etapa 5 - Dados de Vagas na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "bkoQHn5fzk-4XJ6ZHmrk3WUAIBzQ",
+    "title": "[#687] HU0500 - [Curso] Cadastrar Ato Autorizativo - Etapa 2: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3XwlW3CGYU-n2nu6u0a0FWUAJEFK",
+    "title": "[#688] HU0501 - [Curso] Cadastrar Ato Autorizativo - Etapa 3: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "TUOsiemmy0yc8w-bzFdtU2UAAwdx",
+    "title": "[#689] HU0502 - [Curso] Cadastrar Ato Autorizativo - Etapa 4: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "AmdUskFT6kGlGBlAMMvW9GUAMj_C",
+    "title": "[#690] HU0506 - [Curso] Rotina autom\u00e1tica para atualiza\u00e7\u00e3o da Tabela de Submiss\u00e3o",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "IHRlTmglI0mCBnZCE3mnDmUALjb7",
+    "title": "[#691] HU0507 - [Curso] Inclus\u00e3o da Edi\u00e7\u00e3o do CNCT na Tabela de Converg\u00eancia",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "pt78cY8UoEm_Q5nwmxIvZmUAEcbN",
+    "title": "[#693] HU0546- [Curso] Listar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "TE01veIb70az5hchWOgjh2UADgdv",
+    "title": "[#694] HU0547 - [Curso] Avaliar Atos Autorizativos de Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "w1r-FE3JA0Cz-WRTzJ723WUAAThB",
+    "title": "[#695] HU0549 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "HlrIcpqCUUyGJb-hblm7r2UAJUPL",
+    "title": "[#696] HU0550 - [Curso] Exportar Atos Autorizativos de Cursos T\u00e9cnicos em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "n2sCtErtZEWIpyKVXR8gi2UAD8u5",
+    "title": "[#697] HU0508 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o do campo \"Educa\u00e7\u00e3o de Jovens e Adultos\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "mN-A3i-x-UORtLcrcQb1j2UAFC96",
+    "title": "[#698] HU0548 - [Curso] Editar Atos Autorizativos de Cursos T\u00e9cnicos com Oferta Vinculada",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "qgfIVTUWJkWj0PQivKuuk2UAA8Xx",
+    "title": "[#699] HU0509 [Oferta] - Listar Ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "d-B51t2qjk6B2zj8-NYMBGUAKi77",
+    "title": "[#700] HU0510 [Oferta] - Selecionar Curso para Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "pVCBGhmQYEeVHlI82MwxaWUAJGXg",
+    "title": "[#701] HU0511 [Oferta] - Cadastrar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "1BLAru8qgkOWvBlQUOCbIWUAA-Xr",
+    "title": "[#702] HU0512 [Oferta] - Editar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "d2Szinp5TU2UZlBJmzL94WUAG7oe",
+    "title": "[#703] HU0513 [Oferta] - Visualizar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "LA6Q-ZwNmE672Z6o_vz_wmUAKVHX",
+    "title": "[#704] HU0514 [Oferta] - Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7xbMPR5Lc0uhSnCV_jX5_GUAD_CS",
+    "title": "[#705] HU0516 [Oferta] - Exportar Ofertas em PDF",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "fkeQpeK2LEetiZVhW199x2UAJ40_",
+    "title": "[#706] HU0517 [Oferta] - Exportar Ofertas em CSV",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "a47nZZW2nEqBvTxrlSlPvGUAC3IH",
+    "title": "[#707] HU0515 [Oferta] - Excluir Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Lqr7wwY57k6pW3chbu5Au2UAKb6j",
+    "title": "[#708] HU0518 [Oferta] - Rotina autom\u00e1tica para altera\u00e7\u00e3o da situa\u00e7\u00e3o das ofertas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0aoRAfzjo0mMnpf8sI4TEGUAL7SJ",
+    "title": "[#711] HU0521 - [Usu\u00e1rios] - Melhorias de usu\u00e1rios",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "CAYXGjSvvUWzlCnNj3WkU2UAIWQj",
+    "title": "[#712] [D\u00e9bito T\u00e9cnico] Edi\u00e7\u00e3o da Etapa 2 (Carga Hor\u00e1ria) sempre abre como inclus\u00e3o nova \u2014 n\u00e3o hidrata registro j\u00e1 salvo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "cw8-sd4IpEOgt2PjsCH8sWUAGNKL",
+    "title": "[#713] [D\u00e9bito T\u00e9cnico] Modelo de dados n\u00e3o guarda hist\u00f3rico dos campos t\u00e9cnicos da Etapa 2 por Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "a6PwDLFZEkCbPk-vvjWVOGUAH9Pp",
+    "title": "[#714] [D\u00e9bito T\u00e9cnico] Ato Autorizativo do fluxo Cursos (Etapa 1, HU0481) \u00e9 mock desde a HU0463 \u2014 bloqueia HU0500",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lB3pvLi5CkC_IhW_iO8JFmUAOrOZ",
+    "title": "[#715] HU0xxx [Oferta] - Cancelar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tNHzNDMAV0aYuU3bv7nLJWUAJ6WV",
+    "title": "[#716] HU0539 - [Melhoria] - Adequa\u00e7\u00f5es nas mensagens",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "tDXtnC3uUkiVgrg4f_NQGWUAGvBZ",
+    "title": "[#717] HU0522 - [Curso] - Melhorias na Solicita\u00e7\u00e3o de Autoriza\u00e7\u00e3o - Inclus\u00e3o da se\u00e7\u00e3o \"Projeto Pedag\u00f3gico de Curso\"",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nSAyr9sv70-usBN5dnmxHGUAIU4F",
+    "title": "[#718] HU0540 -  [Curso] [MELHORIA] Listar Solicita\u00e7\u00f5es e Cursos T\u00e9cnicos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "f6-614LNdkK_hhzsYVR-z2UAIPuY",
+    "title": "[#719] HU0542 - [Curso] [MELHORIA] Cadastrar PPC - Etapa: PPC e Ato Autorizativo",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4Jhm7XJZl0OZr5H6ODqvJGUABSM2",
+    "title": "[#720] HU0544 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Carga Hor\u00e1ria",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "WGcl8L5Z60yyKaqkue9NbmUADBSa",
+    "title": "[#721] HU0543 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Certifica\u00e7\u00f5es Intermedi\u00e1rias",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GjYUAJSFU0aHgaxhAy-iFWUALfd-",
+    "title": "[#722] HU0545 - [Curso] [MELHORIA] Cadastrar Solicita\u00e7\u00e3o/PPC - Etapa: Vagas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "Gtrw4HGQiUqEbTV6lws502UAOGa0",
+    "title": "[#723] HU0541 - [Curso] [MELHORIA] Editar Curso do Cat\u00e1logo - CNCT/Experimental",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "3mGEC06nvkGsCufu_rle2GUABGHl",
+    "title": "[#724] HU0523 [Matr\u00edcula] - Listar Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "u0Vonr5W-0ugh5PJC_H_cmUALCyS",
+    "title": "[#725] HU0524 [Matr\u00edcula] - Cadastrar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GuLfOBXobUaCIeISs2eXp2UALvhg",
+    "title": "[#726] HU0525 [Matr\u00edcula] - Editar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "g6-XtWOnnEKvivRPB_NxS2UAM_ZJ",
+    "title": "[#727] HU0526 [Matr\u00edcula] - Visualizar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0cLJbmRfAUKSqclv604EbGUAKMa6",
+    "title": "[#728] HU0527 [Matr\u00edcula] - Baixar Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "BtLDBqSi1E23LrR_ehJBi2UADd5l",
+    "title": "[#729] HU0528 [Matr\u00edcula] - Excluir Situa\u00e7\u00e3o de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "lPuUYPzILkyLEJGIWI5xTGUAOYnc",
+    "title": "[#730] HU0529 [Matr\u00edcula] - Exportar em PDF as Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "_02M2d4cRkuUKfk2vHHBVWUAMEO4",
+    "title": "[#731] HU0530 [Matr\u00edcula] - Exportar em CSV Situa\u00e7\u00f5es de V\u00ednculo Acad\u00eamico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "5o4qT0DFR0SjjdhJKRThumUAB_Zr",
+    "title": "[#732] HU0558 [Matr\u00edcula] - Listar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ZvWxb41FUE662XZPj5VKN2UAPIrY",
+    "title": "[#733] HU0559 [Matr\u00edcula] - Cadastrar Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "IvgEe2pBVEywK3kQiUR0tmUAHGnW",
+    "title": "[#734] HU0561 [Matr\u00edcula] - Gerenciar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "L0Kps_A0MEarwMZFll7aAWUABYx_",
+    "title": "[#735] HU0560 [Matr\u00edcula] - Editar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4btDuWlNAkK5uaMR3DWo8mUAOLyJ",
+    "title": "[#736] HU0563 [Matr\u00edcula] - Visualizar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "eSU9tb0B1UWMsz-PfHmXWGUADWEZ",
+    "title": "[#737] HU0564 [Matr\u00edcula] - Visualizar Abrang\u00eancia do Escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "2Qh8wo2l5UmvcUFImdPmLmUAItOH",
+    "title": "[#738] HU0562 [Matr\u00edcula] - Associar Unidade de Ensino no escopo da Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "JcOYsRPwkEWh5QruGzh0ZWUAMheG",
+    "title": "[#739] HU0565 [Matr\u00edcula] - Baixar Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "b-_w05ZMbEePoshvkAqC_2UAKhPO",
+    "title": "[#740] HU0566 [Matr\u00edcula] - Excluir Cota",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nyil5utTVEGcz6gjhk1tr2UANAZy",
+    "title": "[#741] HU0568 [Matr\u00edcula] - Exportar em PDF as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "nVTJXEw6TEyjF35pzM8yoWUAK5lj",
+    "title": "[#742] HU0569 [Matr\u00edcula] - Exportar em CSV as Cotas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "7rAh5_w8g0ajwu3GroFi42UAN1LU",
+    "title": "[#743] HU0551 - [Curso] [MELHORIA] Melhorias na exibi\u00e7\u00e3o do nome do eixo e curso t\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ZU0TlNRPVUm2rBbNZZF-L2UAFH3t",
+    "title": "[#744] HU0531 [Matr\u00edcula] - Listar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4UVYgVp-MUGzsozPAFEBsGUAAB9c",
+    "title": "[#745] HU0532 [Matr\u00edcula] - Cadastrar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "LGS4c3FR0EOahgEDhMoPdWUAFvo-",
+    "title": "[#746] HU0533 [Matr\u00edcula] - Editar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ZxUGpQeLjkikYqn8SjOezmUABJV4",
+    "title": "[#747] HU0534 [Matr\u00edcula] - Visualizar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "u29k7pk9u0iRcl59-ou2IWUADTDa",
+    "title": "[#748] HU0535 [Matr\u00edcula] - Baixar Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ny5Kyfiz20ezNn7KJdfcqmUAGJUV",
+    "title": "[#749] HU0536 [Matr\u00edcula] - Excluir Fluxo por Situa\u00e7\u00e3o de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "GcTPnuvUYEGEhFNAj2TNrGUAJ49r",
+    "title": "[#750] HU0537 [Matr\u00edcula] - Exportar em PDF os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4ufAwaqFMkCwjbuYGzV5O2UABWqM",
+    "title": "[#751] HU0538 [Matr\u00edcula] - Exportar em CSV os fluxo por Situa\u00e7\u00f5es de Matr\u00edcula",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "XurZCQfWNUal9ZSmFj_UbmUAOo9K",
+    "title": "[#752] HU0555 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Cadastro de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "sZyVlsOKX0CKrAhM67Dl3mUAIKQ2",
+    "title": "[#753] HU0556 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Visualizar e Baixar Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "jDuP9E-wqk-hGK--aCKA5GUAHSCl",
+    "title": "[#754] HU0557 - [Oferta] [MELHORIA] Inclus\u00e3o do campo \"Projeto Pedag\u00f3gico de Curso\" em Exportar CSV de Oferta",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "4pA9DXYD5EKsgZgyG0GpsGUAF4MJ",
+    "title": "[#755] HU0570 - [Curso] Visualizar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "UwhBenS7h06KgAhMQSXnUWUAGzEY",
+    "title": "[#756] HU0571 - [Curso] Baixar PPC de Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "ytsbqYZ_WkWNaTF2fWDXWWUAFCWM",
+    "title": "[#757] HU0572 - [Curso] Rotina autom\u00e1tica para altera\u00e7\u00e3o de status dos PPCs & Atos Autorizativos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "hGK4idIkyEiQiqAevJXKJGUADlBU",
+    "title": "[#758] HU0573 - [Autentica\u00e7\u00e3o] [Melhoria] Visualizar contador de Cursos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "flRYRUl2y0Wo9z1msMQSaGUADuWv",
+    "title": "[#759] HU0574 - [Autentica\u00e7\u00e3o] [Melhoria] Adequa\u00e7\u00f5es nas telas de acesso e logotipos",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "33PEmL1tXEeyIXSEe0jp6WUAO33l",
+    "title": "[#760] HU0575 - [Curso] [Melhoria] Visualizar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "0FqJ_kM4HEqYaMxnH18gLGUAPtbn",
+    "title": "[#761] HU0576 - [Curso] [Melhoria] Baixar Curso T\u00e9cnico",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "55Gzkw8YuU2WogryWGtRLmUACHiN",
+    "title": "[#762] HU0xxx - [INSTITUI\u00c7\u00c3O] [Melhoria] Melhorias de Unidades de Ensino Vinculadas",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "xHci13-2bEWLYuQ69oLZg2UABUw-",
+    "title": "[#1] HU0012 - [Usu\u00e1rios] Listar usu\u00e1rio (Tuleap 23314)",
+    "status": "ok",
+    "code": 204
+  },
+  {
+    "id": "h6Ay1V8rEUGVq2oZOAO96GUAInda",
+    "title": "[#1] HU0012 - [Usu\u00e1rios] Listar usu\u00e1rio (Tuleap 23314)",
+    "status": "ok",
+    "code": 204
+  }
+]
