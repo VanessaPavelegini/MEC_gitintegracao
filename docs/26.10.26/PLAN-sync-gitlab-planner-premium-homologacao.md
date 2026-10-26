@@ -265,7 +265,12 @@ Erros por item não derrubam o lote: vão em `errors[]` com `iid` + mensagem; o 
 
 ## 7. Decisões que preciso confirmar com você
 
-1. **Escopo**: as **722** issues abertas entram todas? Ou filtra por label (ex.: só `BACKLOG DA SPRINT`, só `EM HOMOLOGAÇÃO`) ou por data (últimos 30 dias)? *Default do plano: todas as abertas, exceto canceladas.*
+> **Respostas (26/10/2026):** 1. sim · 2. sim · 3. sim · 4. "viremos criar um flow no
+> Power Automate" (flow novo, depois). As perguntas 5–7 ficaram sem resposta →
+> valem os defaults do plano: conta `portaldedemandas` (com fallback
+> `antoniojunior`), bucket `Bucket 1`, mesma Function App.
+
+1. **Escopo**: as **722** issues abertas entram todas? Ou filtra por label (ex.: só `BACKLOG DA SPRINT`, só `EM HOMOLOGAÇÃO`) ou por data (últimos 30 dias)? *Default do plano: todas as abertas, exceto canceladas.* → **sim, todas as abertas** (a dry run confirmou 134 canceladas fora).
 2. **Assunto da task**: mantém o prefixo `[#iid]` (como o sync clássico faz, e como o `syncGitLabPlannerPremium.js` já envia ao PA) ou título puro? *Default: `[#iid] título`.*
 3. **Datas**: `msdyn_start` = data de criação da issue; `msdyn_finish` = `due_date` (fallback: start + 7 dias)? Issue fechada → `msdyn_progress = 100`? *Default: sim.*
 4. **Bucket**: o plano tem **1 só** (`Bucket 1`). Deixar tudo em `Bucket 1` ou criar buckets por status (Backlog / Em Desenvolvimento / Homologada…)? *Default: `Bucket 1`.*
@@ -310,3 +315,46 @@ Erros por item não derrubam o lote: vão em `errors[]` com `iid` + mensagem; o 
 - Deleção de tasks quando a issue é deletada no GitLab.
 - Sincronização reversa (Planner → GitLab).
 - Replicar o comportamento para o plano `8ebc738c` (Aplicativos PRD) — hoje o handler Premium existente aponta pra ele e fica como está.
+
+---
+
+## 10. Status da execução (26/10/2026)
+
+Código pronto e testado; o que falta depende de ação humana.
+
+**Implementado (commits `365c3ee` → `29fda1c`):**
+
+| Item | Onde |
+|---|---|
+| Cliente Premium (operation sets) | `src/functions/gitlab-planner-sync/premiumDataverse.js` |
+| Núcleo do sync (diff, payload, cursor) | `src/functions/gitlab-planner-sync/premiumSync.js` |
+| Mapping plan-scoped + coluna `pmo_gitlab_updatedat` (com fallback) | `src/functions/gitlab-planner-sync/premiumMapping.js` |
+| Handler (lógica pura) | `src/functions/gitlab-planner-sync/premiumHandler.js` |
+| Rota HTTP | `src/functions/gitlab-planner-sync/syncGitLabPlannerPremiumHomologacao.js` |
+| Device code flow (refresh token no Blob) | `scripts/autorizarContaServicoPremium.js` + `src/shared/dataverseServiceAccountAuth.js` |
+| Blueprint do flow do Power Automate | `docs/26.10.26/PA-FLOW-sync-gitlab-planner-premium-homologacao.md` |
+
+**Rota real (difere do §4 do plano):** `POST|GET /api/gitlab-planner-premium-homologacao`
+(auth level `function`) e `GET /api/gitlab-planner-premium-homologacao-buckets`.
+
+**Settings aplicadas na Function App** (`func-gitintegracao`, `rg-pnld-app-hmg-mec`,
+subscription `ccmecapppnld13383hom`): `DATAVERSE_URL_PREMIUM`,
+`PREMIUM_HOMOLOGACAO_PLAN_ID`, `PREMIUM_HOMOLOGACAO_BUCKET_ID`,
+`PREMIUM_HOMOLOGACAO_BUCKET_NAME`, `PREMIUM_SYNC_BLOB_CONTAINER`,
+`PREMIUM_SYNC_BLOB_NAME` (nomeseffective: `PREMIUM_HOMOLOGACAO_*`, não os
+`PLANNER_PREMIUM_*` do §8).
+
+**Dry run local (`func start`, 9 páginas, 12,2 s):** 811 issues lidas
+(722 abertas + 89 fechadas) → **588 tasks a criar**, 0 atualizadas, 223 puladas
+(134 canceladas + 89 fechadas sem task), 0 erros.
+
+**Mudança de escopo do §3.5:** o cursor passou a ter fase (`opened` → `closed`).
+Sem isso a regra "issue fechada → 100%" do §3.4 nunca dispararia, porque o
+fetch era só `state=opened`. Na fase `closed` nada é criado e o filtro de label
+de cancelamento não se aplica (task existente é completada assim mesmo).
+
+**Pendências:**
+1. Autorizar a conta de serviço (`node scripts/autorizarContaServicoPremium.js`).
+2. Publicar o pacote na Function App (o deploy via ARM estava com
+   `AuthorizationFailed` intermitente na conta do usuário).
+3. Rodar a execução real e criar o flow do Power Automate.
