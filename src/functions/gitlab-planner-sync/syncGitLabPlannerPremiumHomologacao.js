@@ -24,6 +24,7 @@
 //   DATAVERSE_URL                   → org PRD (Aplicativos), onde fica o mapping
 //   PREMIUM_HOMOLOGACAO_PLAN_ID     → GUID do msdyn_project do plano
 //   PREMIUM_HOMOLOGACAO_BUCKET_NAME → nome do bucket destino (default "Bucket 1")
+//   PREMIUM_HOMOLOGACAO_BUCKET_ID   → GUID do bucket destino (default "Bucket 1")
 //   AZURE_STORAGE_CONNECTION_STRING → Blob onde fica o refresh token
 
 const { app } = require("@azure/functions");
@@ -40,6 +41,9 @@ const ORG_URL = process.env.DATAVERSE_URL_PREMIUM || "https://orgcf194dda.crm.dy
 const PRD_URL = process.env.DATAVERSE_URL;
 const DEFAULT_PLAN_ID = process.env.PREMIUM_HOMOLOGACAO_PLAN_ID || "c385351a-e450-4d54-87ed-d54c57794f7b";
 const DEFAULT_BUCKET_NAME = process.env.PREMIUM_HOMOLOGACAO_BUCKET_NAME || "Bucket 1";
+// O plano de homologação tem um único bucket ("Bucket 1"). Fixar o GUID evita
+// depender do token delegado só para descobrir o bucket (o dry run roda sem).
+const DEFAULT_BUCKET_ID = process.env.PREMIUM_HOMOLOGACAO_BUCKET_ID || "f704c207-84be-f111-a04d-7c1e520d9f67";
 
 // Caches de processo: o token delegado dura ~1 h e os buckets do plano não
 // mudam — evita um round-trip ao AAD e ao Dataverse a cada página.
@@ -74,6 +78,7 @@ const gitlab = {
 const deps = {
   planId: DEFAULT_PLAN_ID,
   bucketName: DEFAULT_BUCKET_NAME,
+  bucketId: DEFAULT_BUCKET_ID,
   syncPage: (args) =>
     premiumSync.syncPage({
       ...args,

@@ -147,6 +147,32 @@ test("decideAction: issue sem alteração → unchanged", () => {
   assert.equal(premiumSync.decideAction(issue(), mapping), "unchanged");
 });
 
+test("decideAction sem a coluna pmo_gitlab_updatedat usa pmo_dataultimasincronizacao", () => {
+  const mapping = {
+    pmo_gitlab_iid: 811,
+    pmo_plannertaskid: "task-guid",
+    pmo_dataultimasincronizacao: "2026-10-10T00:00:00.000Z",
+  };
+
+  assert.equal(
+    premiumSync.decideAction({ updated_at: "2026-10-20T10:00:00.000Z" }, mapping, { hasUpdatedAtColumn: false }),
+    "update"
+  );
+  assert.equal(
+    premiumSync.decideAction({ updated_at: "2026-10-05T00:00:00.000Z" }, mapping, { hasUpdatedAtColumn: false }),
+    "unchanged"
+  );
+});
+
+test("decideAction sem a coluna nova e sem data de sincronização → update", () => {
+  const mapping = { pmo_gitlab_iid: 811, pmo_plannertaskid: "task-guid" };
+
+  assert.equal(
+    premiumSync.decideAction({ updated_at: "2026-10-20T10:00:00.000Z" }, mapping, { hasUpdatedAtColumn: false }),
+    "update"
+  );
+});
+
 // ─── isSkippedByLabels ────────────────────────────────────────────────────────
 
 test("isSkippedByLabels: label CANCELADAS (plural) pula a issue", () => {

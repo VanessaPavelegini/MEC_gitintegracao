@@ -8,7 +8,8 @@
 // do Azure Functions.
 //
 // Contrato (POST/GET /api/gitlab-planner-premium-homologacao):
-//   body/query: { planId, bucketId?, bucketName?, cursor?, pageSize?, state?, labels?, dryRun? }
+//   body/query: { planId, bucketId?, bucketName?, cursor?, pageSize?, state?,
+//                  phase?, includeClosed?, labels?, dryRun? }
 //   resposta 200: { ok, planId, page, processed, created, updated, unchanged,
 //                   skipped, errors[], nextCursor, durationMs }
 //   resposta 400: { ok: false, error }
@@ -49,15 +50,21 @@ async function runPremiumSync({ request, deps }) {
   }
 
   let cursorPage = 1;
+  let cursorPhase = "opened";
   if (params.cursor) {
     try {
-      cursorPage = decodeCursor(params.cursor).page;
+      const decoded = decodeCursor(params.cursor);
+      cursorPage = decoded.page;
+      cursorPhase = decoded.phase;
     } catch (e) {
       return { status: 400, body: { ok: false, error: e.message } };
     }
   }
 
   const dryRun = toBool(params.dryRun);
+  // A fase de issues fechadas (completar a task com 100%) é o padrão; pode
+  // ser desligada com includeClosed=false.
+  const includeClosed = params.includeClosed === undefined ? true : toBool(params.includeClosed);
   const pageSize = Math.min(Math.max(toNumber(params.pageSize, 100), 1), 100);
   const state = params.state || "opened";
   const labels = params.labels
@@ -65,8 +72,9 @@ async function runPremiumSync({ request, deps }) {
     : undefined;
 
   try {
-    // O bucket pode vir pronto no request; senão é resolvido pelo nome.
-    let bucketId = params.bucketId;
+    // O bucket pode vir pronto no request; senão usa o padrão configurado;
+    // só se não houver nenhum, resolve pelo nome (exige token da org).
+    let bucketId = params.bucketId || deps.bucketId;
     if (!bucketId) {
       const buckets = await deps.listProjectBuckets({ projectId: planId });
       const wanted = (params.bucketName || deps.bucketName || "").toLowerCase();
@@ -95,6 +103,8 @@ async function runPremiumSync({ request, deps }) {
       page: cursorPage,
       pageSize,
       state,
+      phase: cursorPhase,
+      includeClosed,
       labels,
       dryRun,
       token,

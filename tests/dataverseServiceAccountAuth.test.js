@@ -83,3 +83,56 @@ test("getDataverseDelegatedToken falha com mensagem clara quando não há refres
   );
   assert.equal(fetchImpl.calls.length, 0);
 });
+
+// ─── Token store local (dev local sem storage) ────────────────────────────────
+
+test("getDataverseDelegatedToken usa o arquivo local quando não há connection string do storage", async () => {
+  const fs = require("node:fs");
+  const os = require("node:os");
+  const path = require("node:path");
+
+  const file = path.join(os.tmpdir(), `refresh-token-${Date.now()}.json`);
+  fs.writeFileSync(file, JSON.stringify({ refresh_token: "rt-local" }));
+
+  const connStr = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  const jobsStorage = process.env.AzureWebJobsStorage;
+  delete process.env.AZURE_STORAGE_CONNECTION_STRING;
+  delete process.env.AzureWebJobsStorage;
+  process.env.PREMIUM_SYNC_TOKEN_FILE = file;
+
+  try {
+    const fetchImpl = fakeFetch([{ status: 200, body: { access_token: "at-local" } }]);
+    const token = await auth.getDataverseDelegatedToken({ orgUrl: ORG_URL, fetchImpl });
+
+    assert.equal(token, "at-local");
+    assert.equal(fetchImpl.calls[0].body.refresh_token, "rt-local");
+  } finally {
+    if (connStr) process.env.AZURE_STORAGE_CONNECTION_STRING = connStr;
+    if (jobsStorage) process.env.AzureWebJobsStorage = jobsStorage;
+    delete process.env.PREMIUM_SYNC_TOKEN_FILE;
+    fs.unlinkSync(file);
+  }
+});
+
+test("getDataverseDelegatedToken falha com a dica de reautorização quando não há token em lugar nenhum", async () => {
+  const fs = require("node:fs");
+  const os = require("node:os");
+  const path = require("node:path");
+
+  const connStr = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  const jobsStorage = process.env.AzureWebJobsStorage;
+  delete process.env.AZURE_STORAGE_CONNECTION_STRING;
+  delete process.env.AzureWebJobsStorage;
+  process.env.PREMIUM_SYNC_TOKEN_FILE = path.join(os.tmpdir(), "nao-existe-refresh-token.json");
+
+  try {
+    await assert.rejects(
+      () => auth.getDataverseDelegatedToken({ orgUrl: ORG_URL, fetchImpl: fakeFetch([]) }),
+      /autorizarContaServicoPremium/
+    );
+  } finally {
+    if (connStr) process.env.AZURE_STORAGE_CONNECTION_STRING = connStr;
+    if (jobsStorage) process.env.AzureWebJobsStorage = jobsStorage;
+    delete process.env.PREMIUM_SYNC_TOKEN_FILE;
+  }
+});

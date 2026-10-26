@@ -60,6 +60,38 @@ function blobTokenStore() {
   };
 }
 
+/**
+ * Token store local (dev na máquina, sem Storage Account): lê e grava o
+ * .premium-refresh-token.json que o script de autorização deixa na raiz.
+ * Só é usado quando não há connection string de storage no ambiente.
+ */
+function localFileTokenStore() {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const file = process.env.PREMIUM_SYNC_TOKEN_FILE || path.join(process.cwd(), ".premium-refresh-token.json");
+
+  return {
+    async read() {
+      if (!fs.existsSync(file)) return null;
+      const data = JSON.parse(fs.readFileSync(file, "utf8"));
+      return data.refresh_token || null;
+    },
+    async save(refreshToken) {
+      fs.writeFileSync(file, JSON.stringify({ refresh_token: refreshToken, updated_at: new Date().toISOString() }, null, 2));
+    },
+  };
+}
+
+/**
+ * Storage account configurado? Se não, cai para o arquivo local.
+ */
+function defaultTokenStore() {
+  if (process.env.AZURE_STORAGE_CONNECTION_STRING || process.env.AzureWebJobsStorage) {
+    return blobTokenStore();
+  }
+  return localFileTokenStore();
+}
+
 // ─── Token delegado ───────────────────────────────────────────────────────────
 
 /**
@@ -73,7 +105,7 @@ function blobTokenStore() {
  */
 async function getDataverseDelegatedToken({ orgUrl = DEFAULT_ORG_URL, fetchImpl, tokenStore, context } = {}) {
   const doFetch = fetchImpl || globalThis.fetch;
-  const store = tokenStore || blobTokenStore();
+  const store = tokenStore || defaultTokenStore();
 
   const refreshToken = await store.read();
   if (!refreshToken) {
@@ -130,5 +162,7 @@ module.exports = {
   BLOB_CONTAINER,
   BLOB_NAME,
   blobTokenStore,
+  localFileTokenStore,
+  defaultTokenStore,
   getDataverseDelegatedToken,
 };

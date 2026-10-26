@@ -96,6 +96,15 @@ test("runPremiumSync usa o bucketId do request quando informado", async () => {
   assert.equal(deps.calls.buckets.length, 0);
 });
 
+test("runPremiumSync usa o bucketId padrão (deps.bucketId) quando o request não traz", async () => {
+  const deps = makeDeps({ bucketId: "bucket-padrao" });
+  const res = await runPremiumSync({ request: { body: { planId: PLAN_ID }, query: {} }, deps });
+
+  assert.equal(res.status, 200);
+  assert.equal(deps.calls.syncPage[0].bucketId, "bucket-padrao");
+  assert.equal(deps.calls.buckets.length, 0);
+});
+
 test("runPremiumSync aceita parâmetros via query string", async () => {
   const deps = makeDeps();
   const res = await runPremiumSync({
@@ -120,4 +129,34 @@ test("runPremiumSync devolve 500 com a mensagem quando o sync falha", async () =
   assert.equal(res.status, 500);
   assert.equal(res.body.ok, false);
   assert.match(res.body.error, /Dataverse fora do ar/);
+});
+
+// ─── Fases do sync (aberta → fechada) ─────────────────────────────────────────
+
+test("runPremiumSync repassa a fase do cursor para o syncPage", async () => {
+  const deps = makeDeps();
+  const cursor = Buffer.from(JSON.stringify({ page: 1, phase: "closed" }), "utf8").toString("base64url");
+
+  const res = await runPremiumSync({ request: { body: { planId: PLAN_ID, cursor }, query: {} }, deps });
+
+  assert.equal(res.status, 200);
+  assert.equal(deps.calls.syncPage[0].phase, "closed");
+  assert.equal(deps.calls.syncPage[0].page, 1);
+});
+
+test("runPremiumSync habilita a fase de issues fechadas por padrão", async () => {
+  const deps = makeDeps();
+
+  await runPremiumSync({ request: { body: { planId: PLAN_ID }, query: {} }, deps });
+
+  assert.equal(deps.calls.syncPage[0].includeClosed, true);
+  assert.equal(deps.calls.syncPage[0].phase, "opened");
+});
+
+test("runPremiumSync desliga a fase de issues fechadas quando includeClosed=false", async () => {
+  const deps = makeDeps();
+
+  await runPremiumSync({ request: { body: { planId: PLAN_ID, includeClosed: false }, query: {} }, deps });
+
+  assert.equal(deps.calls.syncPage[0].includeClosed, false);
 });

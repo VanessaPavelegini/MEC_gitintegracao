@@ -274,3 +274,101 @@ test("syncPage devolve nextCursor quando há próxima página no GitLab", async 
   assert.notEqual(result.nextCursor, null);
   assert.equal(premiumSync.decodeCursor(result.nextCursor).page, 2);
 });
+
+// ─── Fase de issues fechadas (task vai a 100%) ────────────────────────────────
+
+test("encodeCursor/decodeCursor preservam a fase", () => {
+  const cursor = premiumSync.encodeCursor(2, "closed");
+  const decoded = premiumSync.decodeCursor(cursor);
+  assert.equal(decoded.page, 2);
+  assert.equal(decoded.phase, "closed");
+  assert.equal(premiumSync.decodeCursor(null).phase, "opened");
+});
+
+test("syncPage na fase fechada atualiza a task existente com 100% de progresso", async () => {
+  const gitlab = fakeGitLab([issue(1, { state: "closed", updated_at: "2026-10-26T09:00:00.000Z" })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-20T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium();
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100, phase: "closed",
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.equal(result.updated, 1);
+  assert.equal(result.created, 0);
+  assert.equal(gitlab.calls[0].state, "closed");
+  const queued = premium.calls.find((c) => c.op === "queueUpdate");
+  assert.equal(queued.entities[0].msdyn_progress, 100);
+  assert.equal(queued.entities[0].msdyn_projecttaskid, "task-1");
+});
+
+test("syncPage na fase fechada não cria task para issue sem mapping", async () => {
+  const gitlab = fakeGitLab([issue(2, { state: "closed" })]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100, phase: "closed",
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.equal(result.created, 0);
+  assert.equal(result.updated, 0);
+  assert.equal(result.skipped, 1);
+  assert.equal(premium.calls.length, 0);
+  assert.equal(mapping.saved.length, 0);
+});
+
+test("syncPage encerra a fase aberta e devolve o cursor da fase fechada", async () => {
+  const gitlab = fakeGitLab([issue(1)]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100, includeClosed: true,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  const decoded = premiumSync.decodeCursor(result.nextCursor);
+  assert.equal(decoded.page, 1);
+  assert.equal(decoded.phase, "closed");
+});
+
+test("syncPage na fase fechada devolve cursor da própria fase quando há próxima página", async () => {
+  const gitlab = fakeGitLab([issue(1, { state: "closed" })], 2);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100, phase: "closed", includeClosed: true,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  const decoded = premiumSync.decodeCursor(result.nextCursor);
+  assert.equal(decoded.page, 2);
+  assert.equal(decoded.phase, "closed");
+});
+
+test("syncPage na fase fechada não aplica o filtro de label de cancelamento", async () => {
+  const gitlab = fakeGitLab([issue(1, { state: "closed", labels: ["CANCELADAS"] })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-20T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium();
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100, phase: "closed",
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.equal(result.updated, 1);
+  assert.equal(result.skipped, 0);
+});

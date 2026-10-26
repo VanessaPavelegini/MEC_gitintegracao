@@ -31,6 +31,9 @@ AzureStorageEmulator.exe
 # VS Code
 .vscode/
 
+# Token de autorização da conta de serviço (nunca versionar)
+.premium-refresh-token.json
+
 # Logs
 *.log
 logs/

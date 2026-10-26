@@ -85,10 +85,20 @@ function computeFinishDate(startDate, dueDate) {
  *   issue.updated_at > último sync       → update
  *   caso contrário                        → unchanged
  */
-function decideAction(issue, mapping) {
+/**
+ * Decide o que fazer com a issue: criar task, atualizar ou não tocar.
+ *
+ * A referência de "última alteração vista" é o `updated_at` da issue gravado
+ * no mapping (pmo_gitlab_updatedat). Se a coluna ainda não existir na tabela
+ * (schema do PRD não foi alterado), o plano B é comparar com
+ * pmo_dataultimasincronizacao — o instante do último sync.
+ */
+function decideAction(issue, mapping, { hasUpdatedAtColumn = true } = {}) {
   if (!mapping || !mapping.pmo_plannertaskid) return "create";
 
-  const lastSync = mapping.pmo_gitlab_updatedat;
+  const lastSync = hasUpdatedAtColumn
+    ? mapping.pmo_gitlab_updatedat
+    : (mapping.pmo_gitlab_updatedat || mapping.pmo_dataultimasincronizacao);
   if (!lastSync) return "update";
 
   const issueUpdated = new Date(issue?.updated_at || 0).getTime();
@@ -100,20 +110,29 @@ function decideAction(issue, mapping) {
 
 // ─── Cursor ───────────────────────────────────────────────────────────────────
 //
-// O cursor é opaco (base64url de { page }) — o handler do Power Automate só
-// precisa repassar o valor devolvido na chamada anterior.
+// O cursor é opaco (base64url de { page, phase }) — o handler do Power Automate
+// só precisa repassar o valor devolvido na chamada anterior.
+//
+// A fase distingue as duas passagens do sync:
+//   - "opened": issues abertas (criam/atualizam tasks);
+//   - "closed": issues fechadas — aqui NADA é criado, só as tasks que já
+//     existem são completadas com 100% de progresso.
 
-function encodeCursor(page) {
-  return Buffer.from(JSON.stringify({ page: Number(page) }), "utf8").toString("base64url");
+const PHASES = ["opened", "closed"];
+
+function encodeCursor(page, phase = "opened") {
+  return Buffer.from(JSON.stringify({ page: Number(page), phase }), "utf8").toString("base64url");
 }
 
 function decodeCursor(cursor) {
-  if (cursor === undefined || cursor === null || cursor === "") return { page: 1 };
+  if (cursor === undefined || cursor === null || cursor === "") return { page: 1, phase: "opened" };
   try {
     const parsed = JSON.parse(Buffer.from(String(cursor), "base64url").toString("utf8"));
     const page = Number(parsed.page);
     if (!Number.isInteger(page) || page < 1) throw new Error("page inválida");
-    return { page };
+    const phase = parsed.phase || "opened";
+    if (!PHASES.includes(phase)) throw new Error("phase inválida");
+    return { page, phase };
   } catch {
     throw new Error(`Cursor inválido: "${cursor}"`);
   }
@@ -245,6 +264,8 @@ async function syncPage({
   page = 1,
   pageSize = 100,
   state = "opened",
+  phase = "opened",
+  includeClosed = false,
   labels,
   dryRun = false,
   skipLabels = DEFAULT_SKIP_LABELS,
@@ -260,11 +281,14 @@ async function syncPage({
 }) {
   const startedAt = Date.now();
 
+  const isClosedPhase = phase === "closed";
+
   const result = {
     ok: true,
     planId,
     page,
-    state,
+    phase,
+    state: isClosedPhase ? "closed" : state,
     processed: 0,
     created: 0,
     updated: 0,
@@ -276,7 +300,7 @@ async function syncPage({
   };
 
   const { items, nextPage } = await gitlab.listIssuesPage({
-    state,
+    state: isClosedPhase ? "closed" : state,
     per_page: pageSize,
     page,
     order_by: "created_at",
@@ -286,9 +310,12 @@ async function syncPage({
 
   result.processed = items.length;
 
+  // Na fase "closed" o filtro de cancelamento NÃO se aplica: se a task já
+  // existe, ela precisa ser completada (100%) mesmo que a issue tenha
+  // recebido a label depois. O que decide ali é a existência do mapping.
   const eligible = [];
   for (const issue of items) {
-    if (isSkippedByLabels(issue.labels, skipLabels)) {
+    if (!isClosedPhase && isSkippedByLabels(issue.labels, skipLabels)) {
       result.skipped += 1;
       continue;
     }
@@ -304,15 +331,35 @@ async function syncPage({
   });
   const mappingByIid = new Map((mappings || []).map((m) => [Number(m.pmo_gitlab_iid), m]));
 
+  // A coluna pmo_gitlab_updatedat pode não existir no schema do PRD — nesse
+  // caso o diff usa pmo_dataultimasincronizacao (plano B).
+  let hasUpdatedAtColumn = false;
+  if (_hasUpdatedAtColumnCache.has(prdBaseUrl)) {
+    hasUpdatedAtColumn = _hasUpdatedAtColumnCache.get(prdBaseUrl);
+  } else {
+    hasUpdatedAtColumn = await mapping.hasGitlabUpdatedAtColumn({
+      baseUrl: prdBaseUrl,
+      token: prdToken,
+      fetchImpl,
+    });
+    _hasUpdatedAtColumnCache.set(prdBaseUrl, hasUpdatedAtColumn);
+  }
+
   const creates = [];
   const updates = [];
 
   for (const issue of eligible) {
     const existing = mappingByIid.get(Number(issue.iid));
-    const action = decideAction(issue, existing);
+    const action = decideAction(issue, existing, { hasUpdatedAtColumn });
 
     if (action === "unchanged") {
       result.unchanged += 1;
+      continue;
+    }
+
+    // Fase "closed": issue sem task não gera task (só completa o que existe).
+    if (action === "create" && isClosedPhase) {
+      result.skipped += 1;
       continue;
     }
 
@@ -337,23 +384,19 @@ async function syncPage({
 
   result.created = creates.length;
   result.updated = updates.length;
-  result.nextCursor = nextPage ? encodeCursor(nextPage) : null;
+
+  if (nextPage) {
+    result.nextCursor = encodeCursor(nextPage, phase);
+  } else if (!isClosedPhase && includeClosed) {
+    // A fase "opened" acabou: a próxima chamada entra na fase "closed".
+    result.nextCursor = encodeCursor(1, "closed");
+  } else {
+    result.nextCursor = null;
+  }
 
   if (dryRun) {
     result.durationMs = Date.now() - startedAt;
     return result;
-  }
-
-  let hasUpdatedAtColumn = false;
-  if (_hasUpdatedAtColumnCache.has(prdBaseUrl)) {
-    hasUpdatedAtColumn = _hasUpdatedAtColumnCache.get(prdBaseUrl);
-  } else {
-    hasUpdatedAtColumn = await mapping.hasGitlabUpdatedAtColumn({
-      baseUrl: prdBaseUrl,
-      token: prdToken,
-      fetchImpl,
-    });
-    _hasUpdatedAtColumnCache.set(prdBaseUrl, hasUpdatedAtColumn);
   }
 
   for (const batch of chunk(creates, batchSize)) {
