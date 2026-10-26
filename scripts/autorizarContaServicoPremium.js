@@ -107,7 +107,12 @@ async function aguardarLogin(deviceCode, intervaloSeg) {
     if (res.ok) return data;
     if (data.error === "authorization_pending") { process.stdout.write("."); continue; }
     if (data.error === "slow_down") { intervaloSeg += 5; continue; }
-    if (data.error === "expired_token" || data.error === "access_denied") {
+    if (data.error === "expired_token") {
+      const e = new Error("expired_token");
+      e.code = "expired_token";
+      throw e;
+    }
+    if (data.error === "access_denied") {
       throw new Error(`Login não concluído: ${data.error} — ${data.error_description || ""}`);
     }
     throw new Error(`Falha no login: ${data.error} — ${data.error_description || ""}`);
@@ -141,12 +146,26 @@ async function main() {
   }
 
   console.log(`Autorizando a conta de serviço na org ${ORG_URL}\n`);
-  const device = await iniciarDeviceCodeFlow();
-  console.log(device.message + "\n");
-  console.log(">>> Autorize em até 15 minutos e deixe este terminal rodando.\n");
-  process.stdout.write("Aguardando login");
 
-  const tokens = await aguardarLogin(device.device_code, device.interval || 5);
+  // O device code do AAD expira em 15 min. Em vez de encerrar, o script
+  // emite um código novo e continua esperando — assim o terminal pode ficar
+  // rodando até a pessoa ter chance de autorizar.
+  const MAX_RENOVACOES = 8;
+  let tokens = null;
+  for (let tentativa = 0; tentativa <= MAX_RENOVACOES; tentativa++) {
+    const device = await iniciarDeviceCodeFlow();
+    console.log(device.message + "\n");
+    console.log(">>> Autorize em até 15 minutos e deixe este terminal rodando.\n");
+    process.stdout.write("Aguardando login");
+
+    try {
+      tokens = await aguardarLogin(device.device_code, device.interval || 5);
+      break;
+    } catch (e) {
+      if (e.code !== "expired_token" || tentativa === MAX_RENOVACOES) throw e;
+      console.log("\n\nCódigo expirado — emitindo um novo código.\n");
+    }
+  }
   console.log("\n\nLogin concluído!");
 
   await salvarRefreshToken(tokens.refresh_token);
