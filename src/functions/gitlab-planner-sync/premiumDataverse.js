@@ -69,6 +69,193 @@ function buildUpdateEntity({ issue, projectId, bucketId, taskId }) {
   };
 }
 
+// ─── Cliente HTTP (fetch puro) ────────────────────────────────────────────────
+
+const DEFAULT_BASE_URL = process.env.DATAVERSE_URL_PREMIUM || "";
+const API_VERSION = "v9.2";
+
+function resolveFetch(fetchImpl) {
+  return fetchImpl || globalThis.fetch;
+}
+
+/**
+ * Chamada HTTP ao Dataverse. Lança Error com a mensagem do Dataverse quando
+ * a resposta não é 2xx (o corpo de erro do Dataverse vem em { error: { message } }).
+ */
+async function dataverseRequest({ baseUrl = DEFAULT_BASE_URL, path, method = "GET", body, token, fetchImpl, allowStatuses = [] }) {
+  const url = `${baseUrl}/api/data/${API_VERSION}${path}`;
+  const doFetch = resolveFetch(fetchImpl);
+
+  const response = await doFetch(url, {
+    method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "OData-MaxVersion": "4.0",
+      "OData-Version": "4.0",
+      Accept: "application/json",
+      Prefer: "return=representation",
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+
+  const text = await response.text();
+  let parsed = null;
+  try {
+    parsed = text ? JSON.parse(text) : null;
+  } catch {
+    parsed = text;
+  }
+
+  if (!response.status || response.status >= 400) {
+    if (allowStatuses.includes(response.status)) return { status: response.status, body: parsed };
+    const message = parsed?.error?.message || parsed?.message || (typeof parsed === "string" ? parsed : text) || `HTTP ${response.status}`;
+    const error = new Error(`Dataverse ${method} ${path} falhou (${response.status}): ${message}`);
+    error.status = response.status;
+    error.body = parsed;
+    throw error;
+  }
+
+  return { status: response.status, body: parsed };
+}
+
+// ─── Operation sets ───────────────────────────────────────────────────────────
+
+/**
+ * Cria um operation set para o plano e devolve o OperationSetId.
+ */
+async function createOperationSet({ projectId, description, token, baseUrl, fetchImpl }) {
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: "/msdyn_CreateOperationSetV1",
+    method: "POST",
+    body: { ProjectId: projectId, Description: description },
+    token,
+    fetchImpl,
+  });
+  const setId = body?.OperationSetId || body?.msdyn_OperationSetId;
+  if (!setId) throw new Error("msdyn_CreateOperationSetV1 não devolveu OperationSetId");
+  return setId;
+}
+
+/**
+ * Enfileira criações de tasks no set (lote).
+ */
+async function queueCreateTasks({ operationSetId, entities, token, baseUrl, fetchImpl }) {
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: "/msdyn_PssCreateV2",
+    method: "POST",
+    body: { OperationSetId: operationSetId, EntityCollection: entities },
+    token,
+    fetchImpl,
+  });
+  return body;
+}
+
+/**
+ * Enfileira atualizações de tasks no set (lote).
+ */
+async function queueUpdateTasks({ operationSetId, entities, token, baseUrl, fetchImpl }) {
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: "/msdyn_PssUpdateV2",
+    method: "POST",
+    body: { OperationSetId: operationSetId, EntityCollection: entities },
+    token,
+    fetchImpl,
+  });
+  return body;
+}
+
+/**
+ * Executa o set (aqui as tasks são realmente criadas/atualizadas).
+ */
+async function executeOperationSet({ operationSetId, token, baseUrl, fetchImpl }) {
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: "/msdyn_ExecuteOperationSetV1",
+    method: "POST",
+    body: { OperationSetId: operationSetId },
+    token,
+    fetchImpl,
+  });
+  return body;
+}
+
+/**
+ * Descarta o set: abandona as operações pendentes e apaga o registro
+ * msdyn_operationsets (a cota é de 10 sets vivos por usuário).
+ */
+async function discardOperationSet({ operationSetId, token, baseUrl, fetchImpl }) {
+  try {
+    await dataverseRequest({
+      baseUrl,
+      path: "/msdyn_AbandonOperationSetV1",
+      method: "POST",
+      body: { OperationSetId: operationSetId },
+      token,
+      fetchImpl,
+    });
+  } catch (e) {
+    // Abandon pode falhar se o set já foi executado — segue para o DELETE.
+    if (e.status && e.status !== 404) throw e;
+  }
+
+  await dataverseRequest({
+    baseUrl,
+    path: `/msdyn_operationsets(${operationSetId})`,
+    method: "DELETE",
+    token,
+    fetchImpl,
+    allowStatuses: [404],
+  });
+}
+
+/**
+ * Buckets (colunas do Planner) de um plano Premium.
+ */
+async function listProjectBuckets({ projectId, token, baseUrl, fetchImpl }) {
+  const filter = `_msdyn_project_value eq '${projectId}'`;
+  const query = `?$select=msdyn_projectbucketid,msdyn_name&$filter=${encodeURIComponent(filter)}&$top=100`;
+
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: `/msdyn_projectbuckets${query}`,
+    method: "GET",
+    token,
+    fetchImpl,
+  });
+
+  return (body?.value || []).map((b) => ({
+    id: b.msdyn_projectbucketid,
+    name: b.msdyn_name,
+  }));
+}
+
+/**
+ * Mapa assunto → id da task, para as tasks do projeto informado.
+ * Usado depois do execute para descobrir o id das tasks recém-criadas.
+ */
+async function findTaskIdsBySubjects({ projectId, subjects, token, baseUrl, fetchImpl }) {
+  const filter = `_msdyn_project_value eq '${projectId}'`;
+  const query = `?$select=msdyn_subject,msdyn_projecttaskid&$filter=${encodeURIComponent(filter)}&$top=5000`;
+
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: `/msdyn_projecttasks${query}`,
+    method: "GET",
+    token,
+    fetchImpl,
+  });
+
+  const map = {};
+  for (const row of body?.value || []) {
+    if (row?.msdyn_subject) map[row.msdyn_subject] = row.msdyn_projecttaskid;
+  }
+  return map;
+}
+
 module.exports = {
   ENTITY_TYPE,
   SUBJECT_MAX_LENGTH,
@@ -76,4 +263,13 @@ module.exports = {
   buildSubject,
   buildTaskEntity,
   buildUpdateEntity,
+  dataverseRequest,
+  createOperationSet,
+  queueCreateTasks,
+  queueUpdateTasks,
+  executeOperationSet,
+  discardOperationSet,
+  listProjectBuckets,
+  findTaskIdsBySubjects,
 };
+

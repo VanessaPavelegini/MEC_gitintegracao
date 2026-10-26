@@ -33,12 +33,13 @@ function getGitLabClient() {
 /**
  * Obtém o ID numérico do projeto a partir do path
  * @param {string} projectPath - Path do projeto (ex: "doc-sis/documentacao-novosistec2")
+ * @param {object} [client] - cliente axios injetável (testes)
  * @returns {Promise<number>} - ID numérico do projeto
  */
-async function getProjectId(projectPath) {
-  const client = getGitLabClient();
+async function getProjectId(projectPath, client) {
+  const gitlab = client || getGitLabClient();
   const path = projectPath || GITLAB_PROJECT_ID;
-  const response = await client.get(`/projects/${encodeURIComponent(path)}`);
+  const response = await gitlab.get(`/projects/${encodeURIComponent(path)}`);
   return response.data.id;
 }
 
@@ -91,6 +92,59 @@ async function listIssues(filters = {}) {
 
   const response = await client.get(`/projects/${projectId}/issues`, { params });
   return response.data;
+}
+
+/**
+ * Lista issues de uma página e devolve também a paginação.
+ *
+ * Diferente de listIssues(), que devolve só o array, esta função expõe os
+ * headers x-next-page / x-total-pages / x-total — é o que permite ao sync
+ * Premium (homologação) andar de página em página com um cursor opaco.
+ *
+ * @param {object} filters - { state, per_page, page, labels, order_by, sort }
+ * @param {object} [client] - cliente axios injetável (testes)
+ * @returns {Promise<{items: Array, nextPage: number|null, totalPages: number|null, total: number|null}>}
+ */
+async function listIssuesPage(filters = {}, client) {
+  const gitlab = client || getGitLabClient();
+  const projectId = filters.projectId || (await getProjectId(undefined, gitlab));
+
+  const params = {
+    state: filters.state || "opened",
+    per_page: filters.per_page || 100,
+  };
+
+  if (filters.page) {
+    params.page = filters.page;
+  }
+  if (filters.order_by) {
+    params.order_by = filters.order_by;
+  }
+  if (filters.sort) {
+    params.sort = filters.sort;
+  }
+  if (filters.labels) {
+    params.labels = Array.isArray(filters.labels) ? filters.labels.join(",") : filters.labels;
+  }
+  if (filters.assignee) {
+    params.assignee_username = filters.assignee;
+  }
+
+  const response = await gitlab.get(`/projects/${projectId}/issues`, { params });
+  const headers = response.headers || {};
+
+  const toNumber = (value) => {
+    if (value === undefined || value === null || value === "") return null;
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+  };
+
+  return {
+    items: response.data || [],
+    nextPage: toNumber(headers["x-next-page"]),
+    totalPages: toNumber(headers["x-total-pages"]),
+    total: toNumber(headers["x-total"]),
+  };
 }
 
 // ─── Boards ───────────────────────────────────────────────────────────────────
@@ -250,6 +304,7 @@ module.exports = {
   getProjectId,
   getIssue,
   listIssues,
+  listIssuesPage,
   getBoardLists,
   getBoards,
   getProjectLabels,
