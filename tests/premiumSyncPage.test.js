@@ -56,6 +56,11 @@ function fakeMapping(existing = []) {
 function fakePremium(taskIds = {}, existingSubjects = {}) {
   const calls = [];
   let setSeq = 0;
+  // Tasks "criadas" no set: só existem depois do execute (o Dataverse
+  // aplica o operation set de forma assíncrona).
+  const pending = new Map();
+  const materializadas = new Map();
+
   return {
     calls,
     createOperationSet: async ({ description }) => {
@@ -65,15 +70,32 @@ function fakePremium(taskIds = {}, existingSubjects = {}) {
     },
     queueCreateTasks: async ({ operationSetId, entities }) => {
       calls.push({ op: "queueCreate", operationSetId, entities });
+      for (const e of entities) pending.set(e.msdyn_projecttaskid, e);
     },
     queueUpdateTasks: async ({ operationSetId, entities }) => {
       calls.push({ op: "queueUpdate", operationSetId, entities });
+      for (const e of entities) pending.set(e.msdyn_projecttaskid, e);
     },
     executeOperationSet: async ({ operationSetId }) => {
       calls.push({ op: "execute", operationSetId });
+      for (const [id, entity] of pending) materializadas.set(id, entity);
+      pending.clear();
+    },
+    abandonOperationSet: async ({ operationSetId }) => {
+      calls.push({ op: "abandon", operationSetId });
     },
     discardOperationSet: async ({ operationSetId }) => {
       calls.push({ op: "discard", operationSetId });
+    },
+    getTaskById: async ({ taskId }) => {
+      const e = materializadas.get(taskId);
+      if (!e) return null;
+      return {
+        msdyn_projecttaskid: taskId,
+        msdyn_subject: e.msdyn_subject,
+        msdyn_progress: e.msdyn_progress,
+        msdyn_description: e.msdyn_description,
+      };
     },
     // onlyExisting = consulta ANTES de criar (o que já existe no plano);
     // sem o flag = lookup depois de criar (id da task recém-criada).
@@ -165,7 +187,9 @@ test("syncPage cria tasks para issues sem mapping e grava o mapping com o id da 
 
   assert.equal(mapping.saved.length, 2);
   assert.equal(mapping.saved[0].gitlabIid, 1);
-  assert.equal(mapping.saved[0].plannerTaskId, "task-1");
+  // O id gravado é o GUID enviado no PssCreateV2 (o Dataverse respeita o
+  // id do cliente) — não o que a consulta por assunto devolve.
+  assert.equal(mapping.saved[0].plannerTaskId, queued.entities[0].msdyn_projecttaskid);
   assert.equal(mapping.saved[0].gitlabUpdatedAt, "2026-10-20T10:00:00.000Z");
   assert.equal(mapping.saved[0].planId, PLAN_ID);
 });
@@ -308,7 +332,8 @@ test("syncPage na fase fechada atualiza a task existente com 100% de progresso",
   assert.equal(result.created, 0);
   assert.equal(gitlab.calls[0].state, "closed");
   const queued = premium.calls.find((c) => c.op === "queueUpdate");
-  assert.equal(queued.entities[0].msdyn_progress, 100);
+  // msdyn_progress é razão 0..1 nesta API (1 = 100%).
+  assert.equal(queued.entities[0].msdyn_progress, 1);
   assert.equal(queued.entities[0].msdyn_projecttaskid, "task-1");
 });
 
@@ -404,4 +429,52 @@ test("syncPage adota task existente com o mesmo assunto em vez de criar duplicat
   assert.equal(mapping.saved.length, 2);
   const orfa = mapping.saved.find((s) => s.gitlabIid === 1);
   assert.equal(orfa.plannerTaskId, "task-orfa");
+});
+
+// ─── Ciclo de vida do operation set ───────────────────────────────────────────
+
+test("o registro do operation set só é apagado depois que a task materializa", async () => {
+  const gitlab = fakeGitLab([issue(1)]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+
+  // O fake registra o getTaskById para conferir a ordem das operações.
+  const getCalls = [];
+  const original = premium.getTaskById;
+  premium.getTaskById = async (args) => {
+    getCalls.push(args.taskId);
+    return original(args);
+  };
+
+  await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  const ordem = premium.calls.map((c) => c.op);
+  const iExecute = ordem.indexOf("execute");
+  const iDiscard = ordem.indexOf("discard");
+  assert.ok(iExecute >= 0 && iDiscard > iExecute, "o discard tem que vir depois do execute");
+  assert.ok(getCalls.length > 0, "a task precisa ser conferida antes do discard");
+  assert.equal(mapping.saved.length, 1);
+  assert.equal(mapping.saved[0].plannerTaskId, getCalls[0]);
+});
+
+test("task que não materializa não grava mapping e vira erro no resultado", async () => {
+  const gitlab = fakeGitLab([issue(1)]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+  premium.getTaskById = async () => null; // nunca materializa
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+    materializeTimeoutMs: 50, materializeDelayMs: 1,
+  });
+
+  assert.equal(mapping.saved.length, 0, "mapping não pode apontar para task inexistente");
+  assert.equal(result.errors.length, 1);
+  assert.equal(result.errors[0].iid, 1);
 });

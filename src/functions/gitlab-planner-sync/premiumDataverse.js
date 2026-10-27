@@ -18,7 +18,11 @@
 
 const ENTITY_TYPE = "Microsoft.Dynamics.CRM.msdyn_projecttask";
 const SUBJECT_MAX_LENGTH = 450;      // msdyn_subject
-const DESCRIPTION_MAX_LENGTH = 100000; // msdyn_description (Memo)
+// msdyn_description (o "notes" da task no Planner Premium): o Dataverse
+// Project recusa a task quando o campo passa de 100.000 caracteres
+// ("Beyond max limit of 100000 characters field: notes") — o limite é
+// exclusivo, então 99.999 já passa. Fica uma margem de 999 caracteres.
+const DESCRIPTION_MAX_LENGTH = 99000;
 
 // ─── Construção da task ───────────────────────────────────────────────────────
 
@@ -42,17 +46,25 @@ function buildSubject(issue) {
  * @param {string}  args.bucketId GUID do msdyn_projectbucket
  * @returns {object} entidade no formato mscrm.crmbaseentity
  */
-function buildTaskEntity({ issue, projectId, bucketId }) {
+function buildTaskEntity({ issue, projectId, bucketId, taskId }) {
   const start = require("./premiumSync").toDateOnly(issue?.created_at);
   const finish = require("./premiumSync").computeFinishDate(start, issue?.due_date);
 
   return {
     "@odata.type": ENTITY_TYPE,
+    // O msdyn_PssCreateV2 exige um id por entidade: sem id, o operation set
+    // rejeita o lote inteiro com "contém entidades duplicadas" (todas as
+    // entidades sem id colidem no mesmo id vazio). O Dataverse respeita o
+    // GUID do cliente nesse action — o id enviado é o id da task criada, e
+    // o sync passa a saber o id sem depender de consultar por assunto.
+    msdyn_projecttaskid: taskId || require("node:crypto").randomUUID(),
     msdyn_subject: buildSubject(issue),
     msdyn_description: String(issue?.description || "").substring(0, DESCRIPTION_MAX_LENGTH),
     msdyn_start: start,
     msdyn_finish: finish,
-    msdyn_progress: issue?.state === "closed" ? 100 : 0,
+    // msdyn_progress é uma razão 0..1 nesta API (1 = 100%): o Dataverse
+    // recusa o update com 50 ou 100 ("percent outside of bounds").
+    msdyn_progress: issue?.state === "closed" ? 1 : 0,
     "msdyn_project@odata.bind": `/msdyn_projects(${projectId})`,
     "msdyn_projectbucket@odata.bind": `/msdyn_projectbuckets(${bucketId})`,
   };
@@ -169,6 +181,25 @@ async function queueUpdateTasks({ operationSetId, entities, token, baseUrl, fetc
 }
 
 /**
+ * Enfileira a exclusão de tasks no set (lote).
+ *
+ * O DELETE direto em /msdyn_projecttasks é recusado pelo Dataverse
+ * ("Não é possível executar diretamente a operação Delete"), então a remoção
+ * também passa pelo operation set (msdyn_PssDeleteV2).
+ */
+async function queueDeleteTasks({ operationSetId, entities, token, baseUrl, fetchImpl }) {
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: "/msdyn_PssDeleteV2",
+    method: "POST",
+    body: { OperationSetId: operationSetId, EntityCollection: entities },
+    token,
+    fetchImpl,
+  });
+  return body;
+}
+
+/**
  * Executa o set (aqui as tasks são realmente criadas/atualizadas).
  */
 async function executeOperationSet({ operationSetId, token, baseUrl, fetchImpl }) {
@@ -184,22 +215,57 @@ async function executeOperationSet({ operationSetId, token, baseUrl, fetchImpl }
 }
 
 /**
+ * Lê uma task pelo id. Devolve null se ela ainda não existe (404) — é assim
+ * que o sync confere se o operation set já materializou.
+ */
+async function getTaskById({ taskId, token, baseUrl, fetchImpl, select }) {
+  const query = select ? `?$select=${encodeURIComponent(select)}` : "";
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: `/msdyn_projecttasks(${taskId})${query}`,
+    method: "GET",
+    token,
+    fetchImpl,
+    allowStatuses: [404],
+  });
+  if (!body || body.error || !body.msdyn_projecttaskid) return null;
+  return body;
+}
+
+/**
+ * Abandona as operações pendentes de um set (sem apagar o registro).
+ */
+async function abandonOperationSet({ operationSetId, token, baseUrl, fetchImpl }) {
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: "/msdyn_AbandonOperationSetV1",
+    method: "POST",
+    body: { OperationSetId: operationSetId },
+    token,
+    fetchImpl,
+  });
+  return body;
+}
+
+/**
  * Descarta o set: abandona as operações pendentes e apaga o registro
  * msdyn_operationsets (a cota é de 10 sets vivos por usuário).
+ *
+ * CUIDADO: o Dataverse aplica o operation set de forma ASSÍNCRONA — a task
+ * só aparece na consulta alguns segundos depois do execute, e apagar o
+ * registro do set nesse intervalo CANCELA a criação pendente (a task nunca
+ * chega a existir). Só use este discard quando as tasks já materializaram
+ * (ou quando o set falhou de vez).
+ *
+ * O abandon é best-effort: depois de EXECUTAR, o set já não está "aberto" e o
+ * abandon responde 400 ("O conjunto de operações não está em estado aberto") —
+ * o que libera a cota é o DELETE do registro do set, que vem logo abaixo.
  */
 async function discardOperationSet({ operationSetId, token, baseUrl, fetchImpl }) {
   try {
-    await dataverseRequest({
-      baseUrl,
-      path: "/msdyn_AbandonOperationSetV1",
-      method: "POST",
-      body: { OperationSetId: operationSetId },
-      token,
-      fetchImpl,
-    });
-  } catch (e) {
-    // Abandon pode falhar se o set já foi executado — segue para o DELETE.
-    if (e.status && e.status !== 404) throw e;
+    await abandonOperationSet({ operationSetId, token, baseUrl, fetchImpl });
+  } catch {
+    // best effort — o DELETE abaixo é o que importa
   }
 
   await dataverseRequest({
@@ -267,9 +333,12 @@ module.exports = {
   createOperationSet,
   queueCreateTasks,
   queueUpdateTasks,
+  queueDeleteTasks,
   executeOperationSet,
+  abandonOperationSet,
   discardOperationSet,
   listProjectBuckets,
   findTaskIdsBySubjects,
+  getTaskById,
 };
 

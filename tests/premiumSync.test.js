@@ -71,14 +71,16 @@ test("buildTaskEntity usa due_date quando existe", () => {
   assert.equal(entity.msdyn_finish, "2026-11-30");
 });
 
-test("buildTaskEntity marca issue fechada com 100% de progresso", () => {
+test("buildTaskEntity marca issue fechada com 100% de progresso (razão 1)", () => {
   const entity = premiumDataverse.buildTaskEntity({
     issue: issue({ state: "closed" }),
     projectId: PROJECT_ID,
     bucketId: BUCKET_ID,
   });
 
-  assert.equal(entity.msdyn_progress, 100);
+  // msdyn_progress é razão 0..1 nesta API: o Dataverse recusa 50 ou 100
+  // com "percent outside of bounds on element: ... field: percentComplete".
+  assert.equal(entity.msdyn_progress, 1);
 });
 
 test("buildTaskEntity não duplica o prefixo [#iid] quando o título já vem prefixado", () => {
@@ -110,7 +112,10 @@ test("buildTaskEntity trunca descrição no limite do campo Memo", () => {
     bucketId: BUCKET_ID,
   });
 
-  assert.equal(entity.msdyn_description.length, 100000);
+  // O Dataverse Project recusa a task com o campo "notes" em 100.000
+  // caracteres ou mais (limite exclusivo) — por isso 99.000.
+  assert.equal(entity.msdyn_description.length, 99000);
+  assert.ok(entity.msdyn_description.length < 100000);
 });
 
 // ─── decideAction ─────────────────────────────────────────────────────────────
@@ -205,4 +210,45 @@ test("toDateOnly devolve null para valor ausente", () => {
 test("computeFinishDate usa due_date; senão start + 7 dias", () => {
   assert.equal(premiumSync.computeFinishDate("2026-10-08", "2026-11-30"), "2026-11-30");
   assert.equal(premiumSync.computeFinishDate("2026-10-08", null), "2026-10-15");
+});
+
+// ─── Normalização da descrição (o Planner Premium reescreve o HTML) ────────────
+
+test("descriptionFingerprint ignora o comentário HTML inicial que o Planner descarta", () => {
+  const enviado = "<!-- HU0019 - [Instituição] Cadastrar Dependência -->\n\n## História\n\ntexto";
+  const gravado = "\n\n## História\n\ntexto";
+  assert.equal(premiumSync.descriptionFingerprint(enviado), premiumSync.descriptionFingerprint(gravado));
+});
+
+test("descriptionFingerprint ignora a reescrita de entidades", () => {
+  const enviado = 'Menu lateral > Administração > Botão "Editar"';
+  const gravado = "Menu lateral &gt; Administração &gt; Botão &quot;Editar&quot;";
+  assert.equal(premiumSync.descriptionFingerprint(enviado), premiumSync.descriptionFingerprint(gravado));
+});
+
+test("decideAction compara o updated_at com precisão de segundo (o Dataverse trunca)", () => {
+  const issue = { updated_at: "2026-10-19T18:08:47.258Z" };
+  const mapping = { pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-19T18:08:47Z" };
+  assert.equal(premiumSync.decideAction(issue, mapping), "unchanged");
+});
+
+test("decideAction ainda detecta issue alterada depois do último sync", () => {
+  const issue = { updated_at: "2026-10-19T18:08:48.258Z" };
+  const mapping = { pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-19T18:08:47Z" };
+  assert.equal(premiumSync.decideAction(issue, mapping), "update");
+});
+
+test("descriptionFingerprint normaliza os espaços que o Planner vira &nbsp;", () => {
+  const enviado = "| 1.0 | 16/07/2024 | Criação do Documento | 1.1 | 27/01/2026 |";
+  const gravado = "| 1.0 | 16/07/2024 | Criação do Documento | 1.1&#160;&#160; | 27/01/2026 |";
+  assert.equal(premiumSync.descriptionFingerprint(enviado), premiumSync.descriptionFingerprint(gravado));
+});
+
+test("descriptionFingerprint distingue conteúdos diferentes", () => {
+  assert.notEqual(premiumSync.descriptionFingerprint("história A"), premiumSync.descriptionFingerprint("história B"));
+});
+
+test("descriptionFingerprint trata descrição vazia", () => {
+  assert.equal(premiumSync.descriptionFingerprint(""), "");
+  assert.equal(premiumSync.descriptionFingerprint(undefined), "");
 });
