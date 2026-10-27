@@ -117,7 +117,7 @@ app.http("gitlabPlannerPremiumHomologacaoBuckets", {
   handler: async (request) => {
     try {
       const planId = request.query?.get("planId") || DEFAULT_PLAN_ID;
-      const buckets = await listProjectBuckets({ planId });
+      const buckets = await listProjectBuckets({ projectId: planId });
       return { status: 200, jsonBody: { ok: true, planId, buckets } };
     } catch (e) {
       return { status: 500, jsonBody: { ok: false, error: e?.message || String(e) } };

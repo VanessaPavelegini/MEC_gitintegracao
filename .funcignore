@@ -1,0 +1,8 @@
+.git
+.gitignore
+.superpowers
+docs
+spfx-webpart
+tmp
+*.zip
+local.settings.json
