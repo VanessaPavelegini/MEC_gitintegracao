@@ -358,3 +358,106 @@ de cancelamento não se aplica (task existente é completada assim mesmo).
 2. Publicar o pacote na Function App (o deploy via ARM estava com
    `AuthorizationFailed` intermitente na conta do usuário).
 3. Rodar a execução real e criar o flow do Power Automate.
+
+---
+
+## 11. Execução real (26/10/2026) — o que rodou e o que travou
+
+O deploy continuou bloqueado (RBAC: a conta não tem `Microsoft.Web/sites/*` no RG), então
+o sync foi executado **localmente** com `scripts/sync-premium-homologacao-local.js` — o mesmo
+handler (`premiumHandler.runPremiumSync`) e os mesmos módulos da Function, mudando só o host
+e a origem do token de escrita.
+
+**Achados que mudaram o código (todos com teste):**
+
+| Achado | Correção |
+|---|---|
+| `portaldedemandas@mec.gov.br` lê o plano mas o `msdyn_ExecuteOperationSetV1` responde `Forbidden — Permissions required: Write.` | identidade de escrita passa a ser a conta do usuário (`antoniojunior@mec.gov.br`) — o device code flow precisa ser refeito com ela |
+| `msdyn_PssCreateV2` recusa o lote sem id por entidade: *"OperationSet do tipo Create contém entidades duplicadas"* (contador = N−1: todas as entidades sem id colidem) | cada task criada recebe um `msdyn_projecttaskid` (GUID do cliente) — o Dataverse respeita o id enviado, então o sync já sabe o id de cada task |
+| `msdyn_description` (o "notes") tem limite **exclusivo** de 100.000 caracteres: com 100.000 o set inteiro falha | truncamento em 99.000 (`DESCRIPTION_MAX_LENGTH`) |
+| `msdyn_AbandonOperationSetV1` depois do execute responde *"O conjunto de operações não está em estado aberto"* e derrubava o lote **já gravado** | `discardOperationSet` passou a tratar o abandon como best-effort (o que libera a cota é o DELETE do registro do set) |
+| `DELETE` direto em `msdyn_projecttask` é recusado pelo Dataverse | `queueDeleteTasks` (via `msdyn_PssDeleteV2`) para limpar task de teste |
+
+**Estado final (contestado na §12):** a execução reportou "588 tasks criadas" e 588 mappings
+gravados, mas **as tasks não existiam no plano** — o registro do operation set foi apagado
+antes da materialização e a criação pendente foi cancelada (ver §12).
+
+**Continua pendente (ação humana):**
+1. **RBAC**: pedir `Contributor` no `rg-pnld-app-hmg-mec` (ou `Microsoft.Web/sites/*`) para
+   publicar o código e o refresh token na Function App.
+2. **Device code flow** refeito com `antoniojunior@mec.gov.br` (o token no Blob hoje é de
+   outra identidade) — ou dar permissão de escrita no projeto à `portaldedemandas`.
+3. **Flow do Power Automate** apontando para a rota publicada.
+
+Comandos de conferência: `node scripts/conferir-sync-premium-homologacao.js` (tasks no plano
+× mappings no PRD). Detalhes operacionais no
+[`RUNBOOK-sync-premium-homologacao.md`](RUNBOOK-sync-premium-homologacao.md).
+
+
+---
+
+## 12. Segunda execução real (26/10/2026) — o que realmente faltava
+
+A §11 fechou como "588 tasks criadas". **Não era verdade**: na conferência, das 588 tasks
+que o sync dizia ter criado, só **24** existiam no plano — as outras 564 nunca nasceram.
+A causa era a ordem das operações no operation set.
+
+### 12.1 O que estava quebrado
+
+| # | Problema | Como se manifestava | Correção |
+|---|---|---|---|
+| 1 | **O registro do set era apagado antes da materialização** | o Dataverse aplica o operation set de forma assíncrona; apagar o registro (`msdyn_operationsets`) nesse intervalo **cancela a criação pendente**. O sync reportava `created: 588` e gravava 588 mappings, mas o plano continuava vazio | esperar a materialização (task presente E com o conteúdo esperado) antes de apagar o registro do set; o mapping só é gravado para tasks confirmadas |
+| 2 | **A janela de espera era curta demais** | a espera media 30 s (15 tentativas × 2 s) para lotes de 100 tasks | medido em 26/10/2026: o lote materializa **inteiro de uma vez** — 20 tasks em ~18 s, 100 tasks em ~30 s. A espera passou a ser: sonda barata (1 GET por vez) até o lote aparecer, e então a confirmação de todas, com prazo de 120 s |
+| 3 | **`msdyn_progress` é razão 0..1** | a API recusava o update com `percent outside of bounds on element: ... field: percentComplete` ao mandar 50 ou 100 | issue fechada → `msdyn_progress: 1` (100%) |
+| 4 | **O id do cliente não era respeitado** | a task criada recebia um id do servidor, então o sync não sabia o id da task que acabara de criar | o `msdyn_PssCreateV2` respeita o `msdyn_projecttaskid` enviado — cada task passa a nascer com um GUID do cliente e o sync já sabe o id |
+| 5 | **A limpeza (delete) exigia a entidade completa** | `msdyn_PssDeleteV2` respondia *"O projeto referenciado com a ID 00000000-... não corresponde"* e depois *"contém entidades duplicadas"* | a entidade de delete precisa do `msdyn_subject` e do `msdyn_project@odata.bind` |
+| 7 | **A comparação de "a issue mudou" ignorava a precisão** | o GitLab manda `updated_at` com milissegundos (`...T18:08:47.258Z`) e o Dataverse guarda o DateTime truncado no segundo (`...T18:08:47Z`); comparar cru faria **toda** issue parecer alterada — o sync reescrevia as 588 tasks em toda rodada | a comparação passa a ser feita em segundos (`npm test` — 93 testes) |
+| 6 | **O Planner Premium reescreve a descrição** | o texto volta com as tags em minúsculas (`<ul>`), `>` virando `&gt;`, `"` virando `&quot;`, espaço duplo virando `&#160;` e o comentário HTML inicial (`<!-- ... -->`) **descartado** — comparar o texto exato dava falso negativo em quase toda issue com descrição | a confirmação passa a comparar uma impressão digital do texto: desescapar as entidades, tirar comentários e tags, colapsar espaço e comparar só o começo (validado em 50 issues: 50/50 conferem) |
+
+### 12.1.1 O caminho da adoção
+
+Com as tasks já no plano (criadas pela rodada que foi cancelada) e o mapping
+perdido, o sync **não pode criar de novo** — cairia em task duplicada. O caminho
+adotado é: perguntar ao plano o que já existe com o mesmo assunto
+(`[#iid] título`), **adotar** essa task (atualizar o conteúdo dela) e gravar o
+mapping com o id real. É o que garante que uma rodada interrompida não vira
+lixo permanente.
+
+### 12.2 O que foi feito
+
+1. `scripts/limpar-lixo-homologacao.js` — apagou do plano as 18 tasks de teste/probe e do
+   PRD os **564 mappings órfãos** (apontavam para tasks inexistentes) que a §11 deixou.
+2. Correções 1–7 no código, com teste (`npm test` — 93 testes).
+3. Nova execução real, agora com a espera de materialização corrigida:
+   9 páginas, 588 tasks no plano, 588 mappings no PRD, 0 órfãos, 0 duplicatas.
+4. Rodada de validação (o sync de novo, sem mexer em nada): **588 unchanged,
+   0 created, 0 updated, 0 erros** — cada página levou 1–2 s porque não houve
+   nenhuma escrita. O sync está idempotente.
+5. Conferência final (`scripts/conferir-sync-premium-homologacao.js`):
+   plano com 1299 tasks (588 do GitLab + 711 do cliente), 0 duplicatas,
+   0 lixo de teste; PRD com 588 mappings, todos com `pmo_plannertaskid` e
+   `pmo_gitlab_updatedat`, 0 órfãos.
+
+> **Continua bloqueado:** o deploy na Function App (`func-gitintegracao`,
+> RG `rg-pnld-app-hmg-mec`). A conta `antoniobjunior@mec.gov.br` não tem
+> `Microsoft.Web/sites/*` no RG — o `az` responde `AuthorizationFailed` em
+> `sites/read` e `sites/config/list/action`. Não é token velho: o erro persiste
+> em qualquer comando do `az` sobre o app. **Desbloqueio:** pedir ao dono do RG
+> a atribuição de `Contributor` no `rg-pnld-app-hmg-mec` (ou, no mínimo,
+> `Microsoft.Web/sites/*` — ler, escrever configuração e fazer deploy de zip).
+> Até lá, o sync roda local (§4-alt do RUNBOOK), com o mesmo handler.
+
+### 12.3 Lições que valem para o resto do código
+
+- **Nunca confiar no "execute" como sinal de conclusão.** No Planner Premium, `execute` só
+  enfileira; a materialização é assíncrona e pode levar ~30 s para um lote de 100.
+- **Apagar o registro do set cancela o que está pendente.** O `discard` é seguro só depois
+  da materialização (ou depois de um `abandon` que cancelou o lote).
+- **Mapping só com task confirmada.** Mapping apontando para task inexistente faz o diff
+  mente: a próxima rodada acha que a issue "não mudou" e nunca cria a task.
+- **O que volta do Planner não é o que foi enviado.** A descrição é reescrita (HTML
+  normalizado). Qualquer conferência de conteúdo precisa passar por uma normalização
+  antes de comparar — ou comparar só os campos estáveis (assunto, progresso).
+- **O lote materializa inteiro de uma vez.** Não é "uma task por vez": as 100 tasks do
+  set apareceram juntas, ~30 s depois do execute. A espera precisa cobrir esse tempo
+  inteiro, e sondar uma task por vez é bem mais barato do que consultar 100 a cada 2 s.

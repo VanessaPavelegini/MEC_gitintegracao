@@ -5,8 +5,16 @@ O flow existe porque o Function App é **Consumption Y1**: a resposta HTTP é co
 em ~230 s, e o sync do plano de homologação tem ~720 issues. Cada chamada da
 Function processa **uma página** e devolve o cursor da próxima.
 
-> **Status:** o flow ainda não foi criado. O endpoint já está pronto e testado
-> (dry run). Este documento é o passo a passo para montá-lo.
+> **Status (27/10/2026):** o flow ainda não foi criado e a rota **ainda não está
+> publicada** — o app publicado responde **404** em
+> `/api/gitlab-planner-premium-homologacao` (o app tem `/api/health`,
+> `/api/gitlab-planner-sync` e `/api/premium-health`, mas não a rota nova),
+> porque o deploy está bloqueado por RBAC. O código da rota está pronto e
+> testado (91 testes; dry run e execução real rodados **localmente**). Este
+> documento é o passo a passo para montar o flow.
+>
+> Relatório completo (o que foi feito, com qual conta, o que trava):
+> [`RELATORIO-sync-premium-homologacao.md`](RELATORIO-sync-premium-homologacao.md).
 
 ---
 
@@ -29,8 +37,8 @@ Se `bucketId` não vier, a Function resolve pelo nome (`Bucket 1`).
 
 1. **Trigger**: "Executar manualmente (Instant cloud)" — para chamar na mão durante a validação.
    (Depois dá para trocar por "Agendamento" a cada 30 min, se Make.make sense.)
-2. **Inicializar variável `cursor`** (String) = `""`.
-3. **Until** — condição: `equals(variables('cursor'), null)`:
+2. **Inicializar variável `terminate`** (Boolean) = `false` e **Inicializar variável `cursor`** (String) = `""`.
+3. **Until** — condição: `variables('terminate')` é **igual a** `true`:
    - **HTTP — "Sincronizar página"**
      - Método: `POST`
      - URI: o endpoint acima (com `?code=<FUNCTION_KEY>`)
@@ -45,10 +53,22 @@ Se `bucketId` não vier, a Function resolve pelo nome (`Bucket 1`).
          "cursor": "@{variables('cursor')}"
        }
        ```
-   - **Definir variável `cursor`** = `body('Sincronizar página')?['nextCursor']`
+     - Configurações da ação: **Repetir** até 3 vezes, intervalo 60 s.
+   - **Definir variável `cursor`** = `coalesce(body('Sincronizar página')?['nextCursor'], '')`
+   - **Definir variável `terminate`** = `equals(body('Sincronizar página')?['nextCursor'], null)`
    - **Aplicar a cada** de `body('Sincronizar página')?['created']` → registrar o iid (opcional, só log).
    - **Aplicar a cada** de `body('Sincronizar página')?['updated']` → idem.
 4. **Responder/encerrar** com o resumo (opcional).
+
+### Por que a condição do Until é uma variável booleana
+
+O Until avalia a condição **antes** da primeira iteração. Se a condição fosse
+`equals(variables('cursor'), null)` e o cursor começasse como `""` (ou `null`),
+o laço terminaria **sem executar nenhuma página** — o flow não faria nada. Por
+isso a condição é a variável `terminate`, que começa `false` e só vira `true`
+quando a Function devolve `nextCursor: null` (fim das páginas). A alternativa
+equivalente é inicializar o cursor com um valor não-vazio (ex.: `"start"`) e
+usar `empty(variables('cursor'))` como condição.
 
 ### Por que o cursor é opaco
 
@@ -67,6 +87,26 @@ iterações** para as 811 issues do projeto (722 abertas + 89 fechadas). Se a
 Function falhar, o `nextCursor` não muda e o flow repetiria a mesma página: por
 isso **ative "Repetir" com tentativas = 3 e exceção após isso** nas configurações
 do Until, e trate erro com um *Terminate* / *Scope* de erro.
+
+---
+
+## 2-bis. Sem deploy: chamar o host local por um túnel
+
+Enquanto o deploy estiver bloqueado por RBAC (§2 do
+[RUNBOOK](RUNBOOK-sync-premium-homologacao.md)), a rota nova **existe** no host
+local (`func start`, porta 7071) — verificado em 27/10/2026, inclusive sem
+chave. Para o Power Automate alcançar a máquina, é preciso um túnel:
+
+```bash
+# Azure Dev Tunnels (ou: cloudflared tunnel --url http://localhost:7071)
+devtunnel host --port 7071 --allow-anonymous
+```
+
+No flow, troque a URI pela URL do túnel (`?code=<FUNCTION_KEY>` continua
+valendo; o header `x-functions-key` é aceito). Limitações: a URL muda a cada
+sessão, a máquina precisa ficar ligada e o plano ganha tasks enquanto o túnel
+estiver aberto. Detalhes no
+[relatório](RELATORIO-sync-premium-homologacao.md#54-caminho-b--o-provisório-sem-rbac-túnel-para-o-host-local).
 
 ---
 
