@@ -38,6 +38,9 @@ AzureStorageEmulator.exe
 *.log
 logs/
 
+# Artefatos locais de automação de browser
+.playwright-mcp/
+
 # OS
 .DS_Store
 Thumbs.db
