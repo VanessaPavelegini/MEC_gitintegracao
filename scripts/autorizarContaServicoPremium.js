@@ -1,10 +1,17 @@
 "use strict";
 
 // Script de USO ÚNICO (ou sempre que o refresh token expirar/for revogado) —
-// autentica interativamente a conta de serviço portaldedemandas@mec.gov.br via
-// device code flow e salva o refresh token no Blob Storage, de onde
+// autentica interativamente uma conta de usuário via device code flow e salva o
+// refresh token no Blob Storage, de onde
 // src/shared/dataverseServiceAccountAuth.js lê pra gerar access tokens novos
 // (delegados) a cada página do sync Premium.
+//
+// ATENÇÃO — qual conta entrar: a que tem **escrita no plano** do Planner
+// Premium. Em 26/10/2026 a `portaldedemandas@mec.gov.br` leu o plano, mas o
+// `msdyn_ExecuteOperationSetV1` respondeu "Forbidden — Permissions required:
+// Write." — quem passa é `antoniojunior@mec.gov.br` (licença ModernProject +
+// escrita no plano). Autorizar com a conta errada faz a Function publicada
+// falhar na hora de escrever.
 //
 // Por que device code: a escrita no Planner Premium exige identidade de
 // usuário com licença ModernProject — o app user app-pnld (client credentials)
@@ -14,9 +21,9 @@
 //   node scripts/autorizarContaServicoPremium.js
 //
 // O script imprime uma URL + código. Abra a URL em qualquer navegador, entre
-// com o código e faça login com a conta portaldedemandas@mec.gov.br (e a
-// senha/MFA dela). O script fica em polling até a autenticação ser concluída
-// e então grava o refresh token no Blob.
+// com o código e faça login com a conta que vai escrever
+// (`antoniojunior@mec.gov.br`) e a senha/MFA dela. O script fica em polling
+// até a autenticação ser concluída e então grava o refresh token no Blob.
 //
 // Onde o token é gravado: container `service-tokens`, blob
 // `premium-dataverse-refresh-token.json`, na Storage Account do Function App
@@ -24,12 +31,17 @@
 // (AzureWebJobsStorage). Também deixa uma cópia local em
 // .premium-refresh-token.json (ignorado pelo git) para rodar `func start`
 // na máquina.
+//
+// A connection string do storage vem de AZURE_STORAGE_CONNECTION_STRING /
+// AzureWebJobsStorage no local.settings.json; se não estiver lá, o script
+// tenta ler do Function App via az CLI (precisa de permissão
+// Microsoft.Web/sites/config/list — sem isso, o token fica só no arquivo
+// local e a Function publicada não consegue lê-lo).
 
 const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 if (!globalThis.crypto) globalThis.crypto = require("node:crypto").webcrypto;
-const { BlobServiceClient } = require("@azure/storage-blob");
 
 const ORG_URL = process.env.DATAVERSE_URL_PREMIUM || "https://orgcf194dda.crm.dynamics.com";
 const CONTAINER = process.env.PREMIUM_SYNC_BLOB_CONTAINER || "service-tokens";
@@ -52,7 +64,7 @@ function connectionStringDoFunctionApp() {
   if (process.env.AZURE_STORAGE_CONNECTION_STRING) return process.env.AZURE_STORAGE_CONNECTION_STRING;
   if (process.env.AzureWebJobsStorage) return process.env.AzureWebJobsStorage;
 
-  // Fallback: lê do Function App via az CLI (a conta logada tem acesso).
+  // Fallback: lê do Function App via az CLI (precisa de Microsoft.Web/sites/config/list).
   try {
     const out = execFileSync(
       "az",
@@ -68,7 +80,7 @@ function connectionStringDoFunctionApp() {
     ).trim();
     if (out) return out;
   } catch (e) {
-    console.error("Não foi possível ler o AzureWebJobsStorage via az CLI:", e.message);
+    console.error("Não foi possível ler o AzureWebJobsStorage via az CLI:", e.message.split("\n")[0]);
   }
   return null;
 }
@@ -120,22 +132,27 @@ async function aguardarLogin(deviceCode, intervaloSeg) {
 }
 
 async function salvarRefreshToken(refreshToken) {
+  // O token store é o mesmo da Function (src/shared/dataverseServiceAccountAuth.js):
+  // grava no Blob E no arquivo local, porque o AAD rotaciona o refresh token a
+  // cada troca — os dois lados precisam do token corrente.
+  const { defaultTokenStore, localFileTokenStore } = require("../src/shared/dataverseServiceAccountAuth");
+  process.env.PREMIUM_SYNC_TOKEN_FILE = LOCAL_COPY;
+
   const connStr = connectionStringDoFunctionApp();
-  if (connStr) {
-    const serviceClient = BlobServiceClient.fromConnectionString(connStr);
-    const containerClient = serviceClient.getContainerClient(CONTAINER);
-    await containerClient.createIfNotExists();
-    const blobClient = containerClient.getBlockBlobClient(BLOB_NAME);
-    const body = JSON.stringify({ refresh_token: refreshToken, updated_at: new Date().toISOString() });
-    await blobClient.upload(body, Buffer.byteLength(body), { overwrite: true });
-  } else {
-    console.warn("Sem connection string do storage — gravando só a cópia local.");
+  if (!connStr) {
+    await localFileTokenStore().save(refreshToken);
+    return { blob: false, local: true, erroBlob: null };
   }
 
-  fs.writeFileSync(
-    LOCAL_COPY,
-    JSON.stringify({ refresh_token: refreshToken, updated_at: new Date().toISOString() }, null, 2)
-  );
+  process.env.AZURE_STORAGE_CONNECTION_STRING = connStr;
+  try {
+    await defaultTokenStore().save(refreshToken);
+    return { blob: true, local: true, erroBlob: null };
+  } catch (e) {
+    // O store composto grava o arquivo local antes do Blob: se o Blob falhou,
+    // o token local existe, mas a Function publicada não consegue ler.
+    return { blob: false, local: true, erroBlob: e.message };
+  }
 }
 
 async function main() {
@@ -168,9 +185,19 @@ async function main() {
   }
   console.log("\n\nLogin concluído!");
 
-  await salvarRefreshToken(tokens.refresh_token);
-  console.log(`Refresh token salvo no Blob (${CONTAINER}/${BLOB_NAME}) e em ${path.basename(LOCAL_COPY)}.`);
-  console.log("A Function syncGitLabPlannerPremiumHomologacao já pode escrever no Planner Premium.");
+  const { blob, local, erroBlob } = await salvarRefreshToken(tokens.refresh_token);
+  if (blob) {
+    console.log(`Refresh token salvo no Blob (${CONTAINER}/${BLOB_NAME}) e em ${path.basename(LOCAL_COPY)}.`);
+    console.log("A Function syncGitLabPlannerPremiumHomologacao já pode escrever no Planner Premium.");
+  } else if (erroBlob) {
+    console.log(`Refresh token salvo APENAS em ${path.basename(LOCAL_COPY)} — a gravação no Blob falhou: ${erroBlob}`);
+    console.log("A Function publicada NÃO consegue ler o token até o Blob ser gravado.");
+    process.exitCode = 1;
+  } else {
+    console.log(`Refresh token salvo APENAS em ${path.basename(LOCAL_COPY)} (sem connection string do storage).`);
+    console.log("A Function publicada NÃO consegue ler o token — configure AZURE_STORAGE_CONNECTION_STRING.");
+    process.exitCode = 1;
+  }
 }
 
 main().catch((err) => {
