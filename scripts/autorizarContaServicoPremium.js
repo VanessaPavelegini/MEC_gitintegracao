@@ -6,12 +6,15 @@
 // src/shared/dataverseServiceAccountAuth.js lê pra gerar access tokens novos
 // (delegados) a cada página do sync Premium.
 //
-// ATENÇÃO — qual conta entrar: a que tem **escrita no plano** do Planner
-// Premium. Em 26/10/2026 a `portaldedemandas@mec.gov.br` leu o plano, mas o
-// `msdyn_ExecuteOperationSetV1` respondeu "Forbidden — Permissions required:
-// Write." — quem passa é `antoniojunior@mec.gov.br` (licença ModernProject +
-// escrita no plano). Autorizar com a conta errada faz a Function publicada
-// falhar na hora de escrever.
+// ATENÇÃO — qual conta entrar: a conta de serviço do Portal de Demandas,
+// `portaldedemandas@mec.gov.br`. Ela tem PROJECTPROFESSIONAL_FACULTY (que
+// traz DYN365_CDS_PROJECT) e escreve no plano Premium. Autorizar com a conta
+// errada faz a Function publicada falhar na hora de escrever.
+//
+// Histórico: em 26 e 27/10/2026 essa conta lia o plano mas o
+// `msdyn_ExecuteOperationSetV1` respondia "Forbidden — Permissions required:
+// Write." — faltava o service plan DYN365_CDS_PROJECT. A REQ676377 reatribuiu
+// a licença e a escrita foi confirmada em 28/10/2026 nos dois planos.
 //
 // Por que device code: a escrita no Planner Premium exige identidade de
 // usuário com licença ModernProject — o app user app-pnld (client credentials)
@@ -22,7 +25,7 @@
 //
 // O script imprime uma URL + código. Abra a URL em qualquer navegador, entre
 // com o código e faça login com a conta que vai escrever
-// (`antoniojunior@mec.gov.br`) e a senha/MFA dela. O script fica em polling
+// (`portaldedemandas@mec.gov.br`) e a senha/MFA dela. O script fica em polling
 // até a autenticação ser concluída e então grava o refresh token no Blob.
 //
 // Onde o token é gravado: container `service-tokens`, blob

@@ -34,6 +34,9 @@ AzureStorageEmulator.exe
 # Token de autorização da conta de serviço (nunca versionar)
 .premium-refresh-token.json
 
+# Token de TESTE de outra conta (usado por scripts/verificar-acesso-escrita-premium.js)
+.premium-refresh-token.test.json
+
 # Logs
 *.log
 logs/

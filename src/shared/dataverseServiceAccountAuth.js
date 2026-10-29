@@ -7,11 +7,29 @@
 // (msdyn_projecttask / operation sets). Só uma identidade de USUÁRIO com
 // licença ModernProject consegue escrever.
 //
-// Qual conta: hoje é `antoniojunior@mec.gov.br` — tem licença ModernProject e
-// escrita no plano. A `portaldedemandas@mec.gov.br` LÊ o plano, mas o
-// `msdyn_ExecuteOperationSetV1` responde "Forbidden — Permissions required:
-// Write." (verificado em 26/10/2026). O refresh token guardado no Blob precisa
-// ser o dessa conta: token da portaldedemandas faz a escrita falhar.
+// Qual conta: hoje é `portaldedemandas@mec.gov.br` — a conta de serviço do
+// Portal de Demandas. Ela tem PROJECTPROFESSIONAL_FACULTY (que traz
+// DYN365_CDS_PROJECT + PROJECT_CLIENT_SUBSCRIPTION) e escreve no plano.
+//
+// Histórico: em 26 e 27/10/2026 essa conta LIA o plano mas o
+// `msdyn_ExecuteOperationSetV1` respondia "Forbidden — Permissions required:
+// Write." nos DOIS planos (o novo c0ecce95 e o antigo c385351a). Causa raiz:
+// falta do service plan DYN365_CDS_PROJECT — ela tinha só M365EDU_A5_FACULTY,
+// que traz PROJECT_O365_P3 / PROJECTWORKMANAGEMENT (Project for the web, que
+// NÃO dá escrita em plano Premium). Não era problema de compartilhamento: já
+// estava no grupo M365 owner do plano E no owning team do Dataverse nos dois
+// planos, e tinha os diretórios Dynamics 365 Administrator e Power Platform
+// Administrator. A REQ676377 reatribuiu a licença — resolvido em 28/10/2026,
+// com escrita confirmada nos dois planos.
+//
+// Atenção: a `antoniojunior@mec.gov.br` também serve (mesmo SKU), mas é conta
+// de pessoa. Prefira a conta de serviço: refresh token de pessoa expira a cada
+// ~22 h (sign-in frequency do conditional access) e fica a identidade dela
+// registrada como autora das tasks.
+//
+// Como verificar de novo (sem tocar no token de produção):
+//   node scripts/autorizar-conta-teste-premium.js   (device code com a conta)
+//   node scripts/verificar-acesso-escrita-premium.js (leitura + set + execute)
 //
 // Como essa conta é usada: device code flow (script de uso único
 // scripts/autorizarContaServicoPremium.js) gera um refresh token guardado no
@@ -25,7 +43,7 @@
 const DEFAULT_ORG_URL = process.env.DATAVERSE_URL_PREMIUM || "https://orgcf194dda.crm.dynamics.com";
 const BLOB_CONTAINER = process.env.PREMIUM_SYNC_BLOB_CONTAINER || "service-tokens";
 const BLOB_NAME = process.env.PREMIUM_SYNC_BLOB_NAME || "premium-dataverse-refresh-token.json";
-const AUTHORIZATION_HINT = "rode scripts/autorizarContaServicoPremium.js (device code flow) para reautorizar a conta com escrita no plano (antoniojunior@mec.gov.br)";
+const AUTHORIZATION_HINT = "rode scripts/autorizarContaServicoPremium.js (device code flow) para reautorizar a conta com escrita no plano (portaldedemandas@mec.gov.br)";
 
 // ─── Refresh token no Blob Storage ────────────────────────────────────────────
 
