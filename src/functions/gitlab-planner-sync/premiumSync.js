@@ -428,9 +428,14 @@ async function applyBatch({
 
   const toSave = mode === "create" ? [...toCreate, ...adopted] : items;
   for (const { issue, entity, existingTaskId } of toSave) {
+    // Task que não refletiu o conteúdo esperado: o erro já foi registrado no
+    // bloco do set. O mapping NÃO pode ser gravado aqui — o pmo_gitlab_updatedat
+    // é o que o diff da próxima rodada lê para saber se a issue mudou. Se
+    // avançasse, a issue voltaria como "unchanged" e o update perdido nunca
+    // mais seria tentado: a falha viraria permanente e silenciosa.
+    if (semTask.has(issue.iid)) continue;
     const taskId = existingTaskId || taskIds[entity.msdyn_subject];
     if (!taskId) {
-      if (semTask.has(issue.iid)) continue; // erro já registrado
       result.errors.push({
         iid: issue.iid,
         message: "task criada mas o id não foi localizado no Planner — mapping não gravado (pode recriar na próxima rodada)",
@@ -479,6 +484,7 @@ async function syncPage({
   phase = "opened",
   includeClosed = false,
   labels,
+  updatedAfter,
   dryRun = false,
   skipLabels = DEFAULT_SKIP_LABELS,
   gitlab,
@@ -520,6 +526,10 @@ async function syncPage({
     order_by: "created_at",
     sort: "asc",
     labels,
+    // Janela incremental: só na fase aberta. A fase fechada varre TODAS as
+    // issues fechadas — é ela que leva a task a 100% mesmo quando o
+    // fechamento aconteceu fora da janela.
+    updatedAfter: isClosedPhase ? undefined : updatedAfter,
   });
 
   result.processed = items.length;
@@ -634,6 +644,7 @@ async function syncPage({
       mode: "update",
       premium, mapping, token, prdToken, orgUrl, prdBaseUrl, fetchImpl,
       planId, bucketId, hasUpdatedAtColumn, result,
+      materializeTimeoutMs, materializeDelayMs,
     });
   }
 

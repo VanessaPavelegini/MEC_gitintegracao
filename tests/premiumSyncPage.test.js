@@ -478,3 +478,64 @@ test("task que não materializa não grava mapping e vira erro no resultado", as
   assert.equal(result.errors.length, 1);
   assert.equal(result.errors[0].iid, 1);
 });
+
+test("update não confirmado não avança o mapping (a issue volta a ser alterada na próxima rodada)", async () => {
+  const gitlab = fakeGitLab([issue(1)]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-10T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium();
+  premium.getTaskById = async () => null; // nunca materializa
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+    materializeTimeoutMs: 50, materializeDelayMs: 1,
+  });
+
+  assert.equal(result.errors.length, 1, "o update não confirmado precisa ser reportado");
+  assert.equal(result.errors[0].iid, 1);
+  assert.equal(result.updated, 0, "update não confirmado não conta como atualizado");
+  // O pmo_gitlab_updatedat do mapping não pode avançar: se avançasse, o diff
+  // da próxima rodada veria a issue como "unchanged" e o update perdido
+  // nunca mais seria tentado — o erro viraria permanente e silencioso.
+  assert.equal(mapping.saved.length, 0, "mapping não pode avançar quando o update não foi confirmado");
+});
+
+// ─── Janela incremental (varredura do que mudou) ─────────────────────────────
+
+test("syncPage repassa a janela updated_after ao GitLab na fase aberta", async () => {
+  const gitlab = fakeGitLab([issue(1)]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+
+  await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    updatedAfter: "2026-10-28T10:00:00.000Z",
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.equal(gitlab.calls[0].updatedAfter, "2026-10-28T10:00:00.000Z");
+});
+
+test("syncPage na fase fechada varre todas as issues fechadas, sem janela", async () => {
+  const gitlab = fakeGitLab([issue(1, { state: "closed" })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-20T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium();
+
+  await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100, phase: "closed",
+    updatedAfter: "2026-10-28T10:00:00.000Z",
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  // A fase fechada é o que garante que uma issue fechada há semanas (fora da
+  // janela) ainda chegue a 100%. Filtrá-la pela janela perderia esse caso.
+  assert.equal(gitlab.calls[0].updatedAfter, undefined);
+  assert.equal(gitlab.calls[0].state, "closed");
+});

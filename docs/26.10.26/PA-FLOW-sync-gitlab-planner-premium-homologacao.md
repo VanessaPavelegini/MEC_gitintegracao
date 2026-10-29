@@ -5,13 +5,74 @@ O flow existe porque o Function App é **Consumption Y1**: a resposta HTTP é co
 em ~230 s, e o sync do plano de homologação tem ~720 issues. Cada chamada da
 Function processa **uma página** e devolve o cursor da próxima.
 
-> **Status (27/10/2026):** o flow ainda não foi criado e a rota **ainda não está
-> publicada** — o app publicado responde **404** em
-> `/api/gitlab-planner-premium-homologacao` (o app tem `/api/health`,
-> `/api/gitlab-planner-sync` e `/api/premium-health`, mas não a rota nova),
-> porque o deploy está bloqueado por RBAC. O código da rota está pronto e
-> testado (91 testes; dry run e execução real rodados **localmente**). Este
-> documento é o passo a passo para montar o flow.
+> **Leia antes (29/10/2026):** o PA **não é mais a única forma** de manter o
+> Planner em dia. A manutenção do dia a dia passou a ser feita por um **timer
+> interno da Function App** com varredura incremental (811 issues → ~18 por
+> janela), que dispensa o PA e cabe numa chamada só. O flow abaixo continua
+> válido e útil para a **carga inicial** e para a varredura completa.
+> Detalhes em
+> [DETECCAO-mudancas-gitlab-premium.md](DETECCAO-mudancas-gitlab-premium.md).
+
+> **Status (27/10/2026):** a rota **está publicada** na `func-gitintegracao` e
+> responde — verificado em 27/10/2026:
+>
+> | Verificação | Resultado |
+> |---|---|
+> | `POST /api/gitlab-planner-premium-homologacao` com `?code=` | 200 |
+> | `POST` sem chave | 401 (authLevel `function`) |
+> | `GET /api/gitlab-planner-premium-homologacao-buckets` | 200, devolve `Bucket 1` = `be10a1da-…` |
+> | Dry run completo (9 chamadas, cursor repassado) | 811 issues: 576 unchanged, 223 skipped, 12 a atualizar, 0 a criar |
+>
+> **O único bloqueio para a execução real:** o refresh token da conta de
+> serviço está vencido (`AADSTS70043`, expirado por sign-in frequency do
+> conditional access) — o token no Blob e o arquivo local estão ambos mortos.
+> Qualquer chamada que não seja dry run responde 500 até reautorizar:
+>
+> ```bash
+> node scripts/autorizarContaServicoPremium.js
+> ```
+>
+> O dry run passa porque não escreve no Dataverse, e por isso não precisa do
+> token delegado.
+>
+> A identidade de escrita é `portaldedemandas@mec.gov.br` — a conta de serviço
+> do Portal de Demandas.
+>
+> **Histórico do bloqueio de licença (resolvido em 28/10/2026).** Até 27/10 a
+> `portaldedemandas` lia o plano mas o `msdyn_ExecuteOperationSetV1` respondia
+> `400 Forbidden — "Permissions required: Write."` nos **dois** planos (o novo
+> `c0ecce95` e o antigo `c385351a`):
+>
+> | Passo | Resultado (até 27/10) |
+> |---|---|
+> | Ler buckets (`GET msdyn_projectbuckets`) | ✅ 1 bucket visível |
+> | `msdyn_CreateOperationSetV1` | ✅ cria o set |
+> | `msdyn_PssCreateV2` (enfileirar task) | ✅ enfileira |
+> | `msdyn_ExecuteOperationSetV1` (gravar) | ❌ `400 Forbidden — "Permissions required: Write."` |
+>
+> **Causa raiz: falta de licença, não de compartilhamento.** A conta não tinha o
+> service plan `DYN365_CDS_PROJECT` (Dataverse for Project). Só tinha
+> `M365EDU_A5_FACULTY`, que traz `PROJECT_O365_P3` / `PROJECTWORKMANAGEMENT` —
+> o Project for the web, que **não** dá escrita em plano Premium. Não era
+> permissão de plano: a `portaldedemandas` já estava no grupo M365 owner do
+> plano (`CpiaNOVOSISTEC2-@mec.gov.br`), no owning team do Dataverse dos dois
+> planos e tinha os diretórios Dynamics 365 Administrator e Power Platform
+> Administrator. **Adicionar alguém ao projeto não resolve** — o que resolve é
+> atribuir a licença com `DYN365_CDS_PROJECT`.
+>
+> **Resolução:** a requisição **REQ676377** reatribuiu a licença e a conta
+> passou a ter `PROJECTPROFESSIONAL_FACULTY` (que traz `DYN365_CDS_PROJECT` +
+> `PROJECT_CLIENT_SUBSCRIPTION`). Em 28/10/2026 a escrita foi reconfirmada:
+> o `msdyn_ExecuteOperationSetV1` responde 200 e a task materializa nos dois
+> planos. O refresh token no Blob foi rotacionado para a conta de serviço, e o
+> sync completo rodou pela rota publicada com 0 erros.
+>
+> Para reconfirmar depois de mudar a licença (não toca no token de produção):
+>
+> ```bash
+> node scripts/autorizar-conta-teste-premium.js   # device code com a conta
+> node scripts/verificar-acesso-escrita-premium.js # leitura + set + execute
+> ```
 >
 > Relatório completo (o que foi feito, com qual conta, o que trava):
 > [`RELATORIO-sync-premium-homologacao.md`](RELATORIO-sync-premium-homologacao.md).
@@ -22,14 +83,29 @@ Function processa **uma página** e devolve o cursor da próxima.
 
 | Item | Valor |
 |---|---|
-| Plano (msdyn_project) | `c385351a-e450-4d54-87ed-d54c57794f7b` — "Homologação _NOVO SISTEC 2 - Cópia" |
-| Bucket | `f704c207-84be-f111-a04d-7c1e520d9f67` — "Bucket 1" (único no plano) |
+| Plano (msdyn_project) | `c0ecce95-1107-4343-8c05-bcf7c9a291f8` — plano Premium de homologação (novo) |
+| Bucket | `be10a1da-0bd2-f111-84dc-7c1e520d9dbb` — "Bucket 1" (único no plano) |
 | Org do Planner Premium | `https://orgcf194dda.crm.dynamics.com` (Default) |
 | Org do mapping | `https://org41ecace2.crm2.dynamics.com` (Aplicativos PRD) |
 | Endpoint | `POST https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao?code=<FUNCTION_KEY>` |
 
 `planId`, `bucketId`, `pageSize`, `dryRun` e `cursor` podem ir no corpo do POST.
 Se `bucketId` não vier, a Function resolve pelo nome (`Bucket 1`).
+
+> **O plano e o bucket já vêm do app setting** (`PREMIUM_HOMOLOGACAO_PLAN_ID`,
+> `PREMIUM_HOMOLOGACAO_BUCKET_ID`), que a Function publicada usa como padrão.
+> O corpo do POST pode trazer só o `cursor` — e é o que o flow de §2 faz.
+>
+> ⚠️ Os valores acima são os **atuais** (verificados na Function App em
+> 27/10/2026). A versão anterior deste documento apontava para o plano
+> `c385351a` / bucket `f704c207`, que era o plano da cópia anterior. Copiar
+> aqueles IDs no corpo faria o sync escrever no plano errado. Para conferir os
+> valores vigentes a qualquer momento:
+>
+> ```bash
+> curl -s -H "x-functions-key: $FUNCTION_KEY" \
+>   "https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao-buckets"
+> ```
 
 ---
 
@@ -46,19 +122,21 @@ Se `bucketId` não vier, a Function resolve pelo nome (`Bucket 1`).
      - Corpo:
        ```json
        {
-         "planId": "c385351a-e450-4d54-87ed-d54c57794f7b",
-         "bucketId": "f704c207-84be-f111-a04d-7c1e520d9f67",
-         "pageSize": 100,
-         "dryRun": false,
          "cursor": "@{variables('cursor')}"
        }
        ```
      - Configurações da ação: **Repetir** até 3 vezes, intervalo 60 s.
    - **Definir variável `cursor`** = `coalesce(body('Sincronizar página')?['nextCursor'], '')`
    - **Definir variável `terminate`** = `equals(body('Sincronizar página')?['nextCursor'], null)`
-   - **Aplicar a cada** de `body('Sincronizar página')?['created']` → registrar o iid (opcional, só log).
-   - **Aplicar a cada** de `body('Sincronizar página')?['updated']` → idem.
+   - **Compor** o log da iteração: `concat('página ', string(body('Sincronizar página')?['page']), ' — criadas: ', string(body('Sincronizar página')?['created']), ', atualizadas: ', string(body('Sincronizar página')?['updated']), ', ignoradas: ', string(body('Sincronizar página')?['skipped']))`
 4. **Responder/encerrar** com o resumo (opcional).
+
+> **`created` e `updated` são contadores, não listas.** A resposta da Function
+> traz `created: 12`, `updated: 3` — números. A versão anterior deste documento
+> pedia "Aplicar a cada" sobre eles, o que quebraria o flow com erro de tipo.
+> Para iterar item a item, o único array da resposta é `errors` (lista de
+> `{ iid, message }` das issues que falharam) — e, num fluxo happy path, ela vem
+> vazia.
 
 ### Por que a condição do Until é uma variável booleana
 
@@ -90,12 +168,11 @@ do Until, e trate erro com um *Terminate* / *Scope* de erro.
 
 ---
 
-## 2-bis. Sem deploy: chamar o host local por um túnel
+## 2-bis. Alternativa sem deploy: chamar o host local por um túnel
 
-Enquanto o deploy estiver bloqueado por RBAC (§2 do
-[RUNBOOK](RUNBOOK-sync-premium-homologacao.md)), a rota nova **existe** no host
-local (`func start`, porta 7071) — verificado em 27/10/2026, inclusive sem
-chave. Para o Power Automate alcançar a máquina, é preciso um túnel:
+O deploy **está feito** (ver status no topo), então o caminho normal é a URL
+publicada. Mas se em algum momento for preciso rodar contra a máquina local
+(`func start`, porta 7071), o Power Automate precisa de um túnel:
 
 ```bash
 # Azure Dev Tunnels (ou: cloudflared tunnel --url http://localhost:7071)
@@ -118,16 +195,19 @@ estiver aberto. Detalhes no
    curl -s -X POST \
      -H "Content-Type: application/json" \
      -H "x-functions-key: $FUNCTION_KEY" \
-     -d '{"planId":"c385351a-e450-4d54-87ed-d54c57794f7b","dryRun":true,"pageSize":100}' \
+     -d '{"dryRun":true,"pageSize":100}' \
      "https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao" \
      | python3 -m json.tool
    ```
 
-   Resposta esperada: `{"ok":true,"dryRun":true,"created":N,"updated":M,"skipped":K,"nextCursor":"..."}`
-   com `created` grande (as ~560 tasks do cliente não têm mapping).
+   Resposta esperada: `{"ok":true,"planId":"c0ecce95-…","dryRun":true,"created":N,"updated":M,"skipped":K,"nextCursor":"..."}`.
+
+   No plano de homologação atual o mapping já existe (588 tasks sincronizadas),
+   então o dry run devolve **`created: 0`** e `updated` = quantas issues mudaram
+   desde o último sync. `created` grande só happens em plano novo.
 
 2. Navegue de página em página trocando o `cursor` até `nextCursor: null` e some
-   os totais — é o número de tasks que serão criadas.
+   os totais — é o número de tasks que serão criadas ou atualizadas.
 
 3. Só depois rode o flow de verdade (`"dryRun": false`).
 
@@ -136,9 +216,10 @@ estiver aberto. Detalhes no
 ## 4. Depois da primeira execução
 
 - O mapping fica em `pmo_mapeamentoplanner` (Aplicativos PRD), filtrado por
-  `pmo_plannerplanid = c385351a-e450-4d54-87ed-d54c57794f7b`.
+  `pmo_plannerplanid = c0ecce95-1107-4343-8c05-bcf7c9a291f8`.
 - A segunda execução do flow deve devolver `created: 0, updated: 0` (ou quase) —
-  o diff usa o `updated_at` da issue guardado no mapping.
+  o diff usa o `updated_at` da issue guardado no mapping
+  (`pmo_gitlab_updatedat`, que já existe no schema do PRD).
 - Reexecuções manuais são seguras: a Function é idempotente por iid.
 
 ---
@@ -153,3 +234,10 @@ estiver aberto. Detalhes no
 - **Comentários** da issue não são sincronizados (fora do escopo do v1).
 - **Assignee/prioridade** não são mapeados (o modelo Premium é diferente do
   Graph).
+- **O refresh token da conta de serviço expira** — o conditional access do
+  tenant impõe sign-in frequency, e o AAD devolve `AADSTS70043` quando o token
+  passa do limite (79200 s ≈ 22 h). A Function renova o token sozinho a cada
+  troca, mas se a renovação falhar a rota responde 500 e o flow para. A
+  remediacão é rodar `scripts/autorizarContaServicoPremium.js` de novo. Se o
+  flow for agendado e não supervisionado, vale monitorar o 500 no histórico
+  da execução.

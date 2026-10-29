@@ -129,6 +129,18 @@ async function listIssuesPage(filters = {}, client) {
   if (filters.assignee) {
     params.assignee_username = filters.assignee;
   }
+  // Varredura incremental: o GitLab devolve só as issues tocadas na janela.
+  // É o que torna barato o polling (18 issues em 24h contra 811 no total).
+  if (filters.updatedAfter) {
+    params.updated_after = filters.updatedAfter;
+  }
+  if (filters.updatedBefore) {
+    params.updated_before = filters.updatedBefore;
+  }
+  // Filtro por issue específica (iids[] no GitLab).
+  if (filters.iids && filters.iids.length > 0) {
+    params.iids = filters.iids.join(",");
+  }
 
   const response = await gitlab.get(`/projects/${projectId}/issues`, { params });
   const headers = response.headers || {};

@@ -47,3 +47,57 @@ test("listIssuesPage devolve nextPage null quando o GitLab não indica próxima 
 
   assert.equal(result.nextPage, null);
 });
+
+test("listIssuesPage repassa updated_after e updated_before ao GitLab", async () => {
+  const calls = [];
+  const fakeClient = {
+    get: async (url, config) => {
+      calls.push(config);
+      return { data: [], headers: { "x-next-page": "" } };
+    },
+  };
+
+  await gitlabService.listIssuesPage(
+    {
+      state: "all",
+      per_page: 100,
+      updatedAfter: "2026-10-28T10:00:00.000Z",
+      updatedBefore: "2026-10-28T12:00:00.000Z",
+      projectId: 510,
+    },
+    fakeClient
+  );
+
+  assert.equal(calls[0].params.updated_after, "2026-10-28T10:00:00.000Z");
+  assert.equal(calls[0].params.updated_before, "2026-10-28T12:00:00.000Z");
+  assert.equal(calls[0].params.state, "all");
+});
+
+test("listIssuesPage não manda updated_after quando não foi informado", async () => {
+  const calls = [];
+  const fakeClient = {
+    get: async (url, config) => {
+      calls.push(config);
+      return { data: [], headers: {} };
+    },
+  };
+
+  await gitlabService.listIssuesPage({ state: "opened", per_page: 100, projectId: 510 }, fakeClient);
+
+  assert.equal("updated_after" in calls[0].params, false);
+  assert.equal("updated_before" in calls[0].params, false);
+});
+
+test("listIssuesPage repassa o filtro por iids ao GitLab", async () => {
+  const calls = [];
+  const fakeClient = {
+    get: async (url, config) => {
+      calls.push(config);
+      return { data: [], headers: {} };
+    },
+  };
+
+  await gitlabService.listIssuesPage({ iids: [781, 802], projectId: 510 }, fakeClient);
+
+  assert.equal(calls[0].params.iids, "781,802");
+});
