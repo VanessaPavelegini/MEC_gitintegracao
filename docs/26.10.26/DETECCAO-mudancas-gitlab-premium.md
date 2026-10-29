@@ -165,7 +165,22 @@ e os disparos de 30 min do timer cobrem o resto.
 
 ---
 
-## 6. Validação contra o GitLab real
+## 6. Validação em produção (29/10/2026)
+
+Publicado na `func-gitintegracao` e verificado contra o GitLab e o Planner
+reais:
+
+| Verificação | Resultado |
+|---|---|
+| Rotas registradas no app | `syncGitLabPlannerPremiumChanges`, `syncGitLabPlannerPremiumTimer`, `syncGitLabPlannerPremiumTimerHttp` |
+| Agendamento do timer | `*/30 * * * *` (a cada 30 min) |
+| Disparo real do timer | `Last=2026-10-29T13:00:00Z`, `Next=13:30:00Z` — disparou no horário |
+| O que o timer fez | detectou a issue #762 (alterada no GitLab às 12:49) e atualizou a task no Planner às 13:00:09 |
+| Task após o disparo | assunto e progresso conferem com o GitLab ✅ |
+| Idempotência | segundo sync imediato: `criadas 0, atualizadas 0, iguais 21` |
+| Trava | dois syncs simultâneos: um 200, o outro **409** `trava em uso por sync` |
+| Sync real | 1 issue atualizada, **0 erros** |
+| Varredura completa × incremental | **mesmas 87 issues** alteradas (811 → 107 issues, 87% menos) |
 
 Comparação entre a varredura completa e a incremental, no mesmo instante, com
 as mesmas regras do sync (filtro de label de cancelamento):
@@ -179,6 +194,10 @@ ACORDO EXATO: SIM ✅
 ```
 
 Redução: 811 → 107 issues (87% menos), 12,5 s → 2,5 s.
+
+> **Nota sobre o `az`:** o token do CLI estava vencido (`AADSTS70043`) e foi
+> renovado no meio da sessão. O `func azure functionapp publish` do Core Tools
+> funciona mesmo com o `az` vencido — ele usa credencial própria.
 
 ---
 
