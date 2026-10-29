@@ -6,10 +6,34 @@ Ambiente: repo `MEC_gitintegracao` · Function App `func-gitintegracao` (RG
 `rg-pnld-app-hmg-mec`, subscription `ccmecapppnld13383hom`) · org Planner Premium
 `https://orgcf194dda.crm.dynamics.com` · org do mapping `https://org41ecace2.crm2.dynamics.com`.
 
-> **Estado em 26/10/2026:** o sync rodou de ponta a ponta **localmente**
-> (588 tasks criadas, ver §4-alt) porque o deploy na Function App está bloqueado
-> por RBAC (§2). A identidade de escrita que funciona é
-> `antoniojunior@mec.gov.br` — **não** `portaldedemandas@mec.gov.br` (§1).
+> **Estado em 29/10/2026 (ATUALIZADO — use estes valores):**
+>
+> | Item | Valor atual |
+> |---|---|
+> | Identidade de escrita | **`portaldedemandas@mec.gov.br`** (conta de serviço) |
+> | Plano | **`c0ecce95-1107-4343-8c05-bcf7c9a291f8`** (novo) |
+> | Bucket | **`be10a1da-0bd2-f111-84dc-7c1e520d9dbb`** ("Bucket 1") |
+> | Deploy | **funcional** — rota publicada e respondendo |
+> | Manutenção diária | **timer interno de 30 min** — não precisa de Power Automate |
+>
+> O histórico deste documento (26/10) citava `antoniojunior@mec.gov.br` e o plano
+> `c385351a` / bucket `f704c207`. **A conta antiga e o plano antigo ainda
+> funcionam**, mas o alvo de produção é o novo. Detalhes de cada virada:
+> [RETOMADA de 29/10](../26.10.29/RETOMADA-pos-reinicio.md) e a memória
+> `premium-identidade-escrita`.
+>
+> A identificação do plano continua sendo pelo **app setting**
+> (`PREMIUM_HOMOLOGACAO_PLAN_ID` / `PREMIUM_HOMOLOGACAO_BUCKET_ID`) — o corpo do
+> POST pode trazer só o `cursor`. Para conferir os valores vigentes:
+>
+> ```bash
+> curl -s -H "x-functions-key: $FUNCTION_KEY" \
+>   "https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao-buckets"
+> ```
+>
+> **Este runbook cobre a carga inicial e a varredura completa.** Para a
+> manutenção do dia a dia (usuário mexeu na issue → Planner reflete), veja o
+> [guia de detecção por timer](DETECCAO-mudancas-gitlab-premium.md).
 
 ---
 
@@ -17,11 +41,16 @@ Ambiente: repo `MEC_gitintegracao` · Function App `func-gitintegracao` (RG
 
 O app `app-pnld` (client credentials) é bloqueado com `UserNotLicensed` no Planner
 Premium. A identidade da escrita é uma **conta de usuário delegada** com
-permissão de escrita no plano — e o teste de fumaça (T0) mostrou que a
-`portaldedemandas@mec.gov.br` **não tem essa permissão**: ela lê o plano, mas o
-`msdyn_ExecuteOperationSetV1` responde
-`Forbidden — Permissions required: Write.` A identidade que passa é a conta do
-próprio usuário, `antoniojunior@mec.gov.br`.
+licença de projeto — hoje é a conta de serviço do Portal de Demandas,
+**`portaldedemandas@mec.gov.br`** (dois `d`).
+
+> **Histórico:** até 27/10 a `portaldedemandas` lia o plano mas o
+> `msdyn_ExecuteOperationSetV1` respondia
+> `Forbidden — Permissions required: Write.`. A causa era falta do service plan
+> `DYN365_CDS_PROJECT` — **não** era compartilhamento. A requisição REQ676377
+> reatribuiu a licença (ela passou a `PROJECTPROFESSIONAL_FACULTY`) e a escrita
+> foi destravada em 28/10/2026. A `antoniojunior@mec.gov.br` tem o mesmo SKU e
+> também serve, mas é conta de pessoa: prefira a de serviço.
 
 ```bash
 cd /Users/antoniojunior/Dev/projetos_spfx/MEC_gitintegracao
@@ -30,7 +59,7 @@ node scripts/autorizarContaServicoPremium.js
 
 O script imprime a URL (`https://login.microsoftonline.com/devicelogin` ou
 `https://login.microsoft.com/device`) e um código. Abra a URL, entre com a conta
-que vai escrever (**`antoniojunior@mec.gov.br`**), digite o código e autorize.
+que vai escrever (**`portaldedemandas@mec.gov.br`**), digite o código e autorize.
 Se o código expirar (15 min), o script emite outro sozinho — pode deixar o
 terminal rodando.
 
@@ -39,31 +68,58 @@ da Function App e em `.premium-refresh-token.json` (local, fora do git). Se a
 gravação no Blob falhar, o script avisa explicitamente (e sai com código 1) — o
 arquivo local sozinho **não** serve para a Function publicada.
 
+> **O AAD rotaciona o refresh token a cada troca.** O token novo precisa ser
+> gravado no Blob, senão o próximo cold start falha. O limite do conditional
+> access do tenant é de **22 h** (79200 s) — expirado, aparece `AADSTS70043` e
+> o passo 1 precisa ser refeito.
+
 > Concluído quando o script imprimir `Login concluído!` **e**
 > `Refresh token salvo no Blob ... e em .premium-refresh-token.json`.
 
-## 2. Publicar o código na Function App
+Para **testar** uma conta sem tocar no token de produção (grava em
+`.premium-refresh-token.test.json`, que é gitignored):
 
 ```bash
-func pack --output ./tmp/functionApp.zip
-az functionapp deployment source config-zip \
-  --subscription ccmecapppnld13383hom \
-  --name func-gitintegracao \
-  --resource-group rg-pnld-app-hmg-mec \
-  --src tmp/functionApp.zip/MEC_gitintegracao.zip
+node scripts/autorizar-conta-teste-premium.js
+node scripts/verificar-acesso-escrita-premium.js
 ```
 
-Alternativas: extensão "Azure Functions" do VS Code (Deploy to Function App) ou
-Deployment Center > Zip deploy no Portal.
+## 2. Publicar o código na Function App
 
-> **Bloqueado em 26/10/2026.** A conta `antoniobjunior@mec.gov.br` não tem
-> `Microsoft.Web/sites/*` no RG `rg-pnld-app-hmg-mec` — o `az` responde
-> `AuthorizationFailed` em `sites/read` e em `sites/config/list/action`.
-> Não é token velho: o erro persiste em qualquer comando do `az` sobre o app.
-> **Desbloqueio:** pedir (ao dono do RG) a atribuição de `Contributor` no
-> `rg-pnld-app-hmg-mec` — ou, no mínimo, `Microsoft.Web/sites/*` (ler, escrever
-> configuração e fazer deploy de zip). Sem isso, o passo 2 não roda e o sync
-> precisa ser feito localmente (§4-alt).
+> **Resolvido em 27/10/2026** — o RBAC foi destravado (PIM renovado) e o deploy
+> funciona. Use o comando do Core Tools, que usa credencial própria e funciona
+> mesmo com o `az` vencido:
+>
+> ```bash
+> func azure functionapp publish func-gitintegracao --javascript
+> ```
+>
+> Depois do publish, as rotas novas demoram **~2 min** para responder (404 até o
+> sync de triggers). Para conferir:
+>
+> ```bash
+> curl -s -H "x-functions-key: $FUNCTION_KEY" \
+>   "https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao-buckets"
+> ```
+>
+> O método alternativo (zip deploy) segue válido:
+>
+> ```bash
+> func pack --output ./tmp/functionApp.zip
+> az functionapp deployment source config-zip \
+>   --subscription ccmecapppnld13383hom \
+>   --name func-gitintegracao \
+>   --resource-group rg-pnld-app-hmg-mec \
+>   --src tmp/functionApp.zip/MEC_gitintegracao.zip
+> ```
+>
+> Alternativas: extensão "Azure Functions" do VS Code (Deploy to Function App) ou
+> Deployment Center > Zip deploy no Portal.
+>
+> **Armadilha do `az`:** o `app-pnld` não tem `Microsoft.Web/sites/*` no ARM
+> (403 em listKeys) — para ler app settings é preciso `az login` do usuário. O
+> GUID da subscription é `7def3c16-d18b-40d5-9aa4-ce0f1ec495b7` (o nome
+> `ccmecapppnld13383hom` no código dos scripts é inválido para a API ARM).
 
 ## 3. Dry run (não escreve nada)
 
@@ -73,7 +129,7 @@ Via Function (precisa do passo 2):
 curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "x-functions-key: $FUNCTION_KEY" \
-  -d '{"planId":"c385351a-e450-4d54-87ed-d54c57794f7b","dryRun":true,"pageSize":100}' \
+  -d '{"planId":"c0ecce95-1107-4343-8c05-bcf7c9a291f8","dryRun":true,"pageSize":100}' \
   "https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao" \
   | python3 -m json.tool
 ```
@@ -96,7 +152,7 @@ CURSOR=""
 while : ; do
   RESP=$(curl -s -X POST -H "Content-Type: application/json" \
     -H "x-functions-key: $FUNCTION_KEY" \
-    -d "{\"planId\":\"c385351a-e450-4d54-87ed-d54c57794f7b\",\"pageSize\":100,\"cursor\":\"$CURSOR\"}" \
+    -d "{\"planId\":\"c0ecce95-1107-4343-8c05-bcf7c9a291f8\",\"pageSize\":100,\"cursor\":\"$CURSOR\"}" \
     "https://func-gitintegracao-febwfvfnbwchbbhb.brazilsouth-01.azurewebsites.net/api/gitlab-planner-premium-homologacao")
   echo "$RESP" | python3 -m json.tool
   CURSOR=$(echo "$RESP" | python3 -c "import json,sys; print(json.load(sys.stdin).get('nextCursor') or '')")
@@ -119,7 +175,7 @@ termina quando `nextCursor` vier `null`.
 
 ### 4-alt. Execução real sem deploy (local)
 
-É o caminho usado em 26/10/2026 enquanto o RBAC do §2 não se resolve. O runner
+É o caminho usado em 26/10/2026 enquanto o RBAC do §2 não se resolvia. O runner
 chama o mesmo handler (`premiumHandler.runPremiumSync`) e os mesmos módulos da
 Function — a única diferença é onde ele roda e de onde sai o token de escrita.
 
@@ -158,7 +214,7 @@ script espera as tasks sumirem antes de apagar o registro do set.
 - Planner: plano "Homologação _NOVO SISTEC 2 - Cópia" → bucket "Bucket 1" → 588 tasks
   novas com assunto `[#iid] título`.
 - Dataverse PRD: tabela `pmo_mapeamentoplanner` → 588 linhas com
-  `pmo_plannerplanid = c385351a-e450-4d54-87ed-d54c57794f7b` e
+  `pmo_plannerplanid = c0ecce95-1107-4343-8c05-bcf7c9a291f8` e
   `pmo_plannertaskid` preenchido.
 
 ```bash
@@ -192,8 +248,11 @@ O flow: `HTTP > Repetir` numa chamada ao endpoint, repassa o `nextCursor` e
 termina quando vier `null`. Ativar "Repetir" com 3 tentativas (senão a mesma
 página é repetida em caso de falha).
 
-> O flow só entra em produção depois do §2 (deploy) — hoje o endpoint publicado
-> ainda é a versão antiga do sync.
+> **O flow já está publicado e validado.** Ele continua útil para a carga
+> inicial e a varredura completa. Para a manutenção do dia a dia, porém, a
+> Function App tem **timer interno de 30 min** que faz a varredura incremental
+> sozinho — ver [DETECCAO-mudancas-gitlab-premium.md](DETECCAO-mudancas-gitlab-premium.md).
+> Com o timer ativo, o Power Automate é redundante.
 
 ---
 
@@ -201,8 +260,8 @@ página é repetida em caso de falha).
 
 | Sintoma | Causa | O que fazer |
 |---|---|---|
-| `UserNotLicensed` | identidade sem licença de projeto no Planner Premium | refazer o passo 1 com a conta `antoniojunior@mec.gov.br` |
-| `Forbidden — Permissions required: Write.` no `msdyn_ExecuteOperationSetV1` | a conta lê o plano mas não tem escrita nele | trocar de identidade (a `portaldedemandas` cai aqui) e refazer o passo 1 |
+| `UserNotLicensed` | identidade sem licença de projeto no Planner Premium | refazer o passo 1 com a conta `portaldedemandas@mec.gov.br` (ou o `app-pnld` — que **nunca** vai funcionar: não tem licença) |
+| `Forbidden — Permissions required: Write.` no `msdyn_ExecuteOperationSetV1` | a conta lê o plano mas não tem escrita nele | falta o service plan `DYN365_CDS_PROJECT` (licença `PROJECTPROFESSIONAL_FACULTY`) — pedir reatribuição de licença (REQ676377 resolveu em 28/10/2026); adicionar ao projeto **não** resolve |
 | `invalid_grant` no refresh | refresh token expirado/rotacionado | refazer o passo 1 |
 | `Acesso restrito` (403) do GitLab | WAF barra rajadas de requests | rodar página a página (o runtime por página funciona) |
 | `AuthorizationFailed` no `az` | RBAC da conta oscilando | retry; se persistir, pedir reatribuição de papel no RG (§2) |
