@@ -84,38 +84,59 @@ test("queueUpdateTasks enfileira o lote em msdyn_PssUpdateV2", async () => {
   assert.equal(fetchImpl.calls[0].body.OperationSetId, "set-2");
 });
 
-test("synchronizeTaskLabels recusa sincronizar quando falta label no plano", async () => {
+test("synchronizeTaskLabels aplica o que o plano tem e reporta o que falta", async () => {
   const fetchImpl = fakeFetch([
     { status: 200, body: { value: [{ msdyn_projectlabelid: "l1", msdyn_projectlabeltext: "Known" }] } },
-    { status: 200, body: { value: [] } },
   ]);
   const result = await premium.synchronizeTaskLabels({
-    taskId: "t1", projectId: PROJECT_ID, labels: ["Unknown"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    taskId: "t1", projectId: PROJECT_ID, labels: ["Known", "Unknown"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    currentLabelIds: new Set(),
   });
   assert.deepEqual(result.missing, ["Unknown"]);
-  assert.deepEqual(result.applied, []);
-  assert.equal(fetchImpl.calls.length, 1);
+  assert.deepEqual(result.applied, ["Known"]);
+  // O rótulo que o plano tem foi associado; o que falta fica no relatório.
+  const escrita = fetchImpl.calls.filter((c) => c.options.method !== "GET");
+  assert.equal(escrita.length, 1);
+  assert.equal(escrita[0].options.method, "POST");
+  assert.match(escrita[0].url, /msdyn_projecttasks\(t1\)\/msdyn_projecttask_projecttasktolabel$/);
+  assert.equal(escrita[0].body.msdyn_name, "Known");
+  assert.equal(escrita[0].body["msdyn_ProjectLabelId@odata.bind"], `${BASE_URL}/api/data/v9.2/msdyn_projectlabels(l1)`);
 });
 
-test("synchronizeTaskLabels associa e remove labels para espelhar o GitLab", async () => {
+test("synchronizeTaskLabels reporta o rótulo que só existe no Planner (a remoção é bloqueada)", async () => {
+  const fetchImpl = fakeFetch([
+    { status: 200, body: { value: [
+      { msdyn_projectlabelid: "l1", msdyn_projectlabeltext: "GitLab" },
+      { msdyn_projectlabelid: "l2", msdyn_projectlabeltext: "Só no Planner" },
+    ] } },
+  ]);
+  const result = await premium.synchronizeTaskLabels({
+    taskId: "t1", projectId: PROJECT_ID, labels: ["GitLab"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    currentLabelIds: new Set(["l2"]),
+  });
+  assert.deepEqual(result.stale, ["Só no Planner"]);
+  // Nada é removido: o Delete de msdyn_projecttasktolabel é bloqueado pela API.
+  assert.equal(fetchImpl.calls.filter((c) => c.options.method === "DELETE").length, 0);
+});
+
+test("synchronizeTaskLabels associa o rótulo que falta na task", async () => {
   const fetchImpl = fakeFetch([
     { status: 200, body: { value: [
       { msdyn_projectlabelid: "l1", msdyn_projectlabeltext: "Keep" },
       { msdyn_projectlabelid: "l2", msdyn_projectlabeltext: "Add" },
     ] } },
-    { status: 200, body: { value: [{ _msdyn_projectlabelid_value: "l1" }] } },
     { status: 204, body: {} },
   ]);
   const result = await premium.synchronizeTaskLabels({
-    taskId: "t1", projectId: PROJECT_ID, labels: ["Add"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    taskId: "t1", projectId: PROJECT_ID, labels: ["Keep", "Add"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    currentLabelIds: new Set(["l1"]),
   });
   assert.deepEqual(result.missing, []);
-  assert.deepEqual(result.applied, ["Add"]);
-  assert.equal(fetchImpl.calls[2].options.method, "DELETE");
-  assert.match(fetchImpl.calls[2].url, /msdyn_projecttasks\(t1\)\/msdyn_msdyn_projectlabel_msdyn_projecttask\(l1\)\/\$ref/);
-  assert.equal(fetchImpl.calls[3].options.method, "POST");
-  assert.match(fetchImpl.calls[3].url, /msdyn_msdyn_projectlabel_msdyn_projecttask\/\$ref/);
-  assert.equal(fetchImpl.calls[3].body["@odata.id"], `${BASE_URL}/api/data/v9.2/msdyn_projectlabels(l2)`);
+  assert.deepEqual(result.applied, ["Keep", "Add"]);
+  assert.equal(fetchImpl.calls.length, 2);
+  assert.equal(fetchImpl.calls[1].options.method, "POST");
+  assert.match(fetchImpl.calls[1].url, /msdyn_projecttasks\(t1\)\/msdyn_projecttask_projecttasktolabel$/);
+  assert.equal(fetchImpl.calls[1].body.msdyn_name, "Add");
 });
 
 test("listTaskLabelAssociationsForTasks agrupa as associações por task", async () => {
@@ -132,17 +153,16 @@ test("listTaskLabelAssociationsForTasks agrupa as associações por task", async
   assert.deepEqual([...byTask.get("t2")], ["l2"]);
 });
 
-test("synchronizeTaskLabels remove vínculos extras quando o GitLab não tem labels", async () => {
+test("synchronizeTaskLabels não remove vínculo quando o GitLab não tem labels", async () => {
   const fetchImpl = fakeFetch([
     { status: 200, body: { value: [{ msdyn_projectlabelid: "l1", msdyn_projectlabeltext: "Extra" }] } },
-    { status: 200, body: { value: [{ _msdyn_projectlabelid_value: "l1" }] } },
-    { status: 204, body: {} },
   ]);
-  await premium.synchronizeTaskLabels({
+  const result = await premium.synchronizeTaskLabels({
     taskId: "t1", projectId: PROJECT_ID, labels: [], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    currentLabelIds: new Set(["l1"]),
   });
-  assert.equal(fetchImpl.calls[2].options.method, "DELETE");
-  assert.match(fetchImpl.calls[2].url, /msdyn_projecttasks\(t1\)\/msdyn_msdyn_projectlabel_msdyn_projecttask\(l1\)\/\$ref/);
+  assert.deepEqual(result.stale, ["Extra"]);
+  assert.equal(fetchImpl.calls.filter((c) => c.options.method === "DELETE").length, 0);
 });
 
 test("executeOperationSet executa o set", async () => {

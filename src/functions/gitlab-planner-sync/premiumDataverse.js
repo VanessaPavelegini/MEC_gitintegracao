@@ -116,13 +116,17 @@ async function listTaskLabelAssociationsForTasks({ taskIds, token, baseUrl, fetc
 /**
  * Espelha os rótulos do GitLab no Planner Premium.
  *
- * O Planner Premium guarda os rótulos como rótulos do PLANO (msdyn_projectlabel)
- * associados à task. Rótulo que existe no GitLab mas não existe no plano não
- * pode ser criado por API — o Project recusa o Create e manda usar a interface
- * do Planner. Nesses casos a função devolve o nome em `missing` e deixa a
- * task como está (sem escrita), em vez de fingir que aplicou.
+ * O Planner Premium guarda o rótulo da task em msdyn_projecttasktolabel (com
+ * o nome do rótulo e o vínculo com a task e com o rótulo do plano). O registro
+ * é criado pela COLEÇÃO DE NAVEGAÇÃO da task — o POST direto na entidade é
+ * recusado ("Não é possível executar diretamente a operação Create").
  *
- * @returns {Promise<{applied: string[], missing: string[]}>}
+ * Remover é diferente: o Delete dessa entidade é bloqueado em todas as rotas
+ * (direto, coleção de navegação e operation set). Por isso o sync ADICIA os
+ * rótulos que faltam e devolve em `stale` os que existem no Planner e não
+ * existem no GitLab — a remoção delas precisa ser feita na interface.
+ *
+ * @returns {Promise<{applied: string[], missing: string[], stale: string[]}>}
  */
 async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl, fetchImpl, currentLabelIds }) {
   const names = [...new Set((labels || []).map((label) => typeof label === "string" ? label : label?.title || label?.name || "").map((name) => name.trim()).filter(Boolean))];
@@ -130,34 +134,32 @@ async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl
   const labelByName = new Map(projectLabels.map((label) => [String(label.msdyn_projectlabeltext || "").toLocaleLowerCase(), label]));
   const missing = names.filter((name) => !labelByName.has(name.toLocaleLowerCase()));
 
-  // Sem todos os rótulos do GitLab disponíveis no plano, a task não pode ficar
-  // igual ao GitLab: deixá-la como está evita reescrever a task a cada rodada.
-  if (missing.length) return { applied: [], missing };
-
   const current = currentLabelIds instanceof Set
     ? currentLabelIds
     : new Set((await listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl })).map((row) => row._msdyn_projectlabelid_value));
 
-  const wanted = new Set(names.map((name) => labelByName.get(name.toLocaleLowerCase()).msdyn_projectlabelid));
-  for (const id of current) {
-    if (wanted.has(id)) continue;
-    await dataverseRequest({
-      baseUrl,
-      path: `/msdyn_projecttasks(${taskId})/msdyn_msdyn_projectlabel_msdyn_projecttask(${id})/$ref`,
-      method: "DELETE", token, fetchImpl, allowStatuses: [204],
-    });
-  }
+  const wanted = new Set(names.filter((name) => labelByName.has(name.toLocaleLowerCase())).map((name) => labelByName.get(name.toLocaleLowerCase()).msdyn_projectlabelid));
+  const stale = [...current].filter((id) => !wanted.has(id));
+
   for (const id of wanted) {
     if (current.has(id)) continue;
+    const name = projectLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext;
     await dataverseRequest({
       baseUrl,
-      path: `/msdyn_projecttasks(${taskId})/msdyn_msdyn_projectlabel_msdyn_projecttask/$ref`,
+      path: `/msdyn_projecttasks(${taskId})/msdyn_projecttask_projecttasktolabel`,
       method: "POST",
-      body: { "@odata.id": `${baseUrl}/api/data/${API_VERSION}/msdyn_projectlabels(${id})` },
+      body: {
+        "msdyn_name": name,
+        "msdyn_ProjectLabelId@odata.bind": `${baseUrl}/api/data/${API_VERSION}/msdyn_projectlabels(${id})`,
+      },
       token, fetchImpl, allowStatuses: [204],
     });
   }
-  return { applied: names, missing: [] };
+  return {
+    applied: names.filter((name) => wanted.has(labelByName.get(name.toLocaleLowerCase())?.msdyn_projectlabelid)),
+    missing,
+    stale: stale.map((id) => projectLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext).filter(Boolean),
+  };
 }
 
 /**

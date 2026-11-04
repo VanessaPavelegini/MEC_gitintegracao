@@ -254,7 +254,7 @@ async function applyBatch({
     for (const item of setItems) {
       const taskId = item.entity.msdyn_projecttaskid;
       try {
-        const { missing } = await premium.synchronizeTaskLabels({
+        const { missing, stale } = await premium.synchronizeTaskLabels({
           taskId,
           projectId: planId,
           labels: item.issue.labels,
@@ -264,6 +264,7 @@ async function applyBatch({
           currentLabelIds: currentByTask?.get(taskId),
         });
         for (const name of missing) result.missingLabels.add(name);
+        for (const name of stale || []) result.staleLabels.add(name);
       } catch (error) {
         semTask.add(item.issue.iid);
         result.errors.push({ iid: item.issue.iid, message: error.message });
@@ -551,6 +552,7 @@ async function syncPage({
     skipped: 0,
     errors: [],
     missingLabels: new Set(),
+    staleLabels: new Set(),
     nextCursor: null,
     durationMs: 0,
   };
@@ -658,7 +660,7 @@ async function syncPage({
     for (const item of items) {
       const taskId = item.entity.msdyn_projecttaskid;
       try {
-        const { missing } = await premium.synchronizeTaskLabels({
+        const { missing, stale } = await premium.synchronizeTaskLabels({
           taskId,
           projectId: planId,
           labels: item.issue.labels,
@@ -668,6 +670,7 @@ async function syncPage({
           currentLabelIds: currentByTask?.get(taskId),
         });
         for (const name of missing) result.missingLabels.add(name);
+        for (const name of stale || []) result.staleLabels.add(name);
       } catch (error) {
         result.errors.push({ iid: item.issue.iid, message: error.message });
       }
@@ -697,10 +700,19 @@ async function syncPage({
       const wanted = [...new Set((issue.labels || []).map((label) => labelToString(label).trim()).filter(Boolean))];
       const missing = wanted.filter((name) => !planLabelNames.has(name.toLocaleLowerCase()));
       for (const name of missing) result.missingLabels.add(name);
-      if (missing.length) continue;
-      const wantedIds = new Set(wanted.map((name) => planLabelIds.get(name.toLocaleLowerCase())));
+      // O que o plano consegue expressor: os rótulos do GitLab que existem
+      // como rótulos do plano. Os que faltam no plano são reportados.
+      const wantedIds = new Set(wanted.filter((name) => planLabelNames.has(name.toLocaleLowerCase())).map((name) => planLabelIds.get(name.toLocaleLowerCase())));
       const current = currentLabelsByTask.get(mapping.pmo_plannertaskid) || new Set();
-      if (wantedIds.size === current.size && [...wantedIds].every((id) => current.has(id))) continue;
+      // Rótulo que existe no Planner e não no GitLab: a remoção é bloqueada
+      // pela API do Project, então ele é reportado em vez de removido.
+      for (const id of current) {
+        if (wantedIds.has(id)) continue;
+        const name = planLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext;
+        if (name) result.staleLabels.add(name);
+      }
+      const faltando = [...wantedIds].some((id) => !current.has(id));
+      if (!faltando) continue;
       labelSync.push({
         issue,
         entity: { msdyn_projecttaskid: mapping.pmo_plannertaskid },
@@ -722,6 +734,7 @@ async function syncPage({
 
   if (dryRun) {
     result.missingLabels = [];
+    result.staleLabels = [];
     result.durationMs = Date.now() - startedAt;
     return result;
   }
@@ -758,6 +771,7 @@ async function syncPage({
   await applyLabelSync(labelSync, currentLabelsByTask);
 
   result.missingLabels = [...result.missingLabels];
+  result.staleLabels = [...result.staleLabels];
   result.durationMs = Date.now() - startedAt;
   return result;
 }
