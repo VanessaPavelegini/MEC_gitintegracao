@@ -249,7 +249,49 @@ curl -s -X POST \
 
 ---
 
-## 9. Referência
+## 10. Rótulos (labels) do GitLab no Planner Premium
+
+O Planner Premium guarda o rótulo da task em `msdyn_projecttasktolabel` (o nome
+do rótulo + o vínculo com a task e com o rótulo do plano `msdyn_projectlabel`).
+O sync espelha o GitLab nesses rótulos.
+
+### O que a API do Project aceita
+
+| Operação | Rota | Funciona? |
+|---|---|---|
+| Criar rótulo do plano | `POST /msdyn_projectlabels` | **Não** — "Não é possível executar diretamente a operação Create" |
+| Criar rótulo do plano via operation set | `msdyn_PssCreateV2` | **Não** — "Não há suporte a msdyn_projectlabel" |
+| Associar rótulo à task | `POST /msdyn_projecttasks({id})/msdyn_projecttask_projecttasktolabel` | **Sim** |
+| Remover associação | `DELETE` direto, coleção de navegação e `msdyn_PssDeleteV2` | **Não** — o Delete é recusado em todas as rotas |
+
+Ou seja: **rótulo novo precisa ser criado na interface do Planner**, e
+**rótulo que existe só no Planner precisa ser removido na interface**.
+
+### O que o sync faz
+
+- Adiciona à task os rótulos do GitLab que existem como rótulos do plano.
+- Reporta em `missingLabels` os rótulos do GitLab que o plano ainda não tem
+  (criá-los é manual, na interface do Planner).
+- Reporta em `staleLabels` os rótulos que estão no Planner e não no GitLab
+  (removê-los é manual, na interface do Planner).
+- A detecção de divergência é independente do conteúdo: uma task cujo conteúdo
+  já está em dia recebe os rótulos sem reescrever a task.
+
+### Datas
+
+O payload manda `msdyn_start`/`msdyn_finish` **junto** de
+`msdyn_scheduledstart`/`msdyn_scheduledend`. Sem os campos "scheduled", o
+Project ignorava a data de término enviada — a task continuava com o
+término antigo enquanto o sync reportava sucesso.
+
+A confirmação (`taskMatches`) compara início e fim: sem isso, uma task com a
+data errada era contada como atualizada **e** o mapping avançava, o que
+impedia a issue de voltar para a lista de mudanças.
+
+
+---
+
+## 11. Referência
 
 | Arquivo | Papel |
 |---|---|
