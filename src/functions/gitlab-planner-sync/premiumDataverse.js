@@ -49,25 +49,115 @@ function buildSubject(issue) {
 function buildTaskEntity({ issue, projectId, bucketId, taskId }) {
   const start = require("./premiumSync").toDateOnly(issue?.created_at);
   const finish = require("./premiumSync").computeFinishDate(start, issue?.due_date);
+  const scheduledStart = start ? `${start}T09:00:00Z` : null;
+  const scheduledEnd = finish ? `${finish}T17:00:00Z` : null;
 
   return {
     "@odata.type": ENTITY_TYPE,
-    // O msdyn_PssCreateV2 exige um id por entidade: sem id, o operation set
-    // rejeita o lote inteiro com "contém entidades duplicadas" (todas as
-    // entidades sem id colidem no mesmo id vazio). O Dataverse respeita o
-    // GUID do cliente nesse action — o id enviado é o id da task criada, e
-    // o sync passa a saber o id sem depender de consultar por assunto.
     msdyn_projecttaskid: taskId || require("node:crypto").randomUUID(),
     msdyn_subject: buildSubject(issue),
     msdyn_description: String(issue?.description || "").substring(0, DESCRIPTION_MAX_LENGTH),
-    msdyn_start: start,
-    msdyn_finish: finish,
-    // msdyn_progress é uma razão 0..1 nesta API (1 = 100%): o Dataverse
-    // recusa o update com 50 ou 100 ("percent outside of bounds").
+    msdyn_start: scheduledStart,
+    msdyn_finish: scheduledEnd,
+    msdyn_scheduledstart: scheduledStart,
+    msdyn_scheduledend: scheduledEnd,
     msdyn_progress: issue?.state === "closed" ? 1 : 0,
     "msdyn_project@odata.bind": `/msdyn_projects(${projectId})`,
     "msdyn_projectbucket@odata.bind": `/msdyn_projectbuckets(${bucketId})`,
   };
+}
+
+async function listProjectLabels({ projectId, token, baseUrl, fetchImpl }) {
+  const filter = `_msdyn_projectid_value eq '${String(projectId).replace(/'/g, "''")}'`;
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: `/msdyn_projectlabels?$select=msdyn_projectlabelid,msdyn_projectlabeltext&$filter=${encodeURIComponent(filter)}&$top=5000`,
+    method: "GET", token, fetchImpl,
+  });
+  return body?.value || [];
+}
+
+async function listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl }) {
+  const filter = `_msdyn_projecttaskid_value eq '${String(taskId).replace(/'/g, "''")}'`;
+  const { body } = await dataverseRequest({
+    baseUrl,
+    path: `/msdyn_projecttasktolabels?$select=_msdyn_projectlabelid_value&$filter=${encodeURIComponent(filter)}&$top=5000`,
+    method: "GET", token, fetchImpl,
+  });
+  return body?.value || [];
+}
+
+const LABEL_CHUNK_SIZE = 50;
+
+/**
+ * Associações de rótulo de várias tasks, em um mapa taskId → conjunto de
+ * labelIds. Uma consulta por bloco de 50 tasks (mesmo limite do mapping).
+ */
+async function listTaskLabelAssociationsForTasks({ taskIds, token, baseUrl, fetchImpl }) {
+  const ids = [...new Set((taskIds || []).filter(Boolean))];
+  const byTask = new Map(ids.map((id) => [id, new Set()]));
+  for (let i = 0; i < ids.length; i += LABEL_CHUNK_SIZE) {
+    const chunk = ids.slice(i, i + LABEL_CHUNK_SIZE);
+    const filter = chunk.map((id) => `_msdyn_projecttaskid_value eq '${id}'`).join(" or ");
+    const { body } = await dataverseRequest({
+      baseUrl,
+      path: `/msdyn_projecttasktolabels?$select=_msdyn_projectlabelid_value,_msdyn_projecttaskid_value&$filter=${encodeURIComponent(filter)}&$top=5000`,
+      method: "GET", token, fetchImpl,
+    });
+    for (const row of body?.value || []) {
+      const taskId = row._msdyn_projecttaskid_value;
+      if (!taskId || !byTask.has(taskId)) continue;
+      byTask.get(taskId).add(row._msdyn_projectlabelid_value);
+    }
+  }
+  return byTask;
+}
+
+/**
+ * Espelha os rótulos do GitLab no Planner Premium.
+ *
+ * O Planner Premium guarda os rótulos como rótulos do PLANO (msdyn_projectlabel)
+ * associados à task. Rótulo que existe no GitLab mas não existe no plano não
+ * pode ser criado por API — o Project recusa o Create e manda usar a interface
+ * do Planner. Nesses casos a função devolve o nome em `missing` e deixa a
+ * task como está (sem escrita), em vez de fingir que aplicou.
+ *
+ * @returns {Promise<{applied: string[], missing: string[]}>}
+ */
+async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl, fetchImpl, currentLabelIds }) {
+  const names = [...new Set((labels || []).map((label) => typeof label === "string" ? label : label?.title || label?.name || "").map((name) => name.trim()).filter(Boolean))];
+  const projectLabels = await listProjectLabels({ projectId, token, baseUrl, fetchImpl });
+  const labelByName = new Map(projectLabels.map((label) => [String(label.msdyn_projectlabeltext || "").toLocaleLowerCase(), label]));
+  const missing = names.filter((name) => !labelByName.has(name.toLocaleLowerCase()));
+
+  // Sem todos os rótulos do GitLab disponíveis no plano, a task não pode ficar
+  // igual ao GitLab: deixá-la como está evita reescrever a task a cada rodada.
+  if (missing.length) return { applied: [], missing };
+
+  const current = currentLabelIds instanceof Set
+    ? currentLabelIds
+    : new Set((await listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl })).map((row) => row._msdyn_projectlabelid_value));
+
+  const wanted = new Set(names.map((name) => labelByName.get(name.toLocaleLowerCase()).msdyn_projectlabelid));
+  for (const id of current) {
+    if (wanted.has(id)) continue;
+    await dataverseRequest({
+      baseUrl,
+      path: `/msdyn_projecttasks(${taskId})/msdyn_msdyn_projectlabel_msdyn_projecttask(${id})/$ref`,
+      method: "DELETE", token, fetchImpl, allowStatuses: [204],
+    });
+  }
+  for (const id of wanted) {
+    if (current.has(id)) continue;
+    await dataverseRequest({
+      baseUrl,
+      path: `/msdyn_projecttasks(${taskId})/msdyn_msdyn_projectlabel_msdyn_projecttask/$ref`,
+      method: "POST",
+      body: { "@odata.id": `${baseUrl}/api/data/${API_VERSION}/msdyn_projectlabels(${id})` },
+      token, fetchImpl, allowStatuses: [204],
+    });
+  }
+  return { applied: names, missing: [] };
 }
 
 /**
@@ -338,6 +428,10 @@ module.exports = {
   abandonOperationSet,
   discardOperationSet,
   listProjectBuckets,
+  listProjectLabels,
+  listTaskLabelAssociations,
+  listTaskLabelAssociationsForTasks,
+  synchronizeTaskLabels,
   findTaskIdsBySubjects,
   getTaskById,
 };

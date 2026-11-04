@@ -95,8 +95,22 @@ function fakePremium(taskIds = {}, existingSubjects = {}) {
         msdyn_subject: e.msdyn_subject,
         msdyn_progress: e.msdyn_progress,
         msdyn_description: e.msdyn_description,
+        msdyn_start: e.msdyn_start,
+        msdyn_finish: e.msdyn_finish,
       };
     },
+    synchronizeTaskLabels: async (args) => {
+      calls.push({ op: "syncLabels", ...args });
+      return { applied: args.labels || [], missing: [] };
+    },
+    listTaskLabelAssociationsForTasks: async ({ taskIds }) => {
+      const map = new Map();
+      for (const id of taskIds || []) map.set(id, new Set());
+      return map;
+    },
+    listProjectLabels: async () => [
+      { msdyn_projectlabelid: "l-doing", msdyn_projectlabeltext: "Doing" },
+    ],
     // onlyExisting = consulta ANTES de criar (o que já existe no plano);
     // sem o flag = lookup depois de criar (id da task recém-criada).
     findTaskIdsBySubjects: async ({ subjects, onlyExisting }) => {
@@ -214,7 +228,7 @@ test("syncPage atualiza task existente quando a issue mudou", async () => {
   assert.equal(mapping.saved[0].plannerTaskId, "task-1");
 });
 
-test("syncPage não toca em task cuja issue não mudou", async () => {
+test("syncPage não reescreve a task cuja issue não mudou", async () => {
   const gitlab = fakeGitLab([issue(1)]);
   const mapping = fakeMapping([
     { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-25T00:00:00.000Z" },
@@ -228,7 +242,46 @@ test("syncPage não toca em task cuja issue não mudou", async () => {
   });
 
   assert.equal(result.unchanged, 1);
-  assert.equal(premium.calls.length, 0);
+  // Nenhum operation set: o conteúdo da task está em dia.
+  assert.equal(premium.calls.filter((c) => c.op === "createSet").length, 0);
+  assert.equal(premium.calls.filter((c) => c.op === "queueUpdate").length, 0);
+  assert.equal(mapping.saved.length, 0);
+});
+
+test("syncPage espelha os rótulos do GitLab mesmo sem mudar o conteúdo da task", async () => {
+  const gitlab = fakeGitLab([issue(1, { labels: ["Doing"] })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-25T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium();
+
+  await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  const labelCalls = premium.calls.filter((c) => c.op === "syncLabels");
+  assert.equal(labelCalls.length, 1);
+  assert.equal(labelCalls[0].taskId, "task-1");
+  assert.deepEqual(labelCalls[0].labels, ["Doing"]);
+});
+
+test("syncPage reporta o rótulo que não existe no plano e não reescreve a task", async () => {
+  const gitlab = fakeGitLab([issue(1, { labels: ["Apontamentos"] })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-25T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium();
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.deepEqual(result.missingLabels, ["Apontamentos"]);
+  assert.equal(premium.calls.filter((c) => c.op === "syncLabels").length, 0);
   assert.equal(mapping.saved.length, 0);
 });
 

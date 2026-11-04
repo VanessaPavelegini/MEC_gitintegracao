@@ -43,8 +43,10 @@ test("buildTaskEntity monta o payload da task Premium", () => {
   assert.equal(entity["@odata.type"], "Microsoft.Dynamics.CRM.msdyn_projecttask");
   assert.equal(entity.msdyn_subject, "[#811] HU0564 [Matrícula] - Baixar Matrícula");
   assert.equal(entity.msdyn_description, "texto da issue");
-  assert.equal(entity.msdyn_start, "2026-10-08");
-  assert.equal(entity.msdyn_finish, "2026-10-15");
+  assert.equal(entity.msdyn_start, "2026-10-08T09:00:00Z");
+  assert.equal(entity.msdyn_finish, "2026-10-15T17:00:00Z");
+  assert.equal(entity.msdyn_scheduledstart, "2026-10-08T09:00:00Z");
+  assert.equal(entity.msdyn_scheduledend, "2026-10-15T17:00:00Z");
   assert.equal(entity.msdyn_progress, 0);
   assert.equal(entity["msdyn_project@odata.bind"], `/msdyn_projects(${PROJECT_ID})`);
   assert.equal(entity["msdyn_projectbucket@odata.bind"], `/msdyn_projectbuckets(${BUCKET_ID})`);
@@ -68,7 +70,8 @@ test("buildTaskEntity usa due_date quando existe", () => {
     bucketId: BUCKET_ID,
   });
 
-  assert.equal(entity.msdyn_finish, "2026-11-30");
+  assert.equal(entity.msdyn_finish, "2026-11-30T17:00:00Z");
+  assert.equal(entity.msdyn_scheduledend, "2026-11-30T17:00:00Z");
 });
 
 test("buildTaskEntity marca issue fechada com 100% de progresso (razão 1)", () => {
@@ -103,6 +106,19 @@ test("buildUpdateEntity inclui o id da task a atualizar", () => {
 
   assert.equal(entity.msdyn_projecttaskid, "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
   assert.equal(entity["msdyn_project@odata.bind"], `/msdyn_projects(${PROJECT_ID})`);
+});
+
+test("taskMatches rejeita sucesso quando a data final ainda está desatualizada", () => {
+  const expected = premiumDataverse.buildUpdateEntity({
+    issue: issue({ due_date: "2026-11-24" }), projectId: PROJECT_ID, bucketId: BUCKET_ID, taskId: "task-1",
+  });
+  assert.equal(premiumSync.taskMatches({
+    msdyn_subject: expected.msdyn_subject,
+    msdyn_description: expected.msdyn_description,
+    msdyn_progress: expected.msdyn_progress,
+    msdyn_start: "2026-10-08T09:00:00Z",
+    msdyn_finish: "2026-10-08T17:00:00Z",
+  }, expected), false);
 });
 
 test("buildTaskEntity trunca descrição no limite do campo Memo", () => {
@@ -251,4 +267,22 @@ test("descriptionFingerprint distingue conteúdos diferentes", () => {
 test("descriptionFingerprint trata descrição vazia", () => {
   assert.equal(premiumSync.descriptionFingerprint(""), "");
   assert.equal(premiumSync.descriptionFingerprint(undefined), "");
+});
+
+test("taskMatches só confirma datas quando início e fim esperados foram gravados", () => {
+  const expected = {
+    msdyn_subject: "[#793] TESTE Integração",
+    msdyn_description: null,
+    msdyn_progress: 0,
+    msdyn_start: "2026-10-02",
+    msdyn_finish: "2026-11-24",
+  };
+  const common = {
+    msdyn_subject: expected.msdyn_subject,
+    msdyn_description: null,
+    msdyn_progress: 0,
+    msdyn_start: "2026-10-02T09:00:00Z",
+  };
+  assert.equal(premiumSync.taskMatches({ ...common, msdyn_finish: "2026-10-08T17:00:00Z" }, expected), false);
+  assert.equal(premiumSync.taskMatches({ ...common, msdyn_finish: "2026-11-24T17:00:00Z" }, expected), true);
 });

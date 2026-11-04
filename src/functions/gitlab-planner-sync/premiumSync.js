@@ -185,19 +185,25 @@ function descriptionFingerprint(value) {
 }
 
 /**
+ * Uma data materializada pelo Planner é confirmada quando cai no mesmo dia
+ * UTC da data pedida. O Project pode ajustar horário usando o calendário.
+ */
+function taskDateMatches(actual, expected) {
+  if (!expected) return true;
+  if (!actual) return false;
+  return toDateOnly(actual) === toDateOnly(expected);
+}
+
+/**
  * A task do plano já materializou com o conteúdo esperado?
- *
- * Só assunto, descrição e progresso são comparados: o Planner Premium
- * reAgenda as datas (start/finish) pelo calendário de trabalho do projeto —
- * o fim gravado é o último dia útil ANTES da data pedida, e o início é o
- * primeiro dia útil em cima da data pedida. Comparar as datas daria falso
- * negativo.
  */
 function taskMatches(row, expected) {
   if (!row || !expected) return false;
   if (row.msdyn_subject !== expected.msdyn_subject) return false;
   if (descriptionFingerprint(row.msdyn_description) !== descriptionFingerprint(expected.msdyn_description)) return false;
   if (Number(row.msdyn_progress ?? 0) !== Number(expected.msdyn_progress ?? 0)) return false;
+  if (!taskDateMatches(row.msdyn_start, expected.msdyn_start)) return false;
+  if (!taskDateMatches(row.msdyn_finish, expected.msdyn_finish)) return false;
   return true;
 }
 
@@ -221,6 +227,7 @@ async function applyBatch({
   result,
   materializeTimeoutMs,
   materializeDelayMs,
+  currentLabelsByTask,
 }) {
   // ─── Operation sets ─────────────────────────────────────────────────────────
   //
@@ -239,6 +246,30 @@ async function applyBatch({
   const MATERIALIZE_PROBE_DELAY_MS = 2000;
   const MATERIALIZE_DELAY_MS = materializeDelayMs ?? 2000;
   const MATERIALIZE_CONCURRENCY = 8;
+
+  // Sincroniza as associações de rótulo apenas após a task refletir os campos
+  // do GitLab. Rótulo que não existe no plano é reportado em missingLabels —
+  // não dá para criá-lo por API (o Project recusa o Create).
+  async function syncLabelsFor(setItems, currentByTask) {
+    for (const item of setItems) {
+      const taskId = item.entity.msdyn_projecttaskid;
+      try {
+        const { missing } = await premium.synchronizeTaskLabels({
+          taskId,
+          projectId: planId,
+          labels: item.issue.labels,
+          token,
+          baseUrl: orgUrl,
+          fetchImpl,
+          currentLabelIds: currentByTask?.get(taskId),
+        });
+        for (const name of missing) result.missingLabels.add(name);
+      } catch (error) {
+        semTask.add(item.issue.iid);
+        result.errors.push({ iid: item.issue.iid, message: error.message });
+      }
+    }
+  }
 
   async function runSet(setItems, setMode) {
     const description = `Sync GitLab → Planner Premium (${setMode}) — ${setItems.length} task(s) — plano ${planId}`;
@@ -296,7 +327,7 @@ async function applyBatch({
         token,
         baseUrl: orgUrl,
         fetchImpl,
-        select: "msdyn_subject,msdyn_progress,msdyn_description",
+        select: "msdyn_subject,msdyn_progress,msdyn_description,msdyn_start,msdyn_finish",
       }).catch(() => null);
 
     const deadline = Date.now() + MATERIALIZE_TIMEOUT_MS;
@@ -371,12 +402,14 @@ async function applyBatch({
     const setId = await runSet(items, "update");
     const faltando = await waitForMaterialization(items);
     await discardSet(setId);
+    const confirmed = items.filter((item) => !faltando.has(item.entity.msdyn_projecttaskid));
+    await syncLabelsFor(confirmed, currentLabelsByTask);
     for (const item of items) {
       const id = item.entity.msdyn_projecttaskid;
-      if (!faltando.has(id)) {
+      if (!faltando.has(id) && !semTask.has(item.issue.iid)) {
         taskIds[item.entity.msdyn_subject] = id;
         result.updated += 1;
-      } else {
+      } else if (faltando.has(id)) {
         semTask.add(item.issue.iid);
         result.errors.push({
           iid: item.issue.iid,
@@ -392,12 +425,13 @@ async function applyBatch({
     const setId = await runSet(toCreate, "create");
     const faltando = await waitForMaterialization(toCreate);
     await discardSet(setId);
+    await syncLabelsFor(toCreate.filter((item) => !faltando.has(item.entity.msdyn_projecttaskid)), currentLabelsByTask);
     for (const item of toCreate) {
       const id = item.entity.msdyn_projecttaskid;
-      if (!faltando.has(id)) {
+      if (!faltando.has(id) && !semTask.has(item.issue.iid)) {
         taskIds[item.entity.msdyn_subject] = id;
         result.created += 1;
-      } else {
+      } else if (faltando.has(id)) {
         semTask.add(item.issue.iid);
         result.errors.push({
           iid: item.issue.iid,
@@ -412,11 +446,12 @@ async function applyBatch({
     const setId = await runSet(adopted, "update");
     const faltando = await waitForMaterialization(adopted);
     await discardSet(setId);
+    await syncLabelsFor(adopted.filter((item) => !faltando.has(item.existingTaskId)), currentLabelsByTask);
     for (const item of adopted) {
-      if (!faltando.has(item.existingTaskId)) {
+      if (!faltando.has(item.existingTaskId) && !semTask.has(item.issue.iid)) {
         taskIds[item.entity.msdyn_subject] = item.existingTaskId;
         result.created += 1;
-      } else {
+      } else if (faltando.has(item.existingTaskId)) {
         semTask.add(item.issue.iid);
         result.errors.push({
           iid: item.issue.iid,
@@ -515,6 +550,7 @@ async function syncPage({
     unchanged: 0,
     skipped: 0,
     errors: [],
+    missingLabels: new Set(),
     nextCursor: null,
     durationMs: 0,
   };
@@ -606,6 +642,72 @@ async function syncPage({
     }
   }
 
+  // ─── Rótulos ────────────────────────────────────────────────────────────────
+  //
+  // O Planner Premium guarda os rótulos como rótulos do PLANO associados à
+  // task. O GitLab tem ~150 labels em uso e o plano só tem as que alguém já
+  // criou pela interface (não dá para criar por API — o Project recusa o
+  // Create).
+  //
+  // A task é espelhada a partir do GitLab: os rótulos do GitLab que existem no
+  // plano são aplicados, e rótulo que existe no Planner e não existe no
+  // GitLab é removido. Quando falta rótulo do GitLab no plano, a task não é
+  // tocada (ficaria sempre divergente e o sync reescreveria a task a cada
+  // rodada) e o nome é reportado em missingLabels.
+  const applyLabelSync = async (items, currentByTask) => {
+    for (const item of items) {
+      const taskId = item.entity.msdyn_projecttaskid;
+      try {
+        const { missing } = await premium.synchronizeTaskLabels({
+          taskId,
+          projectId: planId,
+          labels: item.issue.labels,
+          token,
+          baseUrl: orgUrl,
+          fetchImpl,
+          currentLabelIds: currentByTask?.get(taskId),
+        });
+        for (const name of missing) result.missingLabels.add(name);
+      } catch (error) {
+        result.errors.push({ iid: item.issue.iid, message: error.message });
+      }
+    }
+  };
+
+  let currentLabelsByTask = new Map();
+  const labelSync = [];
+  if (!dryRun && token) {
+    const existingTaskIds = eligible
+      .map((issue) => mappingByIid.get(Number(issue.iid)))
+      .filter((mapping) => mapping?.pmo_plannertaskid)
+      .map((mapping) => mapping.pmo_plannertaskid);
+    currentLabelsByTask = await premium.listTaskLabelAssociationsForTasks({
+      taskIds: existingTaskIds,
+      token,
+      baseUrl: orgUrl,
+      fetchImpl,
+    });
+    const planLabels = await premium.listProjectLabels({ projectId: planId, token, baseUrl: orgUrl, fetchImpl });
+    const planLabelNames = new Set(planLabels.map((label) => String(label.msdyn_projectlabeltext || "").toLocaleLowerCase()));
+    const planLabelIds = new Map(planLabels.map((label) => [String(label.msdyn_projectlabeltext || "").toLocaleLowerCase(), label.msdyn_projectlabelid]));
+
+    for (const issue of eligible) {
+      const mapping = mappingByIid.get(Number(issue.iid));
+      if (!mapping?.pmo_plannertaskid) continue;
+      const wanted = [...new Set((issue.labels || []).map((label) => labelToString(label).trim()).filter(Boolean))];
+      const missing = wanted.filter((name) => !planLabelNames.has(name.toLocaleLowerCase()));
+      for (const name of missing) result.missingLabels.add(name);
+      if (missing.length) continue;
+      const wantedIds = new Set(wanted.map((name) => planLabelIds.get(name.toLocaleLowerCase())));
+      const current = currentLabelsByTask.get(mapping.pmo_plannertaskid) || new Set();
+      if (wantedIds.size === current.size && [...wantedIds].every((id) => current.has(id))) continue;
+      labelSync.push({
+        issue,
+        entity: { msdyn_projecttaskid: mapping.pmo_plannertaskid },
+      });
+    }
+  }
+
   result.created = creates.length;
   result.updated = updates.length;
 
@@ -619,6 +721,7 @@ async function syncPage({
   }
 
   if (dryRun) {
+    result.missingLabels = [];
     result.durationMs = Date.now() - startedAt;
     return result;
   }
@@ -635,6 +738,7 @@ async function syncPage({
       premium, mapping, token, prdToken, orgUrl, prdBaseUrl, fetchImpl,
       planId, bucketId, hasUpdatedAtColumn, result,
       materializeTimeoutMs, materializeDelayMs,
+      currentLabelsByTask,
     });
   }
 
@@ -645,9 +749,15 @@ async function syncPage({
       premium, mapping, token, prdToken, orgUrl, prdBaseUrl, fetchImpl,
       planId, bucketId, hasUpdatedAtColumn, result,
       materializeTimeoutMs, materializeDelayMs,
+      currentLabelsByTask,
     });
   }
 
+  // Rótulos de tasks cujo conteúdo já estava em dia: o espelhamento dos
+  // rótulos não depende de reescrever a task.
+  await applyLabelSync(labelSync, currentLabelsByTask);
+
+  result.missingLabels = [...result.missingLabels];
   result.durationMs = Date.now() - startedAt;
   return result;
 }
@@ -662,5 +772,6 @@ module.exports = {
   decideAction,
   encodeCursor,
   decodeCursor,
+  taskMatches,
   syncPage,
 };
