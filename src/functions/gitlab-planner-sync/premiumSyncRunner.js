@@ -58,6 +58,8 @@ async function runFullSync({
     unchanged: 0,
     skipped: 0,
     errors: [],
+    missingLabels: [],
+    staleLabels: [],
     nextCursor: null,
     truncated: false,
     durationMs: 0,
@@ -86,6 +88,14 @@ async function runFullSync({
     total.updated += result.updated || 0;
     total.unchanged += result.unchanged || 0;
     total.skipped += result.skipped || 0;
+    // Os relatórios de rótulo são conjuntos por página: o agregado guarda a
+    // união, sem repetir o mesmo nome a cada página.
+    for (const name of result.missingLabels || []) {
+      if (!total.missingLabels.includes(name)) total.missingLabels.push(name);
+    }
+    for (const name of result.staleLabels || []) {
+      if (!total.staleLabels.includes(name)) total.staleLabels.push(name);
+    }
     for (const err of result.errors || []) {
       total.errors.push(err);
     }

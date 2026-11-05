@@ -138,3 +138,15 @@ test("runFullSync repassa dryRun, pageSize e token para cada página", async () 
   assert.equal(gitlab.calls[0].prdToken, "prd-tok");
   assert.equal(gitlab.calls[0].includeClosed, true);
 });
+
+test("runFullSync agrega os rótulos que faltam no plano e os que só existem no Planner", async () => {
+  const total = await runFullSync({
+    syncPage: async ({ page }) => (page === 1
+      ? { processed: 1, missingLabels: ["Apontamentos"], staleLabels: [], nextCursor: premiumSync.encodeCursor(2) }
+      : { processed: 1, missingLabels: ["Apontamentos", "FEITO"], staleLabels: ["SPRINT 1"], nextCursor: null }),
+    planId: "plan-1",
+    bucketId: "bucket-1",
+  });
+  assert.deepEqual(total.missingLabels, ["Apontamentos", "FEITO"]);
+  assert.deepEqual(total.staleLabels, ["SPRINT 1"]);
+});
