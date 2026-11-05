@@ -144,16 +144,24 @@ async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl
   for (const id of wanted) {
     if (current.has(id)) continue;
     const name = projectLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext;
-    await dataverseRequest({
-      baseUrl,
-      path: `/msdyn_projecttasks(${taskId})/msdyn_projecttask_projecttasktolabel`,
-      method: "POST",
-      body: {
-        "msdyn_name": name,
-        "msdyn_ProjectLabelId@odata.bind": `${baseUrl}/api/data/${API_VERSION}/msdyn_projectlabels(${id})`,
-      },
-      token, fetchImpl, allowStatuses: [204],
-    });
+    try {
+      await dataverseRequest({
+        baseUrl,
+        path: `/msdyn_projecttasks(${taskId})/msdyn_projecttask_projecttasktolabel`,
+        method: "POST",
+        body: {
+          "msdyn_name": name,
+          "msdyn_ProjectLabelId@odata.bind": `${baseUrl}/api/data/${API_VERSION}/msdyn_projectlabels(${id})`,
+        },
+        token, fetchImpl, allowStatuses: [204],
+      });
+    } catch (error) {
+      // O Project grava o registro e falha só ao montar a resposta (500 com
+      // "Unable to cast object of type EntityMetadata..."). O vínculo existe
+      // nesse caso — a leitura confirma antes de tratar como erro.
+      const depois = await listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl });
+      if (!depois.some((row) => row._msdyn_projectlabelid_value === id)) throw error;
+    }
   }
   return {
     applied: names.filter((name) => wanted.has(labelByName.get(name.toLocaleLowerCase())?.msdyn_projectlabelid)),

@@ -139,6 +139,34 @@ test("synchronizeTaskLabels associa o rótulo que falta na task", async () => {
   assert.equal(fetchImpl.calls[1].body.msdyn_name, "Add");
 });
 
+test("synchronizeTaskLabels considera aplicado quando o Project grava mas falha na resposta", async () => {
+  // O Project cria o registro e devolve 500 ao montar a resposta
+  // ("Unable to cast object of type EntityMetadata..."). O vínculo existe.
+  const fetchImpl = fakeFetch([
+    { status: 200, body: { value: [{ msdyn_projectlabelid: "l1", msdyn_projectlabeltext: "SPRINT 22" }] } },
+    { status: 500, body: { error: { message: "Unable to cast object of type EntityMetadata" } } },
+    { status: 200, body: { value: [{ _msdyn_projectlabelid_value: "l1" }] } },
+  ]);
+  const result = await premium.synchronizeTaskLabels({
+    taskId: "t1", projectId: PROJECT_ID, labels: ["SPRINT 22"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    currentLabelIds: new Set(),
+  });
+  assert.deepEqual(result.applied, ["SPRINT 22"]);
+  assert.deepEqual(result.missing, []);
+});
+
+test("synchronizeTaskLabels propaga o erro quando o vínculo não foi criado", async () => {
+  const fetchImpl = fakeFetch([
+    { status: 200, body: { value: [{ msdyn_projectlabelid: "l1", msdyn_projectlabeltext: "SPRINT 22" }] } },
+    { status: 500, body: { error: { message: "Unable to cast object of type EntityMetadata" } } },
+    { status: 200, body: { value: [] } },
+  ]);
+  await assert.rejects(() => premium.synchronizeTaskLabels({
+    taskId: "t1", projectId: PROJECT_ID, labels: ["SPRINT 22"], token: "tok", baseUrl: BASE_URL, fetchImpl,
+    currentLabelIds: new Set(),
+  }), /Unable to cast/);
+});
+
 test("listTaskLabelAssociationsForTasks agrupa as associações por task", async () => {
   const fetchImpl = fakeFetch([
     { status: 200, body: { value: [
