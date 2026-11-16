@@ -67,6 +67,12 @@ test("runPremiumSync roda a página e devolve o resumo", async () => {
   assert.equal(deps.calls.syncPage[0].planId, PLAN_ID);
 });
 
+test("runPremiumSync repassa forceUpdate para a página", async () => {
+  const deps = makeDeps();
+  await runPremiumSync({ request: { body: { planId: PLAN_ID, forceUpdate: "true" }, query: {} }, deps });
+  assert.equal(deps.calls.syncPage[0].forceUpdate, true);
+});
+
 test("runPremiumSync não busca token delegado em dry run", async () => {
   const deps = makeDeps();
   const res = await runPremiumSync({ request: { body: { planId: PLAN_ID, dryRun: true }, query: {} }, deps });

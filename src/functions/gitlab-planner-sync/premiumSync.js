@@ -15,6 +15,7 @@
 // pmo_mapeamentoplanner do Aplicativos PRD.
 
 const { normalizeLabel } = require("./gitlabService");
+const { mapGitlabLabels, bucketForLabels } = require("./premiumLabelMap");
 
 // ─── Labels que não geram task ────────────────────────────────────────────────
 //
@@ -93,8 +94,11 @@ function computeFinishDate(startDate, dueDate) {
  * (schema do PRD não foi alterado), o plano B é comparar com
  * pmo_dataultimasincronizacao — o instante do último sync.
  */
-function decideAction(issue, mapping, { hasUpdatedAtColumn = true } = {}) {
+function decideAction(issue, mapping, { hasUpdatedAtColumn = true, forceUpdate = false } = {}) {
   if (!mapping || !mapping.pmo_plannertaskid) return "create";
+  // Regravação completa (ex.: o formato da task mudou e precisa chegar às
+  // tasks que já existem, mesmo sem mudança na issue).
+  if (forceUpdate) return "update";
 
   const lastSync = hasUpdatedAtColumn
     ? mapping.pmo_gitlab_updatedat
@@ -223,6 +227,7 @@ async function applyBatch({
   fetchImpl,
   planId,
   bucketId,
+  bucketFor,
   hasUpdatedAtColumn,
   result,
   materializeTimeoutMs,
@@ -254,10 +259,10 @@ async function applyBatch({
     for (const item of setItems) {
       const taskId = item.entity.msdyn_projecttaskid;
       try {
-        const { missing, stale } = await premium.synchronizeTaskLabels({
+        const { missing, stale, blocked } = await premium.synchronizeTaskLabels({
           taskId,
           projectId: planId,
-          labels: item.issue.labels,
+          labels: mapGitlabLabels(item.issue.labels),
           token,
           baseUrl: orgUrl,
           fetchImpl,
@@ -265,6 +270,7 @@ async function applyBatch({
         });
         for (const name of missing) result.missingLabels.add(name);
         for (const name of stale || []) result.staleLabels.add(name);
+        for (const name of blocked || []) result.blockedLabels.add(`#${item.issue.iid} ${name}`);
       } catch (error) {
         semTask.add(item.issue.iid);
         result.errors.push({ iid: item.issue.iid, message: error.message });
@@ -382,7 +388,7 @@ async function applyBatch({
           entity: require("./premiumDataverse").buildUpdateEntity({
             issue: item.issue,
             projectId: planId,
-            bucketId,
+            bucketId: bucketFor ? bucketFor(item.issue) : bucketId,
             taskId: found,
           }),
           existingTaskId: found,
@@ -534,8 +540,13 @@ async function syncPage({
   batchSize = BATCH_SIZE,
   materializeTimeoutMs,
   materializeDelayMs,
+  forceUpdate = false,
+  bucketsByName,
 }) {
   const startedAt = Date.now();
+  // Bucket da etapa da sprint (premiumLabelMap.bucketForLabels); sem o mapa
+  // de buckets do plano, ou sem o bucket da etapa, vai para o bucket padrão.
+  const bucketFor = (issue) => bucketsByName?.get(bucketForLabels(issue?.labels)) || bucketId;
 
   const isClosedPhase = phase === "closed";
 
@@ -553,6 +564,7 @@ async function syncPage({
     errors: [],
     missingLabels: new Set(),
     staleLabels: new Set(),
+    blockedLabels: new Set(),
     nextCursor: null,
     durationMs: 0,
   };
@@ -612,7 +624,7 @@ async function syncPage({
 
   for (const issue of eligible) {
     const existing = mappingByIid.get(Number(issue.iid));
-    const action = decideAction(issue, existing, { hasUpdatedAtColumn });
+    const action = decideAction(issue, existing, { hasUpdatedAtColumn, forceUpdate });
 
     if (action === "unchanged") {
       result.unchanged += 1;
@@ -632,14 +644,14 @@ async function syncPage({
         entity: require("./premiumDataverse").buildUpdateEntity({
           issue,
           projectId: planId,
-          bucketId,
+          bucketId: bucketFor(issue),
           taskId: existing.pmo_plannertaskid,
         }),
       });
     } else {
       creates.push({
         issue,
-        entity: require("./premiumDataverse").buildTaskEntity({ issue, projectId: planId, bucketId }),
+        entity: require("./premiumDataverse").buildTaskEntity({ issue, projectId: planId, bucketId: bucketFor(issue) }),
       });
     }
   }
@@ -660,10 +672,10 @@ async function syncPage({
     for (const item of items) {
       const taskId = item.entity.msdyn_projecttaskid;
       try {
-        const { missing, stale } = await premium.synchronizeTaskLabels({
+        const { missing, stale, blocked } = await premium.synchronizeTaskLabels({
           taskId,
           projectId: planId,
-          labels: item.issue.labels,
+          labels: mapGitlabLabels(item.issue.labels),
           token,
           baseUrl: orgUrl,
           fetchImpl,
@@ -671,6 +683,7 @@ async function syncPage({
         });
         for (const name of missing) result.missingLabels.add(name);
         for (const name of stale || []) result.staleLabels.add(name);
+        for (const name of blocked || []) result.blockedLabels.add(`#${item.issue.iid} ${name}`);
       } catch (error) {
         result.errors.push({ iid: item.issue.iid, message: error.message });
       }
@@ -697,22 +710,21 @@ async function syncPage({
     for (const issue of eligible) {
       const mapping = mappingByIid.get(Number(issue.iid));
       if (!mapping?.pmo_plannertaskid) continue;
-      const wanted = [...new Set((issue.labels || []).map((label) => labelToString(label).trim()).filter(Boolean))];
+      // Os rótulos do GitLab chegam traduzidos para as 25 vagas do plano
+      // (premiumLabelMap); os sem destino ficam só nas Notas da task.
+      const wanted = mapGitlabLabels(issue.labels);
       const missing = wanted.filter((name) => !planLabelNames.has(name.toLocaleLowerCase()));
       for (const name of missing) result.missingLabels.add(name);
       // O que o plano consegue expressor: os rótulos do GitLab que existem
       // como rótulos do plano. Os que faltam no plano são reportados.
       const wantedIds = new Set(wanted.filter((name) => planLabelNames.has(name.toLocaleLowerCase())).map((name) => planLabelIds.get(name.toLocaleLowerCase())));
+      // `current` = rótulos VISÍVEIS da task. Falta rótulo do GitLab, ou
+      // sobra rótulo visível que saiu do GitLab → a task entra no espelhamento
+      // (que grava e remove pelo operation set).
       const current = currentLabelsByTask.get(mapping.pmo_plannertaskid) || new Set();
-      // Rótulo que existe no Planner e não no GitLab: a remoção é bloqueada
-      // pela API do Project, então ele é reportado em vez de removido.
-      for (const id of current) {
-        if (wantedIds.has(id)) continue;
-        const name = planLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext;
-        if (name) result.staleLabels.add(name);
-      }
       const faltando = [...wantedIds].some((id) => !current.has(id));
-      if (!faltando) continue;
+      const sobrando = [...current].some((id) => !wantedIds.has(id));
+      if (!faltando && !sobrando) continue;
       labelSync.push({
         issue,
         entity: { msdyn_projecttaskid: mapping.pmo_plannertaskid },
@@ -735,6 +747,7 @@ async function syncPage({
   if (dryRun) {
     result.missingLabels = [];
     result.staleLabels = [];
+    result.blockedLabels = [];
     result.durationMs = Date.now() - startedAt;
     return result;
   }
@@ -749,7 +762,7 @@ async function syncPage({
       items: batch,
       mode: "create",
       premium, mapping, token, prdToken, orgUrl, prdBaseUrl, fetchImpl,
-      planId, bucketId, hasUpdatedAtColumn, result,
+      planId, bucketId, bucketFor, hasUpdatedAtColumn, result,
       materializeTimeoutMs, materializeDelayMs,
       currentLabelsByTask,
     });
@@ -760,7 +773,7 @@ async function syncPage({
       items: batch,
       mode: "update",
       premium, mapping, token, prdToken, orgUrl, prdBaseUrl, fetchImpl,
-      planId, bucketId, hasUpdatedAtColumn, result,
+      planId, bucketId, bucketFor, hasUpdatedAtColumn, result,
       materializeTimeoutMs, materializeDelayMs,
       currentLabelsByTask,
     });
@@ -772,6 +785,7 @@ async function syncPage({
 
   result.missingLabels = [...result.missingLabels];
   result.staleLabels = [...result.staleLabels];
+  result.blockedLabels = [...result.blockedLabels];
   result.durationMs = Date.now() - startedAt;
   return result;
 }

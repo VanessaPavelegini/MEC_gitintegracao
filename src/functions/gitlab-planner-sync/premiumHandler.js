@@ -9,7 +9,7 @@
 //
 // Contrato (POST/GET /api/gitlab-planner-premium-homologacao):
 //   body/query: { planId, bucketId?, bucketName?, cursor?, pageSize?, state?,
-//                  phase?, includeClosed?, labels?, dryRun? }
+//                  phase?, includeClosed?, labels?, dryRun?, forceUpdate? }
 //   resposta 200: { ok, planId, page, processed, created, updated, unchanged,
 //                   skipped, errors[], nextCursor, durationMs }
 //   resposta 400: { ok: false, error }
@@ -62,6 +62,9 @@ async function runPremiumSync({ request, deps }) {
   }
 
   const dryRun = toBool(params.dryRun);
+  // forceUpdate=true regrava todas as tasks da página (carga inicial de um
+  // formato novo da task), mesmo sem mudança na issue.
+  const forceUpdate = toBool(params.forceUpdate);
   // A fase de issues fechadas (completar a task com 100%) é o padrão; pode
   // ser desligada com includeClosed=false.
   const includeClosed = params.includeClosed === undefined ? true : toBool(params.includeClosed);
@@ -107,6 +110,7 @@ async function runPremiumSync({ request, deps }) {
       includeClosed,
       labels,
       dryRun,
+      forceUpdate,
       token,
       prdToken,
     });

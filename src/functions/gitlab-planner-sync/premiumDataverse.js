@@ -38,6 +38,24 @@ function buildSubject(issue) {
 }
 
 /**
+ * Notas da task: a linha com TODOS os rótulos do GitLab + a descrição.
+ *
+ * Por que nas Notas: o Planner Premium tem 25 vagas fixas de rótulo por plano
+ * (uma por cor) e o GitLab usa mais de cem rótulos. Os que existem no plano
+ * também viram rótulo colorido (synchronizeTaskLabels); a lista nas Notas
+ * garante que nenhum rótulo do GitLab se perde.
+ */
+function buildDescription(issue) {
+  const names = [...new Set((issue?.labels || [])
+    .map((label) => typeof label === "string" ? label : label?.title || label?.name || "")
+    .map((name) => name.trim())
+    .filter(Boolean))];
+  const text = String(issue?.description || "");
+  const full = names.length ? `Rótulos do GitLab: ${names.join(", ")}\n\n${text}` : text;
+  return full.substring(0, DESCRIPTION_MAX_LENGTH);
+}
+
+/**
  * Constrói o payload de criação de uma task Premium.
  *
  * @param {object}  args
@@ -56,7 +74,7 @@ function buildTaskEntity({ issue, projectId, bucketId, taskId }) {
     "@odata.type": ENTITY_TYPE,
     msdyn_projecttaskid: taskId || require("node:crypto").randomUUID(),
     msdyn_subject: buildSubject(issue),
-    msdyn_description: String(issue?.description || "").substring(0, DESCRIPTION_MAX_LENGTH),
+    msdyn_description: buildDescription(issue),
     msdyn_start: scheduledStart,
     msdyn_finish: scheduledEnd,
     msdyn_scheduledstart: scheduledStart,
@@ -77,11 +95,31 @@ async function listProjectLabels({ projectId, token, baseUrl, fetchImpl }) {
   return body?.value || [];
 }
 
+const LABEL_ASSOC_TYPE = "Microsoft.Dynamics.CRM.msdyn_projecttasktolabel";
+const LABEL_ASSOC_SELECT = "msdyn_projecttasktolabelid,_msdyn_projectlabelid_value,_msdyn_projecttaskid_value,_msdyn_pfwcreatedby_value";
+
+// Status de msdyn_operationsets.
+const SET_PENDING = 192350001;
+const SET_DONE = 192350003;
+
+/**
+ * A interface do Planner só mostra a associação que o Project gravou — a que
+ * tem _msdyn_pfwcreatedby_value preenchido. A gravada pela coleção de
+ * navegação da task (versão antiga do sync) existe, mas fica invisível.
+ */
+function isVisibleAssociation(row) {
+  return Boolean(row?._msdyn_pfwcreatedby_value);
+}
+
+/**
+ * Associações de rótulo de UMA task (visíveis e invisíveis), lidas de
+ * msdyn_projecttasktolabels — a tabela que a interface do Planner usa.
+ */
 async function listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl }) {
   const filter = `_msdyn_projecttaskid_value eq '${String(taskId).replace(/'/g, "''")}'`;
   const { body } = await dataverseRequest({
     baseUrl,
-    path: `/msdyn_projecttasktolabels?$select=_msdyn_projectlabelid_value&$filter=${encodeURIComponent(filter)}&$top=5000`,
+    path: `/msdyn_projecttasktolabels?$select=${LABEL_ASSOC_SELECT}&$filter=${encodeURIComponent(filter)}&$top=5000`,
     method: "GET", token, fetchImpl,
   });
   return body?.value || [];
@@ -90,8 +128,8 @@ async function listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl }) 
 const LABEL_CHUNK_SIZE = 50;
 
 /**
- * Associações de rótulo de várias tasks, em um mapa taskId → conjunto de
- * labelIds. Uma consulta por bloco de 50 tasks (mesmo limite do mapping).
+ * Rótulos VISÍVEIS de várias tasks, em um mapa taskId → conjunto de labelIds.
+ * Uma consulta por bloco de 50 tasks (mesmo limite do mapping).
  */
 async function listTaskLabelAssociationsForTasks({ taskIds, token, baseUrl, fetchImpl }) {
   const ids = [...new Set((taskIds || []).filter(Boolean))];
@@ -101,12 +139,12 @@ async function listTaskLabelAssociationsForTasks({ taskIds, token, baseUrl, fetc
     const filter = chunk.map((id) => `_msdyn_projecttaskid_value eq '${id}'`).join(" or ");
     const { body } = await dataverseRequest({
       baseUrl,
-      path: `/msdyn_projecttasktolabels?$select=_msdyn_projectlabelid_value,_msdyn_projecttaskid_value&$filter=${encodeURIComponent(filter)}&$top=5000`,
+      path: `/msdyn_projecttasktolabels?$select=${LABEL_ASSOC_SELECT}&$filter=${encodeURIComponent(filter)}&$top=5000`,
       method: "GET", token, fetchImpl,
     });
     for (const row of body?.value || []) {
       const taskId = row._msdyn_projecttaskid_value;
-      if (!taskId || !byTask.has(taskId)) continue;
+      if (!taskId || !byTask.has(taskId) || !isVisibleAssociation(row)) continue;
       byTask.get(taskId).add(row._msdyn_projectlabelid_value);
     }
   }
@@ -114,59 +152,110 @@ async function listTaskLabelAssociationsForTasks({ taskIds, token, baseUrl, fetc
 }
 
 /**
+ * Espera o operation set sair de "Pendente". Apagar o registro do set antes
+ * disso CANCELA a gravação — por isso o set só é descartado depois.
+ */
+async function waitOperationSet({ operationSetId, token, baseUrl, fetchImpl, pollDelayMs = 3000, timeoutMs = 120000 }) {
+  const deadline = Date.now() + timeoutMs;
+  for (;;) {
+    const { body } = await dataverseRequest({
+      baseUrl,
+      path: `/msdyn_operationsets(${operationSetId})?$select=msdyn_status`,
+      method: "GET", token, fetchImpl,
+    });
+    const status = body?.msdyn_status;
+    if (status !== SET_PENDING) return status;
+    if (Date.now() >= deadline) return status;
+    await new Promise((resolve) => setTimeout(resolve, pollDelayMs));
+  }
+}
+
+/**
  * Espelha os rótulos do GitLab no Planner Premium.
  *
- * O Planner Premium guarda o rótulo da task em msdyn_projecttasktolabel (com
- * o nome do rótulo e o vínculo com a task e com o rótulo do plano). O registro
- * é criado pela COLEÇÃO DE NAVEGAÇÃO da task — o POST direto na entidade é
- * recusado ("Não é possível executar diretamente a operação Create").
+ * Grava pelo operation set — a única via que deixa o rótulo visível no
+ * cartão: uma chamada msdyn_PssCreateV2 por rótulo, entidade SEM id (com id o
+ * set fica "Pendente" para sempre; dois sem id na mesma chamada são recusados
+ * como duplicados). A remoção do rótulo que não existe no GitLab também passa
+ * pelo set (msdyn_PssDeleteV2), e só alcança associações visíveis.
  *
- * Remover é diferente: o Delete dessa entidade é bloqueado em todas as rotas
- * (direto, coleção de navegação e operation set). Por isso o sync ADICIA os
- * rótulos que faltam e devolve em `stale` os que existem no Planner e não
- * existem no GitLab — a remoção delas precisa ser feita na interface.
+ * Associação invisível (gravada pela versão antiga do sync) não é apagável por
+ * nenhuma API e o índice único (task, rótulo) impede gravar o mesmo par de
+ * novo: o rótulo vai para `blocked` — remover pela interface do Project.
  *
- * @returns {Promise<{applied: string[], missing: string[], stale: string[]}>}
+ * Rótulo do GitLab que não existe no plano vai para `missing`: a API não cria
+ * rótulo de plano.
+ *
+ * @returns {Promise<{applied: string[], missing: string[], removed: string[], stale: string[], blocked: string[]}>}
  */
-async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl, fetchImpl, currentLabelIds }) {
+async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl, fetchImpl, pollDelayMs, timeoutMs }) {
   const names = [...new Set((labels || []).map((label) => typeof label === "string" ? label : label?.title || label?.name || "").map((name) => name.trim()).filter(Boolean))];
   const projectLabels = await listProjectLabels({ projectId, token, baseUrl, fetchImpl });
   const labelByName = new Map(projectLabels.map((label) => [String(label.msdyn_projectlabeltext || "").toLocaleLowerCase(), label]));
+  const textOf = (id) => projectLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext;
   const missing = names.filter((name) => !labelByName.has(name.toLocaleLowerCase()));
+  const wanted = new Map(names
+    .filter((name) => labelByName.has(name.toLocaleLowerCase()))
+    .map((name) => [labelByName.get(name.toLocaleLowerCase()).msdyn_projectlabelid, labelByName.get(name.toLocaleLowerCase()).msdyn_projectlabeltext]));
 
-  const current = currentLabelIds instanceof Set
-    ? currentLabelIds
-    : new Set((await listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl })).map((row) => row._msdyn_projectlabelid_value));
+  const rows = await listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl });
+  const visibleIds = new Set(rows.filter(isVisibleAssociation).map((row) => row._msdyn_projectlabelid_value));
+  const invisibleIds = new Set(rows.filter((row) => !isVisibleAssociation(row)).map((row) => row._msdyn_projectlabelid_value));
 
-  const wanted = new Set(names.filter((name) => labelByName.has(name.toLocaleLowerCase())).map((name) => labelByName.get(name.toLocaleLowerCase()).msdyn_projectlabelid));
-  const stale = [...current].filter((id) => !wanted.has(id));
+  const toCreate = [...wanted.keys()].filter((id) => !visibleIds.has(id) && !invisibleIds.has(id));
+  const blocked = [...wanted.keys()].filter((id) => !visibleIds.has(id) && invisibleIds.has(id));
+  const toDelete = rows.filter((row) => isVisibleAssociation(row) && !wanted.has(row._msdyn_projectlabelid_value));
+  const staleInvisible = rows.filter((row) => !isVisibleAssociation(row) && !wanted.has(row._msdyn_projectlabelid_value));
 
-  for (const id of wanted) {
-    if (current.has(id)) continue;
-    const name = projectLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext;
+  if (toCreate.length || toDelete.length) {
+    const operationSetId = await createOperationSet({
+      projectId,
+      description: `Sync GitLab → Planner Premium (rótulos) — task ${taskId}`,
+      token, baseUrl, fetchImpl,
+    });
     try {
-      await dataverseRequest({
-        baseUrl,
-        path: `/msdyn_projecttasks(${taskId})/msdyn_projecttask_projecttasktolabel`,
-        method: "POST",
-        body: {
-          "msdyn_name": name,
-          "msdyn_ProjectLabelId@odata.bind": `${baseUrl}/api/data/${API_VERSION}/msdyn_projectlabels(${id})`,
-        },
-        token, fetchImpl, allowStatuses: [204],
-      });
+      for (const id of toCreate) {
+        await queueCreateTasks({
+          operationSetId,
+          entities: [{
+            "@odata.type": LABEL_ASSOC_TYPE,
+            msdyn_name: wanted.get(id),
+            "msdyn_ProjectLabelId@odata.bind": `/msdyn_projectlabels(${id})`,
+            "msdyn_ProjectTaskId@odata.bind": `/msdyn_projecttasks(${taskId})`,
+          }],
+          token, baseUrl, fetchImpl,
+        });
+      }
+      for (const row of toDelete) {
+        await queueDeleteTasks({
+          operationSetId,
+          entities: [{ "@odata.type": LABEL_ASSOC_TYPE, msdyn_projecttasktolabelid: row.msdyn_projecttasktolabelid }],
+          token, baseUrl, fetchImpl,
+        });
+      }
+      await executeOperationSet({ operationSetId, token, baseUrl, fetchImpl });
     } catch (error) {
-      // O Project grava o registro e falha só ao montar a resposta (500 com
-      // "Unable to cast object of type EntityMetadata..."). O vínculo existe
-      // nesse caso — a leitura confirma antes de tratar como erro.
-      const depois = await listTaskLabelAssociations({ taskId, token, baseUrl, fetchImpl });
-      if (!depois.some((row) => row._msdyn_projectlabelid_value === id)) throw error;
+      await discardOperationSet({ operationSetId, token, baseUrl, fetchImpl }).catch(() => {});
+      throw error;
+    }
+    const status = await waitOperationSet({ operationSetId, token, baseUrl, fetchImpl, pollDelayMs, timeoutMs });
+    if (status === SET_PENDING) {
+      // Ainda gravando: NÃO apaga o registro (cancelaria a gravação). A
+      // próxima rodada encontra o rótulo pronto.
+      throw new Error(`rótulos da task ${taskId}: o operation set ${operationSetId} ainda está pendente`);
+    }
+    await discardOperationSet({ operationSetId, token, baseUrl, fetchImpl }).catch(() => {});
+    if (status !== SET_DONE) {
+      throw new Error(`rótulos da task ${taskId}: o operation set ${operationSetId} falhou (status ${status})`);
     }
   }
+
   return {
-    applied: names.filter((name) => wanted.has(labelByName.get(name.toLocaleLowerCase())?.msdyn_projectlabelid)),
+    applied: [...wanted.keys()].filter((id) => !blocked.includes(id)).map((id) => wanted.get(id)),
     missing,
-    stale: stale.map((id) => projectLabels.find((label) => label.msdyn_projectlabelid === id)?.msdyn_projectlabeltext).filter(Boolean),
+    removed: toDelete.map((row) => textOf(row._msdyn_projectlabelid_value)).filter(Boolean),
+    stale: staleInvisible.map((row) => textOf(row._msdyn_projectlabelid_value)).filter(Boolean),
+    blocked: blocked.map((id) => wanted.get(id)),
   };
 }
 
@@ -175,10 +264,10 @@ async function synchronizeTaskLabels({ taskId, projectId, labels, token, baseUrl
  * criação + o id da task).
  */
 function buildUpdateEntity({ issue, projectId, bucketId, taskId }) {
-  return {
-    ...buildTaskEntity({ issue, projectId, bucketId }),
-    msdyn_projecttaskid: taskId,
-  };
+  // Sem o vínculo com o projeto: com ele no update o Project ignora a troca
+  // de bucket (validado em 16/11/2026 — só o bucket, sem o projeto, move).
+  const { "msdyn_project@odata.bind": _project, ...entity } = buildTaskEntity({ issue, projectId, bucketId });
+  return { ...entity, msdyn_projecttaskid: taskId };
 }
 
 // ─── Cliente HTTP (fetch puro) ────────────────────────────────────────────────
@@ -427,6 +516,7 @@ module.exports = {
   SUBJECT_MAX_LENGTH,
   DESCRIPTION_MAX_LENGTH,
   buildSubject,
+  buildDescription,
   buildTaskEntity,
   buildUpdateEntity,
   dataverseRequest,

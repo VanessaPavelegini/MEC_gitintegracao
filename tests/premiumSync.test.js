@@ -42,7 +42,7 @@ test("buildTaskEntity monta o payload da task Premium", () => {
 
   assert.equal(entity["@odata.type"], "Microsoft.Dynamics.CRM.msdyn_projecttask");
   assert.equal(entity.msdyn_subject, "[#811] HU0564 [Matrícula] - Baixar Matrícula");
-  assert.equal(entity.msdyn_description, "texto da issue");
+  assert.equal(entity.msdyn_description, "Rótulos do GitLab: Revisão SETEC\n\ntexto da issue");
   assert.equal(entity.msdyn_start, "2026-10-08T09:00:00Z");
   assert.equal(entity.msdyn_finish, "2026-10-15T17:00:00Z");
   assert.equal(entity.msdyn_scheduledstart, "2026-10-08T09:00:00Z");
@@ -105,7 +105,9 @@ test("buildUpdateEntity inclui o id da task a atualizar", () => {
   });
 
   assert.equal(entity.msdyn_projecttaskid, "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee");
-  assert.equal(entity["msdyn_project@odata.bind"], `/msdyn_projects(${PROJECT_ID})`);
+  // Com o vínculo do projeto no update, o Project ignora a troca de bucket.
+  assert.equal(entity["msdyn_project@odata.bind"], undefined);
+  assert.equal(entity["msdyn_projectbucket@odata.bind"], `/msdyn_projectbuckets(${BUCKET_ID})`);
 });
 
 test("taskMatches rejeita sucesso quando a data final ainda está desatualizada", () => {
@@ -132,6 +134,27 @@ test("buildTaskEntity trunca descrição no limite do campo Memo", () => {
   // caracteres ou mais (limite exclusivo) — por isso 99.000.
   assert.equal(entity.msdyn_description.length, 99000);
   assert.ok(entity.msdyn_description.length < 100000);
+});
+
+test("buildTaskEntity sem rótulo no GitLab não acrescenta a linha de rótulos", () => {
+  const entity = premiumDataverse.buildTaskEntity({ issue: issue({ labels: [] }), projectId: PROJECT_ID, bucketId: BUCKET_ID });
+  assert.equal(entity.msdyn_description, "texto da issue");
+});
+
+test("buildTaskEntity lista todos os rótulos do GitLab nas Notas (o plano só tem 25 vagas de rótulo)", () => {
+  const entity = premiumDataverse.buildTaskEntity({
+    issue: issue({ labels: ["Apontamentos", { title: "HU homologada" }, "PP - 21"] }),
+    projectId: PROJECT_ID,
+    bucketId: BUCKET_ID,
+  });
+  assert.ok(entity.msdyn_description.startsWith("Rótulos do GitLab: Apontamentos, HU homologada, PP - 21\n\n"));
+});
+
+test("decideAction: forceUpdate regrava a task mesmo sem mudança na issue", () => {
+  const m = { pmo_plannertaskid: "t", pmo_gitlab_updatedat: "2026-10-27T00:00:00Z" };
+  assert.equal(premiumSync.decideAction(issue(), m), "unchanged");
+  assert.equal(premiumSync.decideAction(issue(), m, { forceUpdate: true }), "update");
+  assert.equal(premiumSync.decideAction(issue(), null, { forceUpdate: true }), "create");
 });
 
 // ─── decideAction ─────────────────────────────────────────────────────────────

@@ -27,9 +27,9 @@ const { getDataverseDelegatedToken } = require("../../shared/dataverseServiceAcc
 
 const ORG_URL = process.env.DATAVERSE_URL_PREMIUM || "https://orgcf194dda.crm.dynamics.com";
 const PRD_URL = process.env.DATAVERSE_URL;
-const DEFAULT_PLAN_ID = process.env.PREMIUM_HOMOLOGACAO_PLAN_ID || "c0ecce95-1107-4343-8c05-bcf7c9a291f8";
+const DEFAULT_PLAN_ID = process.env.PREMIUM_HOMOLOGACAO_PLAN_ID || "b7c07b90-9ddc-4af3-8190-d52ca9281ab1";
 const DEFAULT_BUCKET_NAME = process.env.PREMIUM_HOMOLOGACAO_BUCKET_NAME || "Bucket 1";
-const DEFAULT_BUCKET_ID = process.env.PREMIUM_HOMOLOGACAO_BUCKET_ID || "be10a1da-0bd2-f111-84dc-7c1e520d9dbb";
+const DEFAULT_BUCKET_ID = process.env.PREMIUM_HOMOLOGACAO_BUCKET_ID || "42f96e1e-95df-f111-84dc-7c1e520d9550";
 
 // Caches de processo: o token delegado dura ~1 h.
 let _tokenCache = { token: null, expiresAt: 0 };

@@ -38,6 +38,7 @@ async function runFullSync({
   bucketId,
   pageSize = 100,
   dryRun = false,
+  forceUpdate = false,
   includeClosed = true,
   state = "opened",
   token,
@@ -60,6 +61,7 @@ async function runFullSync({
     errors: [],
     missingLabels: [],
     staleLabels: [],
+    blockedLabels: [],
     nextCursor: null,
     truncated: false,
     durationMs: 0,
@@ -76,6 +78,7 @@ async function runFullSync({
       phase,
       pageSize,
       dryRun,
+      forceUpdate,
       includeClosed,
       state,
       token,
@@ -95,6 +98,9 @@ async function runFullSync({
     }
     for (const name of result.staleLabels || []) {
       if (!total.staleLabels.includes(name)) total.staleLabels.push(name);
+    }
+    for (const name of result.blockedLabels || []) {
+      if (!total.blockedLabels.includes(name)) total.blockedLabels.push(name);
     }
     for (const err of result.errors || []) {
       total.errors.push(err);

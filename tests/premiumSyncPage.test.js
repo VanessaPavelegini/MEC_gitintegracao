@@ -22,7 +22,7 @@ const issue = (iid, over = {}) => ({
   created_at: "2026-10-01T10:00:00.000Z",
   updated_at: "2026-10-20T10:00:00.000Z",
   due_date: null,
-  labels: ["Doing"],
+  labels: ["EM HOMOLOGAÇÃO"],
   web_url: `http://gitlab/${iid}`,
   ...over,
 });
@@ -53,7 +53,7 @@ function fakeMapping(existing = []) {
   };
 }
 
-function fakePremium(taskIds = {}, existingSubjects = {}) {
+function fakePremium(taskIds = {}, existingSubjects = {}, { currentLabels = {}, labelResult = {} } = {}) {
   const calls = [];
   let setSeq = 0;
   // Tasks "criadas" no set: só existem depois do execute (o Dataverse
@@ -101,15 +101,15 @@ function fakePremium(taskIds = {}, existingSubjects = {}) {
     },
     synchronizeTaskLabels: async (args) => {
       calls.push({ op: "syncLabels", ...args });
-      return { applied: args.labels || [], missing: [] };
+      return { applied: args.labels || [], missing: [], ...labelResult };
     },
     listTaskLabelAssociationsForTasks: async ({ taskIds }) => {
       const map = new Map();
-      for (const id of taskIds || []) map.set(id, new Set());
+      for (const id of taskIds || []) map.set(id, new Set(currentLabels[id] || []));
       return map;
     },
     listProjectLabels: async () => [
-      { msdyn_projectlabelid: "l-doing", msdyn_projectlabeltext: "Doing" },
+      { msdyn_projectlabelid: "l-doing", msdyn_projectlabeltext: "Em homologação" },
     ],
     // onlyExisting = consulta ANTES de criar (o que já existe no plano);
     // sem o flag = lookup depois de criar (id da task recém-criada).
@@ -249,7 +249,7 @@ test("syncPage não reescreve a task cuja issue não mudou", async () => {
 });
 
 test("syncPage espelha os rótulos do GitLab mesmo sem mudar o conteúdo da task", async () => {
-  const gitlab = fakeGitLab([issue(1, { labels: ["Doing"] })]);
+  const gitlab = fakeGitLab([issue(1, { labels: ["EM HOMOLOGAÇÃO", "SPRINT 66"] })]);
   const mapping = fakeMapping([
     { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-25T00:00:00.000Z" },
   ]);
@@ -264,7 +264,7 @@ test("syncPage espelha os rótulos do GitLab mesmo sem mudar o conteúdo da task
   const labelCalls = premium.calls.filter((c) => c.op === "syncLabels");
   assert.equal(labelCalls.length, 1);
   assert.equal(labelCalls[0].taskId, "task-1");
-  assert.deepEqual(labelCalls[0].labels, ["Doing"]);
+  assert.deepEqual(labelCalls[0].labels, ["Em homologação"]);
 });
 
 test("syncPage reporta o rótulo que não existe no plano e não reescreve a task", async () => {
@@ -283,6 +283,40 @@ test("syncPage reporta o rótulo que não existe no plano e não reescreve a tas
   assert.deepEqual(result.missingLabels, ["Apontamentos"]);
   assert.equal(premium.calls.filter((c) => c.op === "syncLabels").length, 0);
   assert.equal(mapping.saved.length, 0);
+});
+
+test("syncPage remove do Planner o rótulo que saiu do GitLab", async () => {
+  const gitlab = fakeGitLab([issue(1, { labels: [] })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-25T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium({}, {}, { currentLabels: { "task-1": ["l-doing"] } });
+
+  await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  const labelCalls = premium.calls.filter((c) => c.op === "syncLabels");
+  assert.equal(labelCalls.length, 1, "o rótulo que sobrou no Planner tem de ser removido");
+  assert.deepEqual(labelCalls[0].labels, []);
+});
+
+test("syncPage reporta o rótulo bloqueado por associação invisível antiga", async () => {
+  const gitlab = fakeGitLab([issue(1, { labels: ["Entrega em homologação"] })]);
+  const mapping = fakeMapping([
+    { pmo_gitlab_iid: 1, pmo_plannertaskid: "task-1", pmo_gitlab_updatedat: "2026-10-25T00:00:00.000Z" },
+  ]);
+  const premium = fakePremium({}, {}, { labelResult: { applied: [], blocked: ["Em homologação"] } });
+
+  const result = await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  assert.deepEqual(result.blockedLabels, ["#1 Em homologação"]);
 });
 
 test("syncPage pula issue com label de cancelamento", async () => {
@@ -591,4 +625,22 @@ test("syncPage na fase fechada varre todas as issues fechadas, sem janela", asyn
   // janela) ainda chegue a 100%. Filtrá-la pela janela perderia esse caso.
   assert.equal(gitlab.calls[0].updatedAfter, undefined);
   assert.equal(gitlab.calls[0].state, "closed");
+});
+
+test("syncPage cria a task no bucket da etapa quando recebe bucketsByName", async () => {
+  const gitlab = fakeGitLab([issue(1, { labels: ["Em desenvolvimento"] }), issue(2, { labels: ["SPRINT 66"] })]);
+  const mapping = fakeMapping([]);
+  const premium = fakePremium();
+
+  await premiumSync.syncPage({
+    planId: PLAN_ID, bucketId: BUCKET_ID, page: 1, pageSize: 100,
+    bucketsByName: new Map([["Em desenvolvimento", "b-dev"]]),
+    gitlab, mapping, premium, token: "tok", prdToken: "prd-tok",
+    orgUrl: "https://org.crm.dynamics.com", prdBaseUrl: "https://prd.crm.dynamics.com",
+  });
+
+  const created = premium.calls.filter((c) => c.op === "queueCreate").flatMap((c) => c.entities);
+  const bucketOf = (iid) => created.find((e) => e.msdyn_subject.startsWith(`[#${iid}]`))["msdyn_projectbucket@odata.bind"];
+  assert.equal(bucketOf(1), "/msdyn_projectbuckets(b-dev)");
+  assert.equal(bucketOf(2), `/msdyn_projectbuckets(${BUCKET_ID})`, "sem bucket da etapa, usa o padrão");
 });
